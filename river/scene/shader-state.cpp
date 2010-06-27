@@ -1,5 +1,5 @@
 #pragma once
-#include "shaderstate.hpp"
+#include "shader-state.hpp"
 
 namespace River
 {
@@ -25,5 +25,9 @@ namespace River
 	void ShaderState::use()
 	{
 		glUseProgram(program);
+	}
+
+	void ShaderState::get_uniforms(GLuint program)
+	{
 	}
 };

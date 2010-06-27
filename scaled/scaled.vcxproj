@@ -69,18 +69,24 @@
   <ItemGroup>
     <ClCompile Include="..\gles-utils.cpp" />
     <ClCompile Include="..\main.cpp" />
-    <ClCompile Include="..\river\scene\shaderstate.cpp" />
+    <ClCompile Include="..\river\scene\gradient-object.cpp" />
+    <ClCompile Include="..\river\scene\gradient-state.cpp" />
+    <ClCompile Include="..\river\scene\layer.cpp" />
+    <ClCompile Include="..\river\scene\object.cpp" />
+    <ClCompile Include="..\river\scene\scene.cpp" />
+    <ClCompile Include="..\river\scene\shader-state.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\gles-utils.hpp" />
     <ClInclude Include="..\river\layout\block.hpp" />
     <ClInclude Include="..\river\layout\element.hpp" />
     <ClInclude Include="..\river\list.hpp" />
-    <ClInclude Include="..\river\scene\gradientstate.hpp" />
+    <ClInclude Include="..\river\scene\gradient-object.hpp" />
+    <ClInclude Include="..\river\scene\gradient-state.hpp" />
     <ClInclude Include="..\river\scene\layer.hpp" />
     <ClInclude Include="..\river\scene\object.hpp" />
     <ClInclude Include="..\river\scene\scene.hpp" />
-    <ClInclude Include="..\river\scene\shaderstate.hpp" />
+    <ClInclude Include="..\river\scene\shader-state.hpp" />
     <ClInclude Include="..\river\scene\state.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

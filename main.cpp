@@ -6,81 +6,38 @@
 #include "gles-utils.hpp"
 #include "river/layout/block.hpp"
 #include "river/scene/scene.hpp"
+#include "river/scene/gradient-object.hpp"
 
-River::Block hello;
-River::Element test;
+using namespace River;
+
+Block hello;
+Element test;
+Layer *layer;
+GradientObject *quad;
 
 int main(void)
 {
 	enum swl_result result = swl_init("Test", 800, 480);
 
-	hello.children.append(&test);
-	
 	if(result != SWLR_OK)
 	{
 		printf("Unable to setup window... %d", result);
 		return -1;
 	}
 	
-	char* vertex_source = "precision lowp float;\
-		attribute vec2 point;\
-		void main(void)\
-		{\
-			gl_Position.x = point.x / 400.0 - 1.0;\
-			gl_Position.y = -(point.y / 240.0 - 1.0);\
-		}";
-	
-	char* fragment_source = "precision lowp float;\
-		uniform vec4 color;\
-		void main (void)\
-		{\
-			gl_FragColor = color;\
-		}";
+	hello.children.append(&test);
 
-	GLuint program = glCreateProgram();
-	
-	gluCompileShader(program, GL_VERTEX_SHADER, vertex_source);
-	gluCompileShader(program, GL_FRAGMENT_SHADER, fragment_source);
-	
-	glBindAttribLocation(program, 0, "point");
+	Scene::alloc();
 
-	gluLinkProgram(program);
-	
-	GLuint color_uniform = glGetUniformLocation(program, "color");
+	layer = new Layer();
 
-	glEnableVertexAttribArray(0);
+	quad = GradientObject::create_vertical(0, 0xFFFFFF);
 
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	quad->position(10, 10, 50, 50);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	
-	glUseProgram(program);
-	
-	GLuint vbo;
-	
-	glGenBuffers(1, &vbo);
-	
-	GLshort vertices[] = {
-		100, 164,
-		100, 100,
-		164, 164,
-		164, 100,
-		164, 100,
-		
-		200, 264,
-		200, 264,
-		200, 200,
-		264, 264,
-		264, 200
-		};
+	Scene::layers.append(layer);
 
-	
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	
-	glUniform4f(color_uniform, 1.0, 0.5, 1.0, 0.5);
+	layer->object_lists[Scene::gradient_state.index].append(quad);
 	
 	struct swl_event event;
 	
@@ -93,16 +50,17 @@ int main(void)
 		}
 		
 		glClearColor(0.0f, 0.0f, (1 + sin(GetTickCount() / 1000.0f)) / 3, 1.0f);
-		glUniform4f(color_uniform, 1.0f, 0.3f, (1 + sin(GetTickCount() / 1000.0f)) / 3, 0.5f);
-		
 		glClear(GL_COLOR_BUFFER_BIT);
-	
-		glVertexAttribPointer(0, 2, GL_SHORT, GL_FALSE, 0, 0);
 
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, 10);
-	
+		Scene::render();
+
 		swl_swap();
 	}
+
+	delete layer;
+	delete quad;
+
+	Scene::free();
 
 	quit:
 	swl_quit();

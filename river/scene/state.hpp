@@ -7,7 +7,17 @@ namespace River
 	class State
 	{
 	public:
+		/*
+		 * Hardcoded state types
+		 */
+		enum Type 
+		{
+			GradientState,
+			StateCount
+		};
+
 		Entry<State> scene_entry;
+		size_t index;
 		
 		virtual void use() = 0;
 		virtual void alloc() = 0;

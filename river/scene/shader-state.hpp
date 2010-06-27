@@ -16,7 +16,7 @@ namespace River
 		ShaderState(const char *vertex_source, const char *fragment_source) : vertex_source(vertex_source), fragment_source(fragment_source) {}
 		
 		virtual void bind_attributes(GLuint program) = 0;
-		virtual void get_uniforms(GLuint program) = 0;
+		virtual void get_uniforms(GLuint program);
 
 		void use();
 		void alloc();

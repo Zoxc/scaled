@@ -4,16 +4,17 @@
 
 namespace River
 {
-	class ObjectList
-	{
-	public:
-		RIVER_LIST(Object, list_entry) list;
-	};
-
 	class Layer
 	{
 	public:
+		Layer();
+		~Layer();
+
+		typedef RIVER_LIST(Object, list_entry) ObjectList;
+
 		Entry<Layer> scene_entry;
 		ObjectList *object_lists;
+
+		void render();
 	};
 };

@@ -57,7 +57,7 @@ namespace River
 			T *current;
 
 		public:
-			Iterator(List<T, offset> &list) : list(list), prev(0), current(list.first) {}
+			Iterator(List<T, offset> &list) : list(list), current(list.first) {}
 
 			void step()
 			{
