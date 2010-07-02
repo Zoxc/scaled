@@ -19,8 +19,8 @@ namespace River
 
 		Color colors[4];
 	public:
-		static GradientObject *create_horizontal(uint32_t top, uint32_t bottom);
-		static GradientObject *create_vertical(uint32_t left, uint32_t right);
+		void horizontal(uint32_t top, uint32_t bottom);
+		void vertical(uint32_t left, uint32_t right);
 
 		void render();
 	};

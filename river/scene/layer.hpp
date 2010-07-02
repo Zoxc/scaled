@@ -1,6 +1,6 @@
 #pragma once
 #include "../list.hpp"
-#include "object.hpp"
+#include "object-list.hpp"
 
 namespace River
 {
@@ -10,10 +10,9 @@ namespace River
 		Layer();
 		~Layer();
 
-		typedef RIVER_LIST(Object, list_entry) ObjectList;
+		Entry<Layer> window_entry;
 
-		Entry<Layer> scene_entry;
-		ObjectList *object_lists;
+		ObjectList gradient_object_list;
 
 		void render();
 	};

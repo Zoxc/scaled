@@ -12,28 +12,20 @@ namespace River
 		return *this;
 	}
 
-	GradientObject *GradientObject::create_horizontal(uint32_t top, uint32_t bottom)
+	void GradientObject::horizontal(uint32_t top, uint32_t bottom)
 	{
-		GradientObject &result = *new GradientObject();
-		
-		result.colors[0] = top;
-		result.colors[1] = top;
-		result.colors[2] = bottom;
-		result.colors[3] = bottom;
-
-		return &result;
+		colors[0] = top;
+		colors[1] = top;
+		colors[2] = bottom;
+		colors[3] = bottom;
 	}
 
-	GradientObject *GradientObject::create_vertical(uint32_t left, uint32_t right)
+	void GradientObject::vertical(uint32_t left, uint32_t right)
 	{
-		GradientObject &result = *new GradientObject();
-		
-		result.colors[0] = left;
-		result.colors[1] = right;
-		result.colors[2] = left;
-		result.colors[3] = right;
-
-		return &result;
+		colors[0] = left;
+		colors[1] = right;
+		colors[2] = left;
+		colors[3] = right;
 	}
 
 	void GradientObject::render()

@@ -1,5 +1,6 @@
 #pragma once
 #include "../list.hpp"
+#include "../layout/window.hpp"
 #include "layer.hpp"
 #include "state.hpp"
 #include "gradient-state.hpp"
@@ -8,7 +9,7 @@ namespace River
 {
 	namespace Scene
 	{
-		extern RIVER_LIST(Layer, scene_entry) layers;
+		extern RIVER_LIST(Window, scene_entry) windows;
 
 		extern RIVER_LIST(State, scene_entry) states;
 		extern size_t state_count;

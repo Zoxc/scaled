@@ -5,7 +5,7 @@ namespace River
 {
 	namespace Scene
 	{
-		RIVER_LIST(Layer, scene_entry) layers;
+		RIVER_LIST(Window, scene_entry) windows;
 
 		RIVER_LIST(State, scene_entry) states;
 		size_t state_count;
@@ -15,7 +15,7 @@ namespace River
 		
 		void render()
 		{
-			for(auto i = layers.begin(); i; i++)
+			for(auto i = windows.begin(); i; i++)
 				i().render();
 		}
 

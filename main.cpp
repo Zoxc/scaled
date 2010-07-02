@@ -5,14 +5,16 @@
 #include <GLES2/gl2ext.h>
 #include "gles-utils.hpp"
 #include "river/layout/block.hpp"
+#include "river/widgets/gradient.hpp"
 #include "river/scene/scene.hpp"
 #include "river/scene/gradient-object.hpp"
 
 using namespace River;
 
-Block hello;
-Element test;
+Gradient gradient;
+Window win;
 Layer *layer;
+Extends padding(10, 10, 10, 10);
 GradientObject *quad;
 
 int main(void)
@@ -25,20 +27,21 @@ int main(void)
 		return -1;
 	}
 	
-	hello.children.append(&test);
-
 	Scene::alloc();
 
 	layer = new Layer();
 
-	quad = GradientObject::create_vertical(0, 0xFFFFFF);
+	gradient.object.vertical(0xFF3412, 0x23FF12);
+	gradient.width = Element::Flags::Extend;
 
-	quad->position(10, 10, 50, 50);
-
-	Scene::layers.append(layer);
-
-	layer->object_lists[Scene::gradient_state.index].append(quad);
+	win.element.padding = &padding;
+	win.element.children.append(&gradient);
+	win.element.layout(800, 480);
+	win.element.place(layer, 0, 0);
 	
+	win.layers.append(layer);
+	Scene::windows.append(&win);
+
 	struct swl_event event;
 	
 	while(1)

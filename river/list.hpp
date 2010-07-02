@@ -14,13 +14,12 @@ namespace River
 
 	template<class T, size_t offset> class List
 	{
-	private:
-		T *first;
-		T *last;
-
 	public:
 		List() : first(0), last(0) {}
 		
+		T *first;
+		T *last;
+
 		static Entry<T> &get_entry(T *node)
 		{
 			return *reinterpret_cast<Entry<T> *>((size_t)node + offset);

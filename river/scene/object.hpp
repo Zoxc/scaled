@@ -7,7 +7,7 @@ namespace River
 	class Object
 	{
 	public:
-		Entry<Object> list_entry;
+		Entry<Object> entry;
 
 		struct Point {
 			GLshort x;
