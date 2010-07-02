@@ -11,7 +11,8 @@
 
 using namespace River;
 
-Gradient gradient;
+Gradient gradient1;
+Gradient gradient2;
 Window win;
 Layer *layer;
 Extends padding(10, 10, 10, 10);
@@ -30,12 +31,16 @@ int main(void)
 	Scene::alloc();
 
 	layer = new Layer();
+	
+	gradient1.object.vertical(0xFF3412, 0x23FF12);
+	gradient1.width = Element::Flags::Extend;
 
-	gradient.object.vertical(0xFF3412, 0x23FF12);
-	gradient.width = Element::Flags::Extend;
+	gradient2.object.horizontal(0xFF3412, 0x23FF12);
+	gradient2.width = Element::Flags::Extend;
 
 	win.element.padding = &padding;
-	win.element.children.append(&gradient);
+	win.element.children.append(&gradient1);
+	win.element.children.append(&gradient2);
 	win.element.layout(800, 480);
 	win.element.place(layer, 0, 0);
 	

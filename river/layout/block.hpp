@@ -12,7 +12,7 @@ namespace River
 		
 		static Extends no_padding;
 
-		typedef RIVER_LIST(Element, extend_entry) ExtendList;
+		typedef RIVER_SIMPLE_LIST(Element, extend_entry) ExtendList;
 
 		enum BlockFlags
 		{

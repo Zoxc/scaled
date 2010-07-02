@@ -9,6 +9,9 @@ namespace River
 		int height = available_height;
 		int top = 0;
 		int margin_top = padding->top;
+		
+		rect.width = available_width;
+		rect.height = available_height;
 
 		while(element)
 		{
@@ -90,7 +93,7 @@ namespace River
 				 */
 				for(auto i = extends.begin(); i; i++)
 				{
-					i().rect.width += width * weight / i().weight;
+					i().rect.width += width * i().weight / weight;
 					i().layout(i().rect.width, i().rect.height);
 				}
 			}

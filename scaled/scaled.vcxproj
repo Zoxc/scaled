@@ -99,6 +99,7 @@
     <ClInclude Include="..\river\scene\scene.hpp" />
     <ClInclude Include="..\river\scene\shader-state.hpp" />
     <ClInclude Include="..\river\scene\state.hpp" />
+    <ClInclude Include="..\river\simple-list.hpp" />
     <ClInclude Include="..\river\widgets\gradient.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
