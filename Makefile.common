@@ -1,0 +1,35 @@
+default: all
+
+CFLAGS += -I"Z:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.06.26.0649\Builds\OGLES2\Include"
+LDFLAGS += -L"Z:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.06.26.0649\Builds\OGLES2\WindowsPC\Lib"
+
+CC := $(CROSS_COMPILE)gcc
+CXX = $(CROSS_COMPILE)g++
+AR = $(CROSS_COMPILE)ar
+
+CFLAGS += -pipe -Wall
+CXXFLAGS += -Wno-invalid-offsetof
+
+ifeq ($(ARCH),arm)
+CFLAGS += -mfloat-abi=hard -mfpu=neon -mcpu=cortex-a8 -mtune=cortex-a8 -funsafe-math-optimizations 
+endif
+
+ifeq ($(CFG),release)
+CFLAGS += -O3 -s
+else
+CFLAGS += -g
+CFG=debug
+endif
+
+BUILD_DIR = $(CFG)
+
+CFLAGS += $(patsubst %, -D%, $(DEFINES))
+LDFLAGS += $(patsubst %, -l%, $(LIBS))
+
+$(CFG)/%.o: %.c
+	@echo Building $< for $(CFG)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(CFG)/%.o: %.cpp
+	@echo Building $< for $(CFG)
+	@$(CXX) $(CFLAGS) $(CXXFLAGS) -c $< -o $@
