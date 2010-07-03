@@ -1,4 +1,3 @@
-#pragma once
 #include "gradient-object.hpp"
 
 namespace River

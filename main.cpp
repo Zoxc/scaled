@@ -1,9 +1,8 @@
 #include <stdio.h>
-#include <swl.h>
 #include <math.h>
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
-#include "gles-utils.hpp"
+#include "swl/swl.h"
 #include "river/layout/block.hpp"
 #include "river/widgets/gradient.hpp"
 #include "river/scene/scene.hpp"
@@ -20,7 +19,7 @@ GradientObject *quad;
 
 int main(void)
 {
-	enum swl_result result = swl_init("Test", 800, 480);
+	enum swl_result result = swl_init("scaled", 800, 480);
 
 	if(result != SWLR_OK)
 	{

@@ -1,4 +1,3 @@
-#pragma once
 #include "object.hpp"
 
 namespace River

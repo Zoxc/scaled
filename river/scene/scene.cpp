@@ -1,4 +1,3 @@
-#pragma once
 #include "scene.hpp"
 
 namespace River
@@ -15,7 +14,7 @@ namespace River
 		
 		void render()
 		{
-			for(auto i = windows.begin(); i; i++)
+			for(WindowList::Iterator i = windows.begin(); i; i++)
 				i().render();
 		}
 
@@ -23,7 +22,7 @@ namespace River
 		{
 			state_count = State::StateCount;
 
-			for(auto i = states.begin(); i; i++)
+			for(StateList::Iterator i = states.begin(); i; i++)
 			{
 				state_count++;
 			}
@@ -33,7 +32,8 @@ namespace River
 			state_array[State::GradientState] = &gradient_state;
 
 			int j = State::StateCount;
-			for(auto i = states.begin(); i; i++, j++)
+
+			for(StateList::Iterator i = states.begin(); i; i++, j++)
 			{
 				i().index = j;
 				state_array[i] = &(i());
@@ -45,7 +45,7 @@ namespace River
 
 		void free()
 		{
-			for(auto i = states.begin(); i; i++)
+			for(StateList::Iterator i = states.begin(); i; i++)
 				i().free();
 		}
 	};

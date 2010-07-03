@@ -1,4 +1,3 @@
-#pragma once
 #include "gradient-state.hpp"
 
 namespace River

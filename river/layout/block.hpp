@@ -8,7 +8,7 @@ namespace River
 		public Element
 	{
 	public:
-		Block() : padding(&no_padding), block_flags(BlockNoFlags) {}
+		Block() : block_flags(BlockNoFlags), padding(&no_padding) {}
 		
 		static Extends no_padding;
 
@@ -23,7 +23,9 @@ namespace River
 		BlockFlags block_flags;
 		Extends *padding;
 
-		RIVER_LIST(Element, children_entry) children;
+		typedef RIVER_LIST(Element, children_entry) ChildList;
+
+		ChildList children;
 
 		void place(Layer *layer, int x, int y);
 	};

@@ -1,4 +1,3 @@
-#pragma once
 #include "shader-state.hpp"
 
 namespace River

@@ -10,7 +10,7 @@ namespace River
 	class Element
 	{
 	public:
-		Element() : margins(&no_margins), flags(0), weight(1), width(Flags::Auto), height(Flags::Auto) {}
+		Element() : flags(0), margins(&no_margins), width(Flags::Auto), height(Flags::Auto), weight(1) {}
 		
 		static Extends no_margins;
 

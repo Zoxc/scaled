@@ -67,8 +67,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\gles-utils.cpp" />
     <ClCompile Include="..\main.cpp" />
+    <ClCompile Include="..\river\gles.cpp" />
     <ClCompile Include="..\river\layout\block.cpp" />
     <ClCompile Include="..\river\layout\element.cpp" />
     <ClCompile Include="..\river\layout\extends.cpp" />
@@ -84,7 +84,7 @@
     <ClCompile Include="..\river\widgets\gradient.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\gles-utils.hpp" />
+    <ClInclude Include="..\river\gles.hpp" />
     <ClInclude Include="..\river\layout\block.hpp" />
     <ClInclude Include="..\river\layout\element.hpp" />
     <ClInclude Include="..\river\layout\extends.hpp" />

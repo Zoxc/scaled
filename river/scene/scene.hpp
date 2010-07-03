@@ -9,9 +9,13 @@ namespace River
 {
 	namespace Scene
 	{
-		extern RIVER_LIST(Window, scene_entry) windows;
+		typedef RIVER_LIST(Window, scene_entry) WindowList;
 
-		extern RIVER_LIST(State, scene_entry) states;
+		extern WindowList windows;
+		
+		typedef RIVER_LIST(State, scene_entry) StateList;
+
+		extern StateList states;
 		extern size_t state_count;
 		extern State **state_array;
 

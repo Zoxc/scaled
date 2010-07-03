@@ -11,7 +11,9 @@ namespace River
 		Flow element;
 		Entry<Window> scene_entry;
 
-		RIVER_LIST(Layer, window_entry) layers;
+		typedef RIVER_LIST(Layer, window_entry) LayerList;
+
+		LayerList layers;
 
 		void render();
 	};

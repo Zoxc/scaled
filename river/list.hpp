@@ -1,5 +1,7 @@
 #pragma once
 #include <assert.h>
+#include <stdlib.h>
+#include <stddef.h>
 
 namespace River
 {
@@ -98,6 +100,5 @@ namespace River
 		}
 	};
 
-	#define RIVER_LIST(classname, field) \
-		List<classname, (size_t)(&((classname *)0)->field)>
+	#define RIVER_LIST(classname, field) List<classname, offsetof(classname, field)>
 };

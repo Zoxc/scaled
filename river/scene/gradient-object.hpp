@@ -1,6 +1,6 @@
 #pragma once
 #include <stdint.h>
-#include "../../gles-utils.hpp"
+#include "../gles.hpp"
 #include "object.hpp"
 
 namespace River

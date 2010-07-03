@@ -96,6 +96,5 @@ namespace River
 		}
 	};
 
-	#define RIVER_SIMPLE_LIST(classname, field) \
-		SimpleList<classname, (size_t)(&((classname *)0)->field)>
+	#define RIVER_SIMPLE_LIST(classname, field) SimpleList<classname, offsetof(classname, field)>
 };

@@ -1,4 +1,3 @@
-#pragma once
 #include "Flow.hpp"
 
 namespace River
@@ -85,13 +84,13 @@ namespace River
 				 */
 				size_t weight = 0;
 
-				for(auto i = extends.begin(); i; i++)
+				for(ExtendList::Iterator i = extends.begin(); i; i++)
 					weight += i().weight;
 
 				/*
 				 * Layout elements.
 				 */
-				for(auto i = extends.begin(); i; i++)
+				for(ExtendList::Iterator i = extends.begin(); i; i++)
 				{
 					i().rect.width += width * i().weight / weight;
 					i().layout(i().rect.width, i().rect.height);

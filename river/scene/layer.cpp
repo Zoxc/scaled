@@ -1,4 +1,3 @@
-#pragma once
 #include "layer.hpp"
 #include "scene.hpp"
 

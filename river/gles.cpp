@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "gles-utils.hpp"
+#include "gles.hpp"
 
 bool gluLinkProgram(GLuint program)
 {
