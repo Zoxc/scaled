@@ -9,10 +9,12 @@ namespace River
 	public:
 		Entry<Object> entry;
 
+		#pragma pack(push, 1)
 		struct Point {
-			GLshort x;
-			GLshort y;
+			GLfloat x;
+			GLfloat y;
 		};
+		#pragma pack(pop)
 
 		Point quad[4];
 
