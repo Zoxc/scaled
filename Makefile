@@ -1,4 +1,9 @@
-LIBS = swl river libEGL libGLESv2
+LIBS += swl river EGL GLESv2
+include swl/Makefile.features
+
+ifeq ($(SWL_BACKEND_XLIB),1)
+LIBS += X11
+endif
 
 include Makefile.common
 
