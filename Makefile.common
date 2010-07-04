@@ -8,7 +8,7 @@ CXX = $(CROSS_COMPILE)g++
 AR = $(CROSS_COMPILE)ar
 
 CFLAGS += -pipe -Wall
-CXXFLAGS += -Wno-invalid-offsetof
+CXXFLAGS += -Wno-invalid-offsetof -std=gnu++98
 
 ifeq ($(ARCH),arm)
 CFLAGS += -mfloat-abi=hard -mfpu=neon -mcpu=cortex-a8 -mtune=cortex-a8 -funsafe-math-optimizations 
