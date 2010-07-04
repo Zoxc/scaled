@@ -1,3 +1,4 @@
+root=..
 include ../Makefile.common
 
 TARGET = $(CFG)/libriver.a

@@ -1,7 +1,6 @@
 default: all
 
-CFLAGS += -I"Z:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.06.26.0649\Builds\OGLES2\Include"
-LDFLAGS += -L"Z:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.06.26.0649\Builds\OGLES2\WindowsPC\Lib"
+include $(root)/Makefile.features
 
 CC := $(CROSS_COMPILE)gcc
 CXX = $(CROSS_COMPILE)g++

@@ -1,3 +1,5 @@
+root=.
+
 LIBS += swl river EGL GLESv2
 include swl/Makefile.features
 

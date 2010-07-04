@@ -46,8 +46,8 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>Z:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.06.26.0649\Builds\OGLES2\WindowsPC\Lib;B:\Programmering\Libraries\swl\msvc\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libGLESv2.lib;SWL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>Z:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.06.26.0649\Builds\OGLES2\WindowsPC\Lib;$(ProjectDir)..\swl\msvc\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GLESv2.lib;SWL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -62,8 +62,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>Z:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.06.26.0649\Builds\OGLES2\WindowsPC\Lib;B:\Programmering\Libraries\swl\msvc\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libGLESv2.lib;SWL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>Z:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.06.26.0649\Builds\OGLES2\WindowsPC\Lib;$(ProjectDir)..\swl\msvc\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GLESv2.lib;SWL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

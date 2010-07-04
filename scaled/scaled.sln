@@ -2,6 +2,11 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "scaled", "scaled.vcxproj", "{DCF9349C-838B-4705-AA16-DCAAC802E837}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3D7301A4-516E-45A0-A14E-F4EE138D795F} = {3D7301A4-516E-45A0-A14E-F4EE138D795F}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "swl", "..\swl\msvc\swl.vcxproj", "{3D7301A4-516E-45A0-A14E-F4EE138D795F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +18,10 @@ Global
 		{DCF9349C-838B-4705-AA16-DCAAC802E837}.Debug|Win32.Build.0 = Debug|Win32
 		{DCF9349C-838B-4705-AA16-DCAAC802E837}.Release|Win32.ActiveCfg = Release|Win32
 		{DCF9349C-838B-4705-AA16-DCAAC802E837}.Release|Win32.Build.0 = Release|Win32
+		{3D7301A4-516E-45A0-A14E-F4EE138D795F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3D7301A4-516E-45A0-A14E-F4EE138D795F}.Debug|Win32.Build.0 = Debug|Win32
+		{3D7301A4-516E-45A0-A14E-F4EE138D795F}.Release|Win32.ActiveCfg = Release|Win32
+		{3D7301A4-516E-45A0-A14E-F4EE138D795F}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
