@@ -1,2 +1,2 @@
 #!/bin/sh
-cd swl; configure
+cd swl; ./configure
