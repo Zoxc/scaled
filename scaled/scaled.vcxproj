@@ -46,8 +46,8 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>Z:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.06.26.0649\Builds\OGLES2\WindowsPC\Lib;$(ProjectDir)..\swl\msvc\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>GLESv2.lib;SWL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>Z:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.06.26.0649\Builds\OGLES2\WindowsPC\Lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GLESv2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -62,8 +62,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>Z:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.06.26.0649\Builds\OGLES2\WindowsPC\Lib;$(ProjectDir)..\swl\msvc\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>GLESv2.lib;SWL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>Z:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.06.26.0649\Builds\OGLES2\WindowsPC\Lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GLESv2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -101,6 +101,11 @@
     <ClInclude Include="..\river\scene\state.hpp" />
     <ClInclude Include="..\river\simple-list.hpp" />
     <ClInclude Include="..\river\widgets\gradient.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\swl\msvc\swl.vcxproj">
+      <Project>{3d7301a4-516e-45a0-a14e-f4ee138d795f}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
