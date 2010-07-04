@@ -4,7 +4,7 @@ namespace River
 {
 	GradientState gradient_state;
 
-	static char* _vertex_source = "precision highp float;\
+	static const char* _vertex_source = "precision highp float;\
 		attribute vec2 point;\
 		attribute vec3 acolor;\
 		varying vec4 vcolor;\
@@ -16,7 +16,7 @@ namespace River
 			vcolor.a = 1.0;\
 		}";
 	
-	static char* _fragment_source = "precision highp float;\
+	static const char* _fragment_source = "precision highp float;\
 		varying vec4 vcolor;\
 		void main (void)\
 		{\

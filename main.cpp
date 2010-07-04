@@ -12,7 +12,7 @@ using namespace River;
 
 Gradient gradient1;
 Gradient gradient2;
-Window win;
+River::Window win;
 Layer *layer;
 Extends padding(10, 10, 10, 10);
 GradientObject *quad;
@@ -56,7 +56,7 @@ int main(void)
 				goto quit;
 		}
 		
-		glClearColor(0.0f, 0.0f, (1 + sin(GetTickCount() / 1000.0f)) / 3, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		Scene::render();
