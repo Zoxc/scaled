@@ -1,27 +1,11 @@
 root=.
+default: all
 
-LIBS += swl river EGL GLESv2
-include swl/Makefile.features
-
-ifeq ($(SWL_BACKEND_XLIB),1)
-LIBS += X11
-endif
-
-include Makefile.common
+include $(root)/river/Makefile.public
+include $(root)/swl/Makefile.public
+include $(root)/Makefile.common
 
 TARGET = $(CFG)/scaled
-
-.PHONY: river 
-river:
-	$(MAKE) -C river
-
-.PHONY: swl 
-swl:
-	$(MAKE) -C swl
-
-.PHONY: build-dir 
-build-dir:
-	@mkdir -p $(CFG)
 
 SOURCES = \
 	main.cpp \
@@ -29,18 +13,10 @@ SOURCES = \
 
 OBJECTS = $(patsubst %.cpp, $(CFG)/%.o, $(SOURCES) )
 
-$(TARGET): build-dir river swl $(OBJECTS)
-	@$(CXX) $(CFLAGS) $(CXXFLAGS) -Lswl/$(CFG) -Lriver/$(CFG) $(OBJECTS) $(LDFLAGS) -o $@
+$(TARGET): river swl $(OBJECTS)
+	@$(CXX) $(CFLAGS) $(CXXFLAGS) $(OBJECTS) $(LDFLAGS) -o $@
 
-all: $(TARGET)
-
-.PHONY: river-clean
-river-clean:
-	$(MAKE) -C river clean
-
-.PHONY: swl-clean
-swl-clean:
-	$(MAKE) -C swl clean
+all: build-dirs $(TARGET)
 
 .PHONY: clean 
 clean: river-clean swl-clean

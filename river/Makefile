@@ -1,5 +1,9 @@
 root=..
-include ../Makefile.common
+default: all
+
+BUILD_DIRS += layout scene widgets
+
+include $(root)/Makefile.common
 
 TARGET = $(CFG)/libriver.a
 
@@ -16,18 +20,12 @@ SOURCES = \
 	scene/object.cpp \
 	scene/object-list.cpp \
 	scene/scene.cpp \
+	scene/state.cpp \
 	scene/shader-state.cpp \
 	widgets/gradient.cpp \
 	$(NULL)
 
 OBJECTS = $(patsubst %.cpp, $(CFG)/%.o, $(SOURCES) )
-
-.PHONY: build-dir 
-build-dir:
-	@mkdir -p $(CFG)
-	@mkdir -p $(CFG)/layout
-	@mkdir -p $(CFG)/scene
-	@mkdir -p $(CFG)/widgets
 
 $(TARGET): $(OBJECTS)
 	@$(AR) rsc $@ $(OBJECTS)
@@ -36,4 +34,4 @@ $(TARGET): $(OBJECTS)
 clean:
 	@rm -f $(OBJECTS) $(TARGET)
 
-all: build-dir $(TARGET)
+all: build-dirs $(TARGET)

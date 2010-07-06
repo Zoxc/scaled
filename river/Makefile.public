@@ -1,0 +1,12 @@
+LIBS += river GLESv2
+
+.PHONY: river 
+river:
+	$(MAKE) -C $(root)/river
+
+.PHONY: river-clean
+river-clean:
+	$(MAKE) -C $(root)/river clean
+
+INCLUDE_DIRS += $(root)
+LIB_DIRS += $(root)/river
