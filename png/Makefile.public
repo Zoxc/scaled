@@ -1,0 +1,6 @@
+include $(root)/png/Makefile.conf
+
+LIBS += png
+
+CFLAGS += $(LIBPNG_CFLAGS)
+LDFLAGS += $(LIBPNG_LDFLAGS)
