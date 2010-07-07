@@ -13,16 +13,11 @@ namespace River
 
 		extern WindowList windows;
 		
-		typedef RIVER_LIST(State, scene_entry) StateList;
-
-		extern StateList states;
-		extern size_t state_count;
-		extern State **state_array;
-
 		extern GradientState gradient_state;
 		
 		void render();
 		void alloc();
+		void size(int width, int height);
 		void free();
 	};
 };

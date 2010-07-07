@@ -18,35 +18,21 @@ namespace River
 				i().render();
 		}
 
+		void size(int width, int height)
+		{
+			glViewport(0, 0, width, height);
+
+			gradient_state.size(width, height);
+		}
+
 		void alloc()
 		{
-			state_count = State::StateCount;
-
-			for(StateList::Iterator i = states.begin(); i; i++)
-			{
-				state_count++;
-			}
-
-			state_array = new State *[state_count];
-
-			state_array[State::GradientState] = &gradient_state;
-
-			int j = State::StateCount;
-
-			for(StateList::Iterator i = states.begin(); i; i++, j++)
-			{
-				i().index = j;
-				state_array[i] = &(i());
-			}
-
-			for(size_t i = 0; i < state_count; i++)
-				state_array[i]->alloc();
+			gradient_state.alloc();
 		}
 
 		void free()
 		{
-			for(StateList::Iterator i = states.begin(); i; i++)
-				i().free();
+			gradient_state.free();
 		}
 	};
 };

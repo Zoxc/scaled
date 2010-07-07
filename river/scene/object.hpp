@@ -11,8 +11,8 @@ namespace River
 
 		#pragma pack(push, 1)
 		struct Point {
-			GLfloat x;
-			GLfloat y;
+			GLshort x;
+			GLshort y;
 		};
 		#pragma pack(pop)
 

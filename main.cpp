@@ -17,9 +17,12 @@ Layer *layer;
 Extends padding(10, 10, 10, 10);
 GradientObject *quad;
 
+const int width = 640;
+const int height = 400;
+
 int main(void)
 {
-	enum swl_result result = swl_init("scaled", 800, 480);
+	enum swl_result result = swl_init("scaled", width, height, true);
 
 	if(result != SWLR_OK)
 	{
@@ -28,6 +31,7 @@ int main(void)
 	}
 	
 	Scene::alloc();
+	Scene::size(width, height);
 
 	layer = new Layer();
 	
@@ -40,7 +44,7 @@ int main(void)
 	win.element.padding = &padding;
 	win.element.children.append(&gradient1);
 	win.element.children.append(&gradient2);
-	win.element.layout(800, 480);
+	win.element.layout(width, height);
 	win.element.place(layer, 0, 0);
 	
 	win.layers.append(layer);
@@ -52,8 +56,20 @@ int main(void)
 	{
 		while(swl_query(&event))
 		{
-			if(event.type == SWLE_QUIT)
+			switch(event.type)
+			{
+			case SWLE_QUIT:
 				goto quit;
+
+			case SWLE_RESIZE:
+				Scene::size(event.size_event.width, event.size_event.height);
+				win.element.layout(event.size_event.width, event.size_event.height);
+				win.element.place(layer, 0, 0);
+				break;
+
+			default:
+				break;
+			}
 		}
 		
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);

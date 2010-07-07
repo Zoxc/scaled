@@ -22,5 +22,6 @@ namespace River
 		virtual void use() = 0;
 		virtual void alloc() = 0;
 		virtual void free() = 0;
+		virtual void size(int width, int height);
 	};
 };

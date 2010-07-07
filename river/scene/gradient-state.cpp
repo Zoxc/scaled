@@ -5,13 +5,16 @@ namespace River
 	GradientState gradient_state;
 
 	static const char* _vertex_source = "precision highp float;\
+		uniform vec2 scene;\
 		attribute vec2 point;\
 		attribute vec3 acolor;\
 		varying vec4 vcolor;\
 		void main(void)\
 		{\
-			gl_Position.x = point.x / 400.0 - 1.0;\
-			gl_Position.y = -(point.y / 240.0 - 1.0);\
+			gl_Position.x = point.x / scene.x - 1.0;\
+			gl_Position.y = -(point.y / scene.y - 1.0);\
+			gl_Position.z = 0.0;\
+			gl_Position.w = 1.0;\
 			vcolor.rgb = acolor;\
 			vcolor.a = 1.0;\
 		}";

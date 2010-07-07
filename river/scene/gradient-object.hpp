@@ -11,9 +11,9 @@ namespace River
 	private:
 		#pragma pack(push, 1)
 		struct Color {
-			GLfloat r;
-			GLfloat g;
-			GLfloat b;
+			GLubyte r;
+			GLubyte g;
+			GLubyte b;
 
 			Color &operator =(uint32_t color);
 		};

@@ -81,6 +81,7 @@
     <ClCompile Include="..\river\scene\object-list.cpp" />
     <ClCompile Include="..\river\scene\scene.cpp" />
     <ClCompile Include="..\river\scene\shader-state.cpp" />
+    <ClCompile Include="..\river\scene\state.cpp" />
     <ClCompile Include="..\river\widgets\gradient.cpp" />
   </ItemGroup>
   <ItemGroup>
