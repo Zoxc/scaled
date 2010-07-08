@@ -6,20 +6,18 @@ namespace River
 	{
 		Element *element = children.first;
 		int height = available_height;
-		int top = 0;
 		int margin_top = padding->top;
+		int max_width = 0;
+		int top = 0;
 		
-		rect.width = available_width;
-		rect.height = available_height;
-
 		while(element)
 		{
-			Line line;
-			line.start = element;
+			Element *line_start = element;
 			ExtendList extends;
+			int line_height = margin_top;
+			int line_margin_bottom = line_height;
 			int margin_left = padding->left;
 			int width = available_width;
-			line.height = margin_top;
 			Element *line_end = 0;
 
 			/*
@@ -31,7 +29,6 @@ namespace River
 				Extends margins(margin_left, margin_top, padding->right, padding->bottom, element->margins);
 				
 				int element_width = std::max(width - (margins.left + margins.right), 0);
-				int element_height = std::max(height - (margins.top + margins.bottom), 0);
 				
 				/*
 				 * Delay layout of extended elements until we know the actual size of it.
@@ -46,9 +43,21 @@ namespace River
 					element->rect.width = element->min_width;
 					element->rect.height = element->min_height;
 				}
+				else if(element->height == Flags::Extend)
+				{
+					/*
+					 * Use the minimum size as a placeholder in calculations.
+					 */
+					element->rect.width = element->min_width;
+					element->rect.height = element->min_height;
+				}
 				else
+				{
+					int element_height = std::max(height - (margins.top + margins.bottom), 0);
+
 					element->layout(element_width, element_height);
-				
+				}
+
 				/*
 				 * Make sure we can fit the element on this line.
 				 * Only give it a new line if something reduced the space on this one.
@@ -61,7 +70,11 @@ namespace River
 
 				width -= margins.left + element->rect.width;
 				margin_left = element->margins->right;
-				line.height = std::max(line.height, element->rect.height + margins.top);
+
+				int element_span = element->rect.height + margins.top;
+
+				line_height = std::max(line_height, element_span);
+				line_margin_bottom = std::max(line_margin_bottom, element_span + element->margins->bottom);
 				
 				line_end = element;
 
@@ -74,8 +87,10 @@ namespace River
 			if(line_end)
 				width -= std::max(padding->right, line_end->margins->right);
 
+			max_width = std::max(max_width, width);
+
 			/* 
-			 * Second pass, extend elements.
+			 * Second pass, extend elements horizontally.
 			 */
 			if(extends.first)
 			{
@@ -93,16 +108,36 @@ namespace River
 				for(ExtendList::Iterator i = extends.begin(); i; i++)
 				{
 					i().rect.width += width * i().weight / weight;
-					i().layout(i().rect.width, i().rect.height);
+
+					/*
+					 * If the element is not height extended, layout it now.
+					 */
+					if(i().height != Flags::Extend)
+					{
+						i().layout(i().rect.width, i().rect.height);
+						
+						/*
+						 * Update line height and margin if needed.
+						 */
+						int element_span = i().rect.height + std::max(margin_top, i().margins->top);
+
+						line_height = std::max(line_height, element_span);
+						line_margin_bottom = std::max(line_margin_bottom, element_span + i().margins->bottom);
+					}
 				}
 			}
 
 			/*
-			 * Third pass, position all the elements.
+			 * Height is calculated. Adjust margins.
 			 */
-			
+			line_margin_bottom -= line_height;
+
+			/*
+			 * Third pass, extend elements vertically and position all the elements.
+			 */
+
 			Element *next_line = element;
-			element = line.start;
+			element = line_start;
 			margin_left = padding->left;
 			int left = 0;
 
@@ -110,6 +145,20 @@ namespace River
 			{
 				Extends margins(margin_left, margin_top, padding->right, padding->bottom, element->margins);
 				
+				/*
+				 * Extend element vertically, if needed.
+				 */
+				if(element->height == Flags::Extend)
+				{
+					int height = line_height - margins.top;
+
+					height += line_margin_bottom - element->margins->bottom;
+
+					element->rect.height = height;
+
+					element->layout(element->rect.width, element->rect.height);
+				}
+
 				left += margins.left;
 
 				element->rect.left = left;
@@ -122,8 +171,12 @@ namespace River
 				element = element->children_entry.next;
 			}
 
-			top += line.height;
+			top += line_height;
+			margin_top = line_margin_bottom;
 			element = next_line;
 		}
+		
+		rect.width = max_width;
+		rect.height = top + std::max(margin_top, padding->bottom);
 	}
 };
