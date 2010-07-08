@@ -16,6 +16,7 @@ River::Window win;
 Layer *layer;
 Extends padding(10, 10, 10, 10);
 GradientObject *quad;
+Extends test(20, 20, 20, 20);
 
 const int width = 640;
 const int height = 400;
@@ -37,9 +38,12 @@ int main(void)
 	
 	gradient1.object.vertical(0xFF3412, 0x23FF12);
 	gradient1.width = Element::Flags::Extend;
+	gradient1.height = 5;
+	gradient1.margins = &test;
 
 	gradient2.object.horizontal(0xFF3412, 0x23FF12);
 	gradient2.width = Element::Flags::Extend;
+	gradient2.height = Element::Flags::Extend;
 
 	win.element.padding = &padding;
 	win.element.children.append(&gradient1);
