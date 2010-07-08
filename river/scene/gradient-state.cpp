@@ -11,10 +11,7 @@ namespace River
 		varying vec4 vcolor;\
 		void main(void)\
 		{\
-			gl_Position.x = point.x / scene.x - 1.0;\
-			gl_Position.y = -(point.y / scene.y - 1.0);\
-			gl_Position.z = 0.0;\
-			gl_Position.w = 1.0;\
+			gl_Position = vec4(point.x / scene.x - 1.0, 1.0 - point.y / scene.y, 0.0, 1.0);\
 			vcolor.rgb = acolor;\
 			vcolor.a = 1.0;\
 		}";
