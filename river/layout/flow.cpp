@@ -33,17 +33,7 @@ namespace River
 				/*
 				 * Delay layout of extended elements until we know the actual size of it.
 				 */
-				if(element->width == Flags::Extend)
-				{
-					extends.append(element);
-					
-					/*
-					 * Use the minimum size as a placeholder in calculations.
-					 */
-					element->rect.width = element->min_width;
-					element->rect.height = element->min_height;
-				}
-				else if(element->height == Flags::Extend)
+				if(element->width == Flags::Extend || element->height == Flags::Extend)
 				{
 					/*
 					 * Use the minimum size as a placeholder in calculations.
@@ -67,6 +57,12 @@ namespace River
 					line_end = element->children_entry.prev;
 					break;
 				}
+				
+				/*
+				 * Add horizontally extended elements to the list once we are sure they're on this line.
+				 */
+				if(element->width == Flags::Extend)
+					extends.append(element);
 
 				width -= margins.left + element->rect.width;
 				margin_left = element->margins->right;
@@ -86,8 +82,10 @@ namespace River
 			 */
 			if(line_end)
 				width -= std::max(padding->right, line_end->margins->right);
+			else
+				width -= padding->right;
 
-			max_width = std::max(max_width, width);
+			max_width = std::max(max_width, available_width - width);
 
 			/* 
 			 * Second pass, extend elements horizontally.
