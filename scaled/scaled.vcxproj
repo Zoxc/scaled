@@ -41,13 +41,14 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>Z:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.06.26.0649\Builds\OGLES2\Include;B:\Programmering\scaled\swl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Z:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.06.26.0649\Builds\OGLES2\Include;B:\Programmering\scaled\swl;B:\Programmering\Libraries\freetype\include;B:\Programmering\Libraries\freetype\include\freetype2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
+      <AdditionalOptions>/wd4355 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>Z:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.06.26.0649\Builds\OGLES2\WindowsPC\Lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>GLESv2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>Z:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.06.26.0649\Builds\OGLES2\WindowsPC\Lib;B:\Programmering\Libraries\freetype\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GLESv2.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -56,14 +57,15 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>Z:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.06.26.0649\Builds\OGLES2\Include;B:\Programmering\scaled\swl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Z:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.06.26.0649\Builds\OGLES2\Include;B:\Programmering\scaled\swl;B:\Programmering\Libraries\freetype\include;B:\Programmering\Libraries\freetype\include\freetype2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/w04355 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>Z:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.06.26.0649\Builds\OGLES2\WindowsPC\Lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>GLESv2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>Z:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.06.26.0649\Builds\OGLES2\WindowsPC\Lib;B:\Programmering\Libraries\freetype\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GLESv2.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -74,29 +76,47 @@
     <ClCompile Include="..\river\layout\extends.cpp" />
     <ClCompile Include="..\river\layout\flow.cpp" />
     <ClCompile Include="..\river\layout\window.cpp" />
+    <ClCompile Include="..\river\scene\fonts\font-size.cpp" />
+    <ClCompile Include="..\river\scene\fonts\font.cpp" />
+    <ClCompile Include="..\river\scene\fonts\glyph-cache.cpp" />
+    <ClCompile Include="..\river\scene\fonts\glyph-object.cpp" />
+    <ClCompile Include="..\river\scene\fonts\glyph-state.cpp" />
+    <ClCompile Include="..\river\scene\fonts\glyph.cpp" />
     <ClCompile Include="..\river\scene\gradient-object.cpp" />
     <ClCompile Include="..\river\scene\gradient-state.cpp" />
     <ClCompile Include="..\river\scene\layer.cpp" />
+    <ClCompile Include="..\river\scene\object-hash.cpp" />
     <ClCompile Include="..\river\scene\object.cpp" />
-    <ClCompile Include="..\river\scene\object-list.cpp" />
+    <ClCompile Include="..\river\scene\rectangle.cpp" />
     <ClCompile Include="..\river\scene\scene.cpp" />
     <ClCompile Include="..\river\scene\shader-state.cpp" />
     <ClCompile Include="..\river\scene\state.cpp" />
     <ClCompile Include="..\river\widgets\gradient.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\river\freetype.hpp" />
     <ClInclude Include="..\river\gles.hpp" />
+    <ClInclude Include="..\river\hash-table.hpp" />
     <ClInclude Include="..\river\layout\block.hpp" />
     <ClInclude Include="..\river\layout\element.hpp" />
     <ClInclude Include="..\river\layout\extends.hpp" />
     <ClInclude Include="..\river\layout\flow.hpp" />
     <ClInclude Include="..\river\layout\window.hpp" />
     <ClInclude Include="..\river\list.hpp" />
+    <ClInclude Include="..\river\ref-object.hpp" />
+    <ClInclude Include="..\river\scene\fonts\font-size.hpp" />
+    <ClInclude Include="..\river\scene\fonts\font.hpp" />
+    <ClInclude Include="..\river\scene\fonts\glyph-cache.hpp" />
+    <ClInclude Include="..\river\scene\fonts\glyph-object.hpp" />
+    <ClInclude Include="..\river\scene\fonts\glyph-state.hpp" />
+    <ClInclude Include="..\river\scene\fonts\glyph.hpp" />
     <ClInclude Include="..\river\scene\gradient-object.hpp" />
     <ClInclude Include="..\river\scene\gradient-state.hpp" />
+    <ClInclude Include="..\river\scene\object-hash.hpp" />
     <ClInclude Include="..\river\scene\layer.hpp" />
     <ClInclude Include="..\river\scene\object.hpp" />
     <ClInclude Include="..\river\scene\object-list.hpp" />
+    <ClInclude Include="..\river\scene\rectangle.hpp" />
     <ClInclude Include="..\river\scene\scene.hpp" />
     <ClInclude Include="..\river\scene\shader-state.hpp" />
     <ClInclude Include="..\river\scene\state.hpp" />

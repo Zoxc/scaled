@@ -15,6 +15,9 @@ namespace River
 	{
 		Scene::gradient_state.use();
 		gradient_object_list.render();
+		
+		Scene::glyph_state.use();
+		glyph_object_hash.render();
 
 		GLenum error = glGetError();
 

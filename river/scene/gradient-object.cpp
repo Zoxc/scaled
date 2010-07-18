@@ -1,5 +1,5 @@
 #include "gradient-object.hpp"
-#include <stdio.h>
+#include "layer.hpp"
 
 namespace River
 {
@@ -30,9 +30,13 @@ namespace River
 
 	void GradientObject::render()
 	{
-		glVertexAttribPointer(0, 2, GL_SHORT, GL_FALSE, 0, quad);
 		glVertexAttribPointer(1, 3, GL_UNSIGNED_BYTE, GL_TRUE, 0, colors);
 
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+		Rectangle::render();
+	}
+
+	void GradientObject::place(Layer *layer)
+	{
+		layer->gradient_object_list.append(this);
 	}
 };

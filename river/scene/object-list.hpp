@@ -5,16 +5,16 @@
 
 namespace River
 {
-	class ObjectList:
-		public RIVER_LIST(Object, entry)
+	template<class T> class ObjectList:
+		public RIVER_LIST(T, entry)
 	{
 	public:
-		virtual void render();
-	};
-	
-	class ObjectHash:
-		public ObjectList
-	{
-	public:
+		void render()
+		{
+			for(ObjectList::Iterator i = begin(); i; i++)
+			{
+				i().render();
+			}
+		}
 	};
 };

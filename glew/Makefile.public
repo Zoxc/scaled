@@ -1,0 +1,6 @@
+include $(root)/glew/Makefile.conf
+
+LIBS += $(LIBGLEW_NAME)
+
+CFLAGS += $(LIBGLEW_CFLAGS)
+LDFLAGS += $(LIBGLEW_LDFLAGS)

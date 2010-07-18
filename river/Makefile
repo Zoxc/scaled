@@ -3,6 +3,8 @@ default: all
 
 BUILD_DIRS += layout scene widgets
 
+include $(root)/swl/Makefile.public
+include $(root)/freetype/Makefile.public
 include $(root)/Makefile.common
 
 TARGET = $(CFG)/libriver.a
@@ -14,11 +16,18 @@ SOURCES = \
 	layout/extends.cpp \
 	layout/flow.cpp \
 	layout/window.cpp \
+	scene/fonts/font.cpp \
+	scene/fonts/font-size.cpp \
+	scene/fonts/glyph.cpp \
+	scene/fonts/glyph-cache.cpp \
+	scene/fonts/glyph-object.cpp \
+	scene/fonts/glyph-state.cpp \
 	scene/gradient-object.cpp \
 	scene/gradient-state.cpp \
 	scene/layer.cpp \
 	scene/object.cpp \
-	scene/object-list.cpp \
+	scene/rectangle.cpp \
+	scene/object-hash.cpp \
 	scene/scene.cpp \
 	scene/state.cpp \
 	scene/shader-state.cpp \

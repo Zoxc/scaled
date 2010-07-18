@@ -1,0 +1,6 @@
+include $(root)/egl/Makefile.conf
+
+LIBS += EGL
+
+CFLAGS += $(LIBEGL_CFLAGS)
+LDFLAGS += $(LIBEGL_LDFLAGS)

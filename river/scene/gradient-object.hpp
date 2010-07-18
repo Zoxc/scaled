@@ -1,12 +1,12 @@
 #pragma once
 #include <stdint.h>
 #include "../gles.hpp"
-#include "object.hpp"
+#include "rectangle.hpp"
 
 namespace River
 {
 	class GradientObject:
-		public Object
+		public Rectangle
 	{
 	private:
 		#pragma pack(push, 1)
@@ -25,5 +25,6 @@ namespace River
 		void vertical(uint32_t left, uint32_t right);
 
 		void render();
+		void place(Layer *layer);
 	};
 };

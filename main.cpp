@@ -7,6 +7,8 @@
 #include "river/widgets/gradient.hpp"
 #include "river/scene/scene.hpp"
 #include "river/scene/gradient-object.hpp"
+#include "river/scene/fonts/glyph-object.hpp"
+#include "river/scene/fonts/glyph.hpp"
 
 using namespace River;
 
@@ -16,6 +18,7 @@ River::Window win;
 Layer *layer;
 Extends padding(10, 10, 10, 10);
 GradientObject *quad;
+GlyphObject glyph_object;
 Extends test(20, 20, 20, 20);
 
 const int width = 640;
@@ -35,6 +38,16 @@ int main(void)
 	Scene::size(width, height);
 
 	layer = new Layer();
+
+	FontSize *font = Scene::basic_font.get_size(12);
+
+	font->ref();
+
+	Glyph *glyph = font->get_glyph('A');
+
+	glyph_object.position(100, 200, glyph->width, glyph->height);
+	glyph_object.set_glyph(glyph, 0xFF000000);
+	glyph_object.place(layer);
 	
 	gradient1.object.vertical(0xFF3412, 0x23FF12);
 	gradient1.width = Element::Flags::Extend;
@@ -76,7 +89,7 @@ int main(void)
 			}
 		}
 		
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		Scene::render();

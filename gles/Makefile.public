@@ -1,0 +1,6 @@
+include $(root)/gles/Makefile.conf
+
+LIBS += GLESv2
+
+CFLAGS += $(LIBGLES_CFLAGS)
+LDFLAGS += $(LIBGLES_LDFLAGS)
