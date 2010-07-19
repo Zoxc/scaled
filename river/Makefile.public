@@ -1,3 +1,5 @@
+include $(root)/river/Makefile.shared
+
 LIBS += river GLESv2
 
 .PHONY: river 

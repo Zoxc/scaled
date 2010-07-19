@@ -83,7 +83,7 @@ namespace River
 		
 		void render()
 		{
-			for(ObjectLists::Iterator i = key_list.begin(); i; i++)
+			for(typename ObjectLists::Iterator i = key_list.begin(); i; i++)
 			{
 				V::render_key(i().key);
 

@@ -1,11 +1,10 @@
 root=..
 default: all
 
-BUILD_DIRS += layout scene widgets
+BUILD_DIRS += layout scene widgets scene/fonts
 
-include $(root)/swl/Makefile.public
-include $(root)/freetype/Makefile.public
 include $(root)/Makefile.common
+include $(root)/river/Makefile.shared
 
 TARGET = $(CFG)/libriver.a
 
@@ -27,7 +26,6 @@ SOURCES = \
 	scene/layer.cpp \
 	scene/object.cpp \
 	scene/rectangle.cpp \
-	scene/object-hash.cpp \
 	scene/scene.cpp \
 	scene/state.cpp \
 	scene/shader-state.cpp \

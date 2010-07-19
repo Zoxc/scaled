@@ -85,7 +85,6 @@
     <ClCompile Include="..\river\scene\gradient-object.cpp" />
     <ClCompile Include="..\river\scene\gradient-state.cpp" />
     <ClCompile Include="..\river\scene\layer.cpp" />
-    <ClCompile Include="..\river\scene\object-hash.cpp" />
     <ClCompile Include="..\river\scene\object.cpp" />
     <ClCompile Include="..\river\scene\rectangle.cpp" />
     <ClCompile Include="..\river\scene\scene.cpp" />

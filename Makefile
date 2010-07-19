@@ -2,7 +2,6 @@ root=.
 default: all
 
 include $(root)/river/Makefile.public
-include $(root)/swl/Makefile.public
 include $(root)/Makefile.common
 
 TARGET = $(CFG)/scaled
@@ -14,7 +13,7 @@ SOURCES = \
 OBJECTS = $(patsubst %.cpp, $(CFG)/%.o, $(SOURCES) )
 
 $(TARGET): river swl $(OBJECTS)
-	@$(CXX) $(CFLAGS) $(CXXFLAGS) $(OBJECTS) $(LDFLAGS) -o $@
+	$(CXX) $(CFLAGS) $(CXXFLAGS) $(OBJECTS) $(LDFLAGS) -o $@
 
 all: build-dirs $(TARGET)
 
