@@ -153,7 +153,7 @@ namespace River
 				{
 					if(T::compare_key_value(key, entry))
 						return entry;
-						
+					
 					tail = entry;
 					entry = T::get_value_next(entry);
 				}
@@ -166,6 +166,8 @@ namespace River
 						T::set_value_next(tail, value);
 					else
 						table[index] = value;
+					
+					T::set_value_next(value, T::invalid_value());
 
 					increase();
 

@@ -70,6 +70,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\main.cpp" />
+    <ClCompile Include="..\river\color.cpp" />
     <ClCompile Include="..\river\gles.cpp" />
     <ClCompile Include="..\river\layout\block.cpp" />
     <ClCompile Include="..\river\layout\element.cpp" />
@@ -82,6 +83,7 @@
     <ClCompile Include="..\river\scene\fonts\glyph-object.cpp" />
     <ClCompile Include="..\river\scene\fonts\glyph-state.cpp" />
     <ClCompile Include="..\river\scene\fonts\glyph.cpp" />
+    <ClCompile Include="..\river\scene\fonts\text-object.cpp" />
     <ClCompile Include="..\river\scene\gradient-object.cpp" />
     <ClCompile Include="..\river\scene\gradient-state.cpp" />
     <ClCompile Include="..\river\scene\layer.cpp" />
@@ -93,6 +95,7 @@
     <ClCompile Include="..\river\widgets\gradient.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\river\color.hpp" />
     <ClInclude Include="..\river\freetype.hpp" />
     <ClInclude Include="..\river\gles.hpp" />
     <ClInclude Include="..\river\hash-table.hpp" />
@@ -109,6 +112,7 @@
     <ClInclude Include="..\river\scene\fonts\glyph-object.hpp" />
     <ClInclude Include="..\river\scene\fonts\glyph-state.hpp" />
     <ClInclude Include="..\river\scene\fonts\glyph.hpp" />
+    <ClInclude Include="..\river\scene\fonts\text-object.hpp" />
     <ClInclude Include="..\river\scene\gradient-object.hpp" />
     <ClInclude Include="..\river\scene\gradient-state.hpp" />
     <ClInclude Include="..\river\scene\object-hash.hpp" />

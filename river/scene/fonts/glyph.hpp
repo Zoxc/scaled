@@ -28,6 +28,10 @@ namespace River
 		size_t width;
 		size_t height;
 
+		int offset_x;
+		int offset_y;
+		int advance;
+
 		Glyph *next;
 	};
 };

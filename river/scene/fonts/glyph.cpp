@@ -19,6 +19,11 @@ namespace River
 		
 		width = face->glyph->bitmap.width;
 		height = face->glyph->bitmap.rows;
+		
+		offset_x = face->glyph->bitmap_left;
+		offset_y = face->glyph->bitmap_top;
+
+		advance = face->glyph->advance.x >> 6;
 
 		cache = font_size->place(this, width, height, face->glyph->bitmap.buffer);
 	}

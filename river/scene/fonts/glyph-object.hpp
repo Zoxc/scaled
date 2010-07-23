@@ -1,24 +1,27 @@
 #pragma once
+#include "../../color.hpp"
 #include "../../gles.hpp"
+#include "../../simple-list.hpp"
 #include "../rectangle.hpp"
-#include "font-size.hpp"
 
 namespace River
 {
+	class Glyph;
 	class GlyphCache;
 
 	class GlyphObject:
 		public Rectangle
 	{
 	private:
-		FontSize *font_size;
 		Glyph *glyph;
-		uint32_t color;
+		color_t color;
 	public:
 		GlyphObject();
 		~GlyphObject();
 
-		void set_glyph(Glyph *glyph, uint32_t color);
+		SimpleEntry<GlyphObject> text_entry;
+
+		void set_glyph(Glyph *glyph, color_t color);
 		
 		void render();
 		static void render_key(GlyphCache *cache);
