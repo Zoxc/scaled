@@ -36,7 +36,7 @@ namespace River
 
 		font_size->ref();
 
-		int left = x;
+		int left = 0;
 
 		while(*text)
 		{
@@ -44,8 +44,10 @@ namespace River
 
 			GlyphObject *object = new GlyphObject;
 
-			object->set_glyph(glyph, color);
-			object->position(left - glyph->offset_x, y - glyph->offset_y, glyph->width, glyph->height);
+			int offset = left + glyph->offset_x;
+			
+			object->set_glyph(glyph, offset % 3, color);
+			object->position(x + offset / 3, y - glyph->offset_y, glyph->width, glyph->height);
 
 			glyph_list.append(object);
 

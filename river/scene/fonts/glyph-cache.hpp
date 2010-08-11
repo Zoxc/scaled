@@ -19,8 +19,9 @@ namespace River
 		GlyphCache();
 		~GlyphCache();
 
-		static const size_t width = 128;
+		static const size_t width = 256;
 		static const size_t height = 128;
+		static const GLfloat point_size;
 
 		GLuint texture;
 		SimpleEntry<GlyphCache> entry;
