@@ -11,7 +11,7 @@ namespace River
 		T *next;
 	};
 
-	template<class T, size_t offset> class SimpleList
+	template<class T, class E, SimpleEntry<E> E::*field> class SimpleList
 	{
 	public:
 		SimpleList() : first(0), last(0) {}
@@ -19,25 +19,20 @@ namespace River
 		T *first;
 		T *last;
 
-		static SimpleEntry<T> &get_entry(T *node)
-		{
-			return *reinterpret_cast<SimpleEntry<T> *>((size_t)node + offset);
-		}
-
 		void append(T *node)
 		{
 			if(!node) 
 				assert(0);
 
-			SimpleEntry<T> &entry = get_entry(node);
+			SimpleEntry<T> &entry = node->*field;
 
 			entry.next = 0;
 
 			if(last)
 			{
-				SimpleEntry<T> &last_entry = get_entry(last);
+				SimpleEntry<T> &last_entry = last->*field;
 
-				last_entry.next = node;
+				last_entry.next = static_cast<E *>(node);
 				last = node;
 			}
 			else
@@ -53,12 +48,12 @@ namespace River
 			T *current;
 
 		public:
-			Iterator(SimpleList<T, offset> &list) : current(list.first) {}
+			Iterator(SimpleList &list) : current(list.first) {}
 
 			void step()
 			{
-				SimpleEntry<T> &entry = SimpleList<T, offset>::get_entry(current);
-				current = entry.next;
+				SimpleEntry<T> &entry = current->*field;
+				current = static_cast<T *>(entry.next);
 			}
 
 			operator bool()
@@ -95,6 +90,4 @@ namespace River
 			return Iterator(*this);
 		}
 	};
-
-	#define RIVER_SIMPLE_LIST(classname, field) SimpleList<classname, offsetof(classname, field)>
 };

@@ -17,7 +17,7 @@ namespace River
 		TextObject();
 		~TextObject();
 
-		typedef RIVER_SIMPLE_LIST(GlyphObject, text_entry) GlyphList;
+		typedef SimpleList<GlyphObject, GlyphObject, &GlyphObject::text_entry> GlyphList;
 
 		GlyphList glyph_list;
 

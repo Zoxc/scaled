@@ -14,7 +14,7 @@ namespace River
 		T* prev;
 	};
 
-	template<class T, size_t offset> class List
+	template<class T, class E, Entry<E> E::*field> class List
 	{
 	public:
 		List() : first(0), last(0) {}
@@ -22,26 +22,21 @@ namespace River
 		T *first;
 		T *last;
 
-		static Entry<T> &get_entry(T *node)
-		{
-			return *reinterpret_cast<Entry<T> *>((size_t)node + offset);
-		}
-
 		void append(T *node)
 		{
 			if(!node) 
 				assert(0);
 
-			Entry<T> &entry = get_entry(node);
+			Entry<E> &entry = node->*field;
 
 			entry.next = 0;
 
 			if(last)
 			{
-				Entry<T> &last_entry = get_entry(last);
+				Entry<E> &last_entry = last->*field;
 
-				entry.prev = last;
-				last_entry.next = node;
+				entry.prev = static_cast<E *>(last);
+				last_entry.next = static_cast<E *>(node);
 				last = node;
 			}
 			else
@@ -57,12 +52,12 @@ namespace River
 			T *current;
 
 		public:
-			Iterator(List<T, offset> &list) : current(list.first) {}
+			Iterator(List &list) : current(list.first) {}
 
 			void step()
 			{
-				Entry<T> &entry = List<T, offset>::get_entry(current);
-				current = entry.next;
+				Entry<E> &entry = current->*field;
+				current = static_cast<T *>(entry.next);
 			}
 
 			operator bool()
@@ -99,6 +94,4 @@ namespace River
 			return Iterator(*this);
 		}
 	};
-
-	#define RIVER_LIST(classname, field) List<classname, offsetof(classname, field)>
 };

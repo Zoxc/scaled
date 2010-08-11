@@ -65,7 +65,7 @@ namespace River
 
 		HashTable<K, HashedObjectList *, ObjectHash *, IntegerObjectHashFunctions> hash_table;
 
-		typedef RIVER_LIST(HashedObjectList, hash_entry) ObjectLists;
+		typedef List<HashedObjectList, HashedObjectList, &HashedObjectList::hash_entry> ObjectLists;
 
 		ObjectLists key_list;
 	public:

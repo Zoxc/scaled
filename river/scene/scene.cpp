@@ -5,11 +5,7 @@ namespace River
 {
 	namespace Scene
 	{
-		RIVER_LIST(Window, scene_entry) windows;
-
-		RIVER_LIST(State, scene_entry) states;
-		size_t state_count;
-		State **state_array;
+		WindowList windows;
 
 		GradientState gradient_state;
 		GlyphState glyph_state;

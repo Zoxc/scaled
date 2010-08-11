@@ -12,7 +12,7 @@ namespace River
 		
 		static Extends no_padding;
 
-		typedef RIVER_SIMPLE_LIST(Element, extend_entry) ExtendList;
+		typedef SimpleList<Element, Element, &Element::extend_entry> ExtendList;
 
 		enum BlockFlags
 		{
@@ -23,9 +23,9 @@ namespace River
 		BlockFlags block_flags;
 		Extends *padding;
 
-		typedef RIVER_LIST(Element, children_entry) ChildList;
+		typedef List<Element, Element, &Element::children_entry> ChildrenList;
 
-		ChildList children;
+		ChildrenList children;
 
 		void place(Layer *layer, int x, int y);
 	};

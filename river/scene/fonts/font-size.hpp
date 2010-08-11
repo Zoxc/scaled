@@ -54,7 +54,7 @@ namespace River
 
 	class Font;
 
-	typedef RIVER_SIMPLE_LIST(GlyphCache, entry) GlyphCacheList;
+	typedef SimpleList<GlyphCache, GlyphCache, &GlyphCache::entry> GlyphCacheList;
 
 	class FontSize:
 		public RefObject

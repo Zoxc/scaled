@@ -11,7 +11,7 @@ namespace River
 {
 	namespace Scene
 	{
-		typedef RIVER_LIST(Window, scene_entry) WindowList;
+		typedef List<Window, Window, &Window::scene_entry> WindowList;
 
 		extern WindowList windows;
 

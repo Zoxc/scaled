@@ -6,7 +6,7 @@
 namespace River
 {
 	template<class T> class ObjectList:
-		public RIVER_LIST(T, entry)
+		public List<T, Object, &T::entry>
 	{
 	public:
 		void render()

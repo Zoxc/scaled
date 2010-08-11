@@ -6,7 +6,7 @@ namespace River
 	
 	void Block::place(Layer *layer, int x, int y)
 	{
-		for(ChildList::Iterator i = children.begin(); i; i++)
+		for(ChildrenList::Iterator i = children.begin(); i; i++)
 			i().place(layer, i().rect.left + x, i().rect.top + y);
 	}
 };
