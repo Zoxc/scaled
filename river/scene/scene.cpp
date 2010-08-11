@@ -30,6 +30,14 @@ namespace River
 			glyph_state.size(width, height);
 		}
 
+		void raise_errors()
+		{
+			GLenum error = glGetError();
+
+			if(error)
+				assert(0);
+		}
+
 		void alloc()
 		{
 			glPixelStorei(GL_PACK_ALIGNMENT, 1);

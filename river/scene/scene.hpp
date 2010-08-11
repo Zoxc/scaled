@@ -23,6 +23,7 @@ namespace River
 		void render();
 		void alloc();
 		void size(int width, int height);
+		void raise_errors();
 		void free();
 	};
 };

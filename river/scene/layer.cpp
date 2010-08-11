@@ -19,9 +19,6 @@ namespace River
 		Scene::glyph_state.use();
 		glyph_object_hash.render();
 
-		GLenum error = glGetError();
-
-		if(error)
-			assert(0);
+		Scene::raise_errors();
 	}
 };
