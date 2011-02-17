@@ -1,0 +1,2 @@
+include $(root)/swl/Makefile.public
+include $(root)/freetype/Makefile.public
