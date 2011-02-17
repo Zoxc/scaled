@@ -1,4 +1,4 @@
-include $(root)/Makefile.conf
+-include $(root)/Makefile.conf
 
 CC = $(CROSS_COMPILE)gcc
 CXX = $(CROSS_COMPILE)g++
