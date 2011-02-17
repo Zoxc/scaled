@@ -1,4 +1,4 @@
-include $(root)/egl/Makefile.conf
+-include $(root)/egl/Makefile.conf
 
 LIBS += EGL
 

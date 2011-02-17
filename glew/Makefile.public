@@ -1,4 +1,4 @@
-include $(root)/glew/Makefile.conf
+-include $(root)/glew/Makefile.conf
 
 LIBS += $(LIBGLEW_NAME)
 

@@ -1,4 +1,4 @@
-include $(root)/gles/Makefile.conf
+-include $(root)/gles/Makefile.conf
 
 LIBS += GLESv2
 

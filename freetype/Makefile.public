@@ -1,4 +1,4 @@
-include $(root)/freetype/Makefile.conf
+-include $(root)/freetype/Makefile.conf
 
 LIBS += freetype
 
