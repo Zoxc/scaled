@@ -360,7 +360,7 @@ void draw_text(FT_Face face, int *x, int y, const char *text, render_char_t rend
 
 void draw_texts(FT_Face face, int *x, int y, const char *text)
 {
-	if(FT_Set_Char_Size(face, 0, 8 * 64, 96, 96))
+	if(FT_Set_Char_Size(face, 0, 10 * 64, 96, 96))
 		printf("FT_Set_Char_Size failed.");
 	
 	draw_text(face, x, y, text, render_char_mono, texture_from_mono);
@@ -369,7 +369,7 @@ void draw_texts(FT_Face face, int *x, int y, const char *text)
 	draw_text(face, x, y, text, render_char_nohint, texture_from_aa);
 	draw_text(face, x, y, text, render_char_lcd, texture_from_rgb2);
 	
-	if(FT_Set_Char_Size(face, 0, 8 * 64, 96 * 3, 96))
+	if(FT_Set_Char_Size(face, 0, 10 * 64, 96 * 3, 96))
 		printf("FT_Set_Char_Size failed.");
 	
 	draw_text(face, x, y, text, render_char_nohint, texture_from_rgb);
@@ -386,7 +386,7 @@ void draw_font(int *y, const char *filename)
 		printf("FT_New_Face failed.");
 	
 	int x = 10;
-	const char *text = "wreck-openpand~";
+	const char *text = "indication";
 	do_correct = false;
 	
 	draw_texts(face, &x, *y, text);
