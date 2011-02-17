@@ -44,7 +44,7 @@ namespace River
 			return true;
 		}
 
-		static Glyph *FontGlyphFunctions::create_value(FontSize *font_size, uint32_t key)
+		static Glyph *create_value(FontSize *font_size, uint32_t key)
 		{
 			return new Glyph(key, font_size);
 		}
