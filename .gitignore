@@ -1,4 +1,16 @@
-
+*.conf
+*.dll
+/blending/debug
+/river/debug
+/river/release
+/swl/debug
+/swl/release
+/release
+/debug
+/swl/msvc/Debug
+/swl/msvc/Release
+/scaled/Debug
+/scaled/Release
 /swl/swl-features.h
 /swl/Makefile.features
 /Makefile.features
