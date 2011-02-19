@@ -88,8 +88,6 @@ namespace River
 				V::render_key(i().key);
 
 				i().render();
-
-				Scene::raise_errors();
 			}
 		}
 	};
