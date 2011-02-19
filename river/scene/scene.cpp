@@ -1,5 +1,10 @@
+#include <iostream>
 #include "scene.hpp"
 #include "fonts/font.hpp"
+
+#ifdef SWL_CONTEXT_EGL
+	#include <EGL/egl.h>
+#endif
 
 namespace River
 {
@@ -28,10 +33,23 @@ namespace River
 
 		void raise_errors()
 		{
-			GLenum error = glGetError();
+			GLenum gl_error = glGetError();
 
-			if(error)
+			if(gl_error)
+			{
+				std::cout << "glGetError returned " << gl_error << "\n";
 				assert(0);
+			}
+
+			#ifdef SWL_CONTEXT_EGL
+				EGLint egl_error = eglGetError();
+
+				if(egl_error != EGL_SUCCESS)
+				{
+					std::cout << "eglGetError returned " << egl_error << "\n";
+					assert(0);
+				}
+			#endif
 		}
 
 		void alloc()
