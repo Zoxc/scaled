@@ -1,6 +1,7 @@
--include $(root)/freetype/Makefile.conf
+LIBFREETYPE_CFLAGS = `freetype-config --cflags`
+LIBFREETYPE_LDFLAGS = `freetype-config --libs`
 
-LIBS += freetype
+-include $(root)/freetype/Makefile.conf
 
 CFLAGS += $(LIBFREETYPE_CFLAGS)
 LDFLAGS += $(LIBFREETYPE_LDFLAGS)
