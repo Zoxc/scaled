@@ -11,7 +11,7 @@ namespace River
 	public:
 		void render()
 		{
-			for(typename ObjectList::Iterator i = ObjectList::begin(); i; i++)
+			for(typename ObjectList::Iterator i = ObjectList::begin(); i != ObjectList::end(); i++)
 			{
 				i().render();
 			}

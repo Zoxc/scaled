@@ -14,7 +14,7 @@ namespace River
 
 		void render()
 		{
-			for(WindowList::Iterator i = windows.begin(); i; i++)
+			for(WindowList::Iterator i = windows.begin(); i != windows.end(); i++)
 				i().render();
 		}
 

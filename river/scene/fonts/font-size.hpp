@@ -1,6 +1,7 @@
 #pragma once
-#include <stdint.h>
+#include <cstdint>
 #include "../../hash-table.hpp"
+#include "../../allocator.hpp"
 #include "../../simple-list.hpp"
 #include "../../ref-object.hpp"
 #include "glyph.hpp"
@@ -11,7 +12,7 @@ namespace River
 	class FontSize;
 
 	class FontGlyphFunctions:
-		public HashTableFunctions<uint32_t, Glyph *, FontSize *>
+		public HashTableFunctions<uint32_t, Glyph *, FontSize *, StdLibAllocator>
 	{
 	public:
 		static bool compare_key_value(uint32_t key, Glyph *value)
@@ -44,7 +45,7 @@ namespace River
 			return true;
 		}
 
-		static Glyph *create_value(FontSize *font_size, uint32_t key)
+		static Glyph *create_value(StdLibAllocator::Ref alloc_ref, FontSize *font_size, uint32_t key)
 		{
 			return new Glyph(key, font_size);
 		}

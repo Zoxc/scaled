@@ -14,29 +14,48 @@ namespace River
 		T* prev;
 	};
 
-	template<class T, class E, Entry<E> E::*field> class List
+	template<class T, class E = T, Entry<E> E::*field = &E::entry> class List
 	{
 	public:
 		List() : first(0), last(0) {}
 		
 		T *first;
 		T *last;
+		
+		bool empty()
+		{
+			return first == 0;
+		}
+		
+		void remove(T *node)
+		{
+			assert(node != 0);
+
+			Entry<E> &entry = node->*field;
+			
+			if(mirb_likely(entry.prev != 0))
+				(entry.prev->*field).next = entry.next;
+			else
+				first = static_cast<T *>(entry.next);
+
+			if(mirb_likely(entry.next != 0))
+				(entry.next->*field).prev = entry.prev;
+			else
+				last = static_cast<T *>(entry.prev);
+		}
 
 		void append(T *node)
 		{
-			if(!node) 
-				assert(0);
+			assert(node != 0);
 
 			Entry<E> &entry = node->*field;
 
 			entry.next = 0;
 
-			if(last)
+			if(last != 0)
 			{
-				Entry<E> &last_entry = last->*field;
-
 				entry.prev = static_cast<E *>(last);
-				last_entry.next = static_cast<E *>(node);
+				(last->*field).next = static_cast<E *>(node);
 				last = node;
 			}
 			else
@@ -52,46 +71,56 @@ namespace River
 			T *current;
 
 		public:
-			Iterator(List &list) : current(list.first) {}
+			Iterator(T *start) : current(start) {}
 
 			void step()
 			{
 				Entry<E> &entry = current->*field;
 				current = static_cast<T *>(entry.next);
 			}
-
-			operator bool()
+			
+			bool operator ==(const Iterator &other) const
 			{
-				return current != 0;
+				return current == other.current;
 			}
-
+			
+			bool operator !=(const Iterator &other) const
+			{
+				return current != other.current;
+			}
+			
 			T &operator ++()
 			{
 				step();
 				return *current;
 			}
-
+			
 			T &operator ++(int)
 			{
 				T *result = current;
 				step();
 				return *result;
 			}
-
-			T *operator*()
+			
+			T *operator*() const
 			{
 				return current;
 			}
 
-			T &operator ()()
+			T &operator ()() const
 			{
 				return *current;
 			}
 		};
-
+		
 		Iterator begin()
 		{
-			return Iterator(*this);
+			return Iterator(first);
+		}
+
+		Iterator end()
+		{
+			return Iterator(0);
 		}
 	};
 };

@@ -95,6 +95,7 @@
     <ClCompile Include="..\river\widgets\gradient.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\river\allocator.hpp" />
     <ClInclude Include="..\river\color.hpp" />
     <ClInclude Include="..\river\freetype.hpp" />
     <ClInclude Include="..\river\gles.hpp" />

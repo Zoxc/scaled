@@ -1,5 +1,6 @@
 #pragma once
 #include "../hash-table.hpp"
+#include "../allocator.hpp"
 #include "object-list.hpp"
 
 namespace River
@@ -22,7 +23,7 @@ namespace River
 		};
 
 		class IntegerObjectHashFunctions:
-			public HashTableFunctions<K, HashedObjectList *, ObjectHash *>
+			public HashTableFunctions<K, HashedObjectList *, ObjectHash *, StdLibAllocator>
 		{
 		public:
 			static bool compare_key_value(K key, HashedObjectList *value)
@@ -55,7 +56,7 @@ namespace River
 				return true;
 			}
 
-			static HashedObjectList *create_value(ObjectHash *hash, K key)
+			static HashedObjectList *create_value(StdLibAllocator::Ref alloc_ref, ObjectHash *hash, K key)
 			{
 				HashedObjectList *list =  new HashedObjectList(key);
 				hash->key_list.append(list);
@@ -63,7 +64,7 @@ namespace River
 			}
 		};
 
-		HashTable<K, HashedObjectList *, ObjectHash *, IntegerObjectHashFunctions> hash_table;
+		HashTable<K, HashedObjectList *, ObjectHash *, IntegerObjectHashFunctions, StdLibAllocator> hash_table;
 
 		typedef List<HashedObjectList, HashedObjectList, &HashedObjectList::hash_entry> ObjectLists;
 
@@ -79,15 +80,24 @@ namespace River
 
 		void remove(K key, V *object)
 		{
+			HashedObjectList *list = hash_table.get(key);
+			list->remove(object);
+
+			if(list->empty())
+			{
+				// TODO: Remove list from hashtable
+			}
 		}
 		
 		void render()
 		{
-			for(typename ObjectLists::Iterator i = key_list.begin(); i; i++)
+			for(typename ObjectLists::Iterator i = key_list.begin(); i != key_list.end(); i++)
 			{
 				V::render_key(i().key);
 
 				i().render();
+
+				Scene::raise_errors();
 			}
 		}
 	};

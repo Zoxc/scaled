@@ -1,13 +1,14 @@
 #pragma once
 #include "../../freetype.hpp"
 #include "../../hash-table.hpp"
+#include "../../allocator.hpp"
 #include "../../ref-object.hpp"
 #include "font-size.hpp"
 
 namespace River
 {
 	class FontSizeFunctions:
-		public HashTableFunctions<size_t, FontSize *, Font *>
+		public HashTableFunctions<size_t, FontSize *, Font *, StdLibAllocator>
 	{
 	public:
 		static bool compare_key_value(size_t key, FontSize *value)
@@ -40,7 +41,7 @@ namespace River
 			return true;
 		}
 
-		static FontSize *create_value(Font *font, size_t key)
+		static FontSize *create_value(StdLibAllocator::Ref alloc_ref, Font *font, size_t key)
 		{
 			return new FontSize(*font, key);
 		}
