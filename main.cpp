@@ -61,7 +61,7 @@ void frame()
 		caption << frames / ((get_ticks() - last_update) / 1000.f) << " fps";
 
 		fps.position(550, 15, font, color_black, caption.str().c_str());
-		fps.place(layer);
+		fps.attach(layer);
 
 		last_update = get_ticks();
 
@@ -87,10 +87,10 @@ int main(void)
 	font = Scene::basic_font.get_size(9);
 	
 	text_object.position(100, 200, font, color_black, "Hello there, this is just a bunch of text to stress the GPU a little.");
-	text_object.place(layer);
+	text_object.attach(layer);
 	
 	text_object2.position(100, 220, font, color_black, "And here is some more. Please don't waste time reading this.");
-	text_object2.place(layer);
+	text_object2.attach(layer);
 	
 	gradient1.object.vertical(0xFF3412, 0x23FF12);
 	gradient1.width = Element::Flags::Extend;
@@ -110,8 +110,6 @@ int main(void)
 	win.layers.append(layer);
 	Scene::windows.append(&win);
 	
-	frame();
-
 	Scene::raise_errors();
 
 	struct swl_event event;
@@ -138,7 +136,8 @@ int main(void)
 		
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-
+		
+		frame();
 		Scene::render();
 
 		swl_swap();

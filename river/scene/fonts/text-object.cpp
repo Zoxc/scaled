@@ -20,6 +20,7 @@ namespace River
 		while(object)
 		{
 			GlyphObject *temp = object;
+			object->deattch(layer);
 			object = object->text_entry.next;
 			delete temp;
 		}
@@ -62,9 +63,11 @@ namespace River
 		}
 	}
 
-	void TextObject::place(Layer *layer)
+	void TextObject::attach(Layer *layer)
 	{
+		this->layer = layer;
+
 		for(GlyphList::Iterator i = glyph_list.begin(); i != glyph_list.end(); ++i)
-			i().place(layer);
+			i().attach(layer);
 	}
 };

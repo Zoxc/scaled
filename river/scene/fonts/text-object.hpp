@@ -11,18 +11,18 @@ namespace River
 	{
 	private:
 		FontSize *font_size;
+		Layer *layer;
+		
+		typedef SimpleList<GlyphObject, GlyphObject, &GlyphObject::text_entry> GlyphList;
 
+		GlyphList glyph_list;
+		
 		void clear();
 	public:
 		TextObject();
 		~TextObject();
 
-		typedef SimpleList<GlyphObject, GlyphObject, &GlyphObject::text_entry> GlyphList;
-
-		GlyphList glyph_list;
-
 		void position(int x, int y, FontSize *font_size, color_t color, const char *text);
-		
-		void place(Layer *layer);
+		void attach(Layer *layer);
 	};
 };

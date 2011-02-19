@@ -34,10 +34,15 @@ namespace River
 		Rectangle::render();
 	}
 
-	void GlyphObject::place(Layer *layer)
+	void GlyphObject::attach(Layer *layer)
 	{
 		assert(offset < 3);
 
 		layer->glyph_object_hash.add(glyph->offsets[offset].cache, this);
+	}
+
+	void GlyphObject::deattch(Layer *layer)
+	{
+		layer->glyph_object_hash.remove(glyph->offsets[offset].cache, this);
 	}
 };
