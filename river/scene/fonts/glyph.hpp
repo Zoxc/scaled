@@ -18,7 +18,6 @@ namespace River
 	public:
 		Glyph(uint32_t code, FontSize *font_size);
 
-		FontSize *font_size;
 		uint32_t code;
 		
 		#pragma pack(push, 1)
