@@ -48,7 +48,7 @@ namespace River
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
 		glEnable(GL_BLEND);
-		glBlendFunc(GL_CONSTANT_COLOR, GL_ONE_MINUS_SRC_COLOR);
+		glBlendFuncSeparate(GL_CONSTANT_COLOR, GL_ONE_MINUS_SRC_COLOR, GL_CONSTANT_COLOR, GL_ONE_MINUS_SRC_COLOR); // TODO: Remove silly workaround thanks to ImgTec.
 		
 		ShaderState::use();
 
