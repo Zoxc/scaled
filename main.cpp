@@ -12,6 +12,10 @@
 #include "river/scene/fonts/text-object.hpp"
 #include "river/scene/fonts/glyph.hpp"
 
+#ifndef WIN32
+	#include <sys/time.h>
+#endif
+
 using namespace River;
 
 Gradient gradient1;
@@ -33,9 +37,7 @@ int get_ticks()
 {
 	#ifdef WIN32
 		return GetTickCount();
-	#endif
-
-	#ifdef POSIX
+	#else
 		struct timeval tv;
 
 		if(gettimeofday(&tv, 0) != 0)

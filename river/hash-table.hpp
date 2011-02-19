@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdlib>
 #include <cstring>
+#include "allocator.hpp"
 
 namespace River
 {
@@ -42,10 +43,10 @@ namespace River
 	{
 		private:
 			V *table;
+			S storage;
 			typename A::Storage alloc_ref;
 			size_t mask;
 			size_t entries;
-			S storage;
 
 			V store(V *table, size_t mask, K key, V value)
 			{

@@ -1,5 +1,5 @@
 #pragma once
-#include <cstdint>
+#include <stdint.h>
 #include "../../hash-table.hpp"
 #include "../../allocator.hpp"
 #include "../../simple-list.hpp"
