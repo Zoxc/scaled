@@ -89,13 +89,14 @@ namespace River
 
 			void expand()
 			{
-				size_t size = (this->mask + 1) << 1;
+				size_t old_size = this->mask + 1;
+				size_t size = old_size << 1;
 				size_t mask = size - 1;
 
 				V *table = (V *)alloc_ref.alloc(size * sizeof(V));
 				std::memset(table, 0, size * sizeof(V));
 
-				V *end = this->table + size;
+				V *end = this->table + old_size;
 
 				for(V *slot = this->table; slot != end; ++slot)
 				{
@@ -133,7 +134,7 @@ namespace River
 				mask = size - 1;
 
 				table = (V *)alloc_ref.alloc(size * sizeof(V));
-				memset(table, 0, size * sizeof(V));
+				std::memset(table, 0, size * sizeof(V));
 			}
 
 		protected:
