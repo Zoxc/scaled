@@ -5,8 +5,6 @@
 
 namespace River
 {
-	Glyph::filter_t Glyph::filter = &Glyph::filter_5;
-	
 	uint8_t Glyph::get_pixel(FT_GlyphSlot glyph, int x, int y)
 	{
 		if(x < 0 || x >= glyph->bitmap.width)
@@ -26,13 +24,13 @@ namespace River
 	uint8_t Glyph::filter_5_pixel(FT_GlyphSlot glyph, int x, int y)
 	{
 		size_t result =
-			get_pixel(glyph, x - 2, y) * 0 +
-			get_pixel(glyph, x - 1, y) * 0 +
-			get_pixel(glyph, x + 0, y) * 1 +
-			get_pixel(glyph, x + 1, y) * 0 +
-			get_pixel(glyph, x + 2, y) * 0;
+			get_pixel(glyph, x - 2, y) * 1 +
+			get_pixel(glyph, x - 1, y) * 3 +
+			get_pixel(glyph, x + 0, y) * 8 +
+			get_pixel(glyph, x + 1, y) * 3 +
+			get_pixel(glyph, x + 2, y) * 1;
 	
-		return result / 1;
+		return result / 16;
 	}
 
 	static int div_round_up(int dividend, int divisor)
@@ -42,54 +40,62 @@ namespace River
 
 	void Glyph::filter_5(FontSize *font_size, FT_GlyphSlot glyph)
 	{
-		const int border = 1;
-		const int offset = 2;
+		const int border = 2;
 
-		/*
-		 * Add 2 pixel borders on each size and align the size to pixels.
-		 */
-		size_t width = div_round_up(glyph->bitmap.width + border * 2, 3);
+		height = glyph->bitmap.rows;
+		
+		size_t width = glyph->bitmap.width + border * 2;
+		size_t raster_width = div_round_up(width, 3);
 
-		this->width = width;
-		this->height = glyph->bitmap.rows;
+		offsets[0].width = raster_width;
 		
-		/*
-		 * Convert previous width to subpixels and add 2 subpixels used to offset the glyph.
-		 */
-		width = width * 3 + offset;
-		
-		offset_x = glyph->bitmap_left - border - offset;
+		offset_x = glyph->bitmap_left - border;
 		offset_y = glyph->bitmap_top;
 
-		uint8_t *raster = (uint8_t *)malloc(width * height);
+		uint8_t *raster = (uint8_t *)malloc(raster_width * 3 * height);
 		uint8_t *pixel = raster;
 		
 		for(size_t y = 0; y < height; y++)
 		{
-			for(size_t x = 0; x < width; x++)
+			for(size_t x = 0; x < (raster_width * 3); x++)
 			{
-				*pixel++ = filter_5_pixel(glyph, x - border - offset, y);
+				*pixel++ = filter_5_pixel(glyph, x - border, y);
 			}
 		}
 		
 		advance = glyph->advance.x >> 6;
+		
+		offsets[0].cache = font_size->place(&offsets[0], height, raster);
 
-		place(font_size, width, height, raster);
+		for(size_t i = 1; i < 3; ++i)
+		{
+			size_t variant_width = div_round_up(width + i, 3);
+			offsets[i].width = variant_width;
+
+			uint8_t *variant_raster = (uint8_t *)malloc(variant_width * 3 * height);
+
+			uint8_t *variant_pixel = variant_raster;
+			
+			for(size_t y = 0; y < height; y++)
+			{
+				for(size_t x = 0; x < i; x++)
+					*variant_pixel++ = 0;
+
+				for(size_t x = 0; x < (variant_width * 3 - i); x++)
+				{
+					if(x < width)
+						*variant_pixel++ = raster[(y * raster_width * 3) + x];
+					else
+						*variant_pixel++ = 0;
+				}
+			}
+
+			offsets[i].cache = font_size->place(&offsets[i], height, variant_raster);
+
+			free(variant_raster);
+		}
 
 		free(raster);
-	}
-
-	void Glyph::filter_dummy(FontSize *font_size, FT_GlyphSlot glyph)
-	{
-		width = glyph->bitmap.width;
-		height = glyph->bitmap.rows;
-		
-		offset_x = glyph->bitmap_left;
-		offset_y = glyph->bitmap_top;
-
-		advance = glyph->advance.x >> 6;
-
-		place(font_size, width, height, glyph->bitmap.buffer);
 	}
 
 	Glyph::Glyph(uint32_t code, FontSize *font_size) : code(code)
@@ -105,11 +111,6 @@ namespace River
 		assert(FT_Load_Char(face, code, FT_LOAD_FORCE_AUTOHINT) == 0);
 		assert(FT_Render_Glyph(face->glyph, FT_RENDER_MODE_NORMAL) == 0);
 
-		(this->*filter)(font_size, face->glyph);
-	}
-
-	void Glyph::place(FontSize *font_size, size_t width, size_t height, void *raster)
-	{
-		cache = font_size->place(this, width, height, raster);
+		filter_5(font_size, face->glyph);
 	}
 };

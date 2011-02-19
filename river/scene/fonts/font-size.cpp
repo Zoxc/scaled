@@ -6,14 +6,14 @@ namespace River
 	{
 	}
 
-	GlyphCache *FontSize::place(Glyph *glyph, size_t width, size_t height, void *raster)
+	GlyphCache *FontSize::place(Glyph::Variation *variation, size_t height, uint8_t *raster)
 	{
-		assert(width <= GlyphCache::width && height <= GlyphCache::height);
+		assert(variation->width <= GlyphCache::width && height <= GlyphCache::height);
 
 		if(!current_cache)
 			current_cache = new GlyphCache();
 
-		while(!current_cache->place(glyph, width, height, raster))
+		while(!current_cache->place(variation, height, raster))
 		{
 			glyph_caches.append(current_cache);
 			current_cache = new GlyphCache();

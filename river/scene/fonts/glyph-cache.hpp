@@ -1,11 +1,12 @@
 #pragma once
+#include <stdint.h>
 #include "../../gles.hpp"
 #include "../../simple-list.hpp"
 #include "../../ref-object.hpp"
+#include "glyph.hpp"
 
 namespace River
 {
-	class Glyph;
 	class FontSize;
 
 	class GlyphCache
@@ -21,12 +22,11 @@ namespace River
 
 		static const size_t width = 256;
 		static const size_t height = 128;
-		static const GLfloat point_size;
 
 		GLuint texture;
 		SimpleEntry<GlyphCache> entry;
 
-		bool place(Glyph *glyph, size_t width, size_t height, void *raster);
+		bool place(Glyph::Variation *variation, size_t height, uint8_t *raster);
 	};
 
 };

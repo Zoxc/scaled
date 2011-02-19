@@ -45,9 +45,14 @@ namespace River
 			GlyphObject *object = new GlyphObject;
 
 			int offset = left + glyph->offset_x;
+			int subpixel_offset = offset % 3;
+
+			// Make sure it's a positive number
+			if(subpixel_offset < 0)
+				subpixel_offset += 3;
 			
-			object->set_glyph(glyph, offset % 3, color);
-			object->position(x + offset / 3, y - glyph->offset_y, glyph->width, glyph->height);
+			object->set_glyph(glyph, subpixel_offset, color);
+			object->position(x + offset / 3, y - glyph->offset_y, glyph->offsets[subpixel_offset].width, glyph->height);
 
 			glyph_list.append(object);
 

@@ -1,7 +1,7 @@
 #pragma once
 #include <stdint.h>
+#include "../../gles.hpp"
 #include "../../freetype.hpp"
-#include "glyph-cache.hpp"
 
 namespace River
 {
@@ -11,23 +11,15 @@ namespace River
 	class Glyph
 	{
 	private:
-		typedef void (Glyph::*filter_t)(FontSize *font_size, FT_GlyphSlot glyph);
-		
 		static uint8_t get_pixel(FT_GlyphSlot glyph, int x, int y);
 
 		static uint8_t filter_5_pixel(FT_GlyphSlot glyph, int x, int y);
-		void filter_5(FontSize *font_size, FT_GlyphSlot glyph);
-
-		void filter_dummy(FontSize *font_size, FT_GlyphSlot glyph);
-
-		void place(FontSize *font_size, size_t width, size_t height, void *raster);
-
-		static filter_t filter;
+		void filter_5(FontSize *font_size, FT_GlyphSlot ft_glyph);
 	public:
 		Glyph(uint32_t code, FontSize *font_size);
 
+		FontSize *font_size;
 		uint32_t code;
-		GlyphCache *cache;
 		
 		#pragma pack(push, 1)
 		struct TexCoord {
@@ -36,9 +28,16 @@ namespace River
 		};
 		#pragma pack(pop)
 
-		TexCoord coords[4];
+		struct Variation {
+			size_t width;
+			GlyphCache *cache;
+			TexCoord coords[4];
+		};
 
-		size_t width;
+		Variation offsets[3];
+
+		Variation *get_variation(size_t offset);
+
 		size_t height;
 
 		int offset_x;

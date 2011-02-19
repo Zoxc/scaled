@@ -69,7 +69,7 @@ namespace River
 		GlyphCacheList glyph_caches;
 		GlyphCache *current_cache;
 
-		GlyphCache *place(Glyph *glyph, size_t width, size_t height, void *raster);
+		GlyphCache *place(Glyph::Variation *variation, size_t height, uint8_t *raster);
 
 		Glyph *get_glyph(uint32_t code);
 	};
