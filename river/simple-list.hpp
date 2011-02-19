@@ -1,5 +1,5 @@
 #pragma once
-#include <assert.h>
+#include <cassert>
 
 namespace River
 {
@@ -11,28 +11,28 @@ namespace River
 		T *next;
 	};
 
-	template<class T, class E, SimpleEntry<E> E::*field> class SimpleList
+	template<class T, class E = T, SimpleEntry<E> E::*field = &E::entry> class SimpleList
 	{
 	public:
 		SimpleList() : first(0), last(0) {}
 		
 		T *first;
 		T *last;
+		
+		bool empty()
+		{
+			return first == 0;
+		}
 
 		void append(T *node)
 		{
-			if(!node) 
-				assert(0);
-
-			SimpleEntry<T> &entry = node->*field;
-
-			entry.next = 0;
-
-			if(last)
+			assert(node != 0);
+			
+			(node->*field).next = 0;
+			
+			if(last != 0)
 			{
-				SimpleEntry<T> &last_entry = last->*field;
-
-				last_entry.next = static_cast<E *>(node);
+				(last->*field).next = static_cast<E *>(node);
 				last = node;
 			}
 			else
@@ -48,46 +48,55 @@ namespace River
 			T *current;
 
 		public:
-			Iterator(SimpleList &list) : current(list.first) {}
+			Iterator(T *start) : current(start) {}
 
 			void step()
 			{
-				SimpleEntry<T> &entry = current->*field;
-				current = static_cast<T *>(entry.next);
+				current = static_cast<T *>((current->*field).next);
 			}
-
-			operator bool()
+			
+			bool operator ==(const Iterator &other) const
 			{
-				return current != 0;
+				return current == other.current;
 			}
-
+			
+			bool operator !=(const Iterator &other) const
+			{
+				return current != other.current;
+			}
+			
 			T &operator ++()
 			{
 				step();
 				return *current;
 			}
-
+			
 			T &operator ++(int)
 			{
 				T *result = current;
 				step();
 				return *result;
 			}
-
-			T *operator*()
+			
+			T *operator*() const
 			{
 				return current;
 			}
 
-			T &operator ()()
+			T &operator ()() const
 			{
 				return *current;
 			}
 		};
-
+		
 		Iterator begin()
 		{
-			return Iterator(*this);
+			return Iterator(first);
+		}
+
+		Iterator end()
+		{
+			return Iterator(0);
 		}
 	};
 };

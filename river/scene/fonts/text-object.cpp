@@ -64,7 +64,7 @@ namespace River
 
 	void TextObject::place(Layer *layer)
 	{
-		for(GlyphList::Iterator i = glyph_list.begin(); i; i++)
+		for(GlyphList::Iterator i = glyph_list.begin(); i != glyph_list.end(); ++i)
 			i().place(layer);
 	}
 };

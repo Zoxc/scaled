@@ -97,13 +97,13 @@ namespace River
 				 */
 				size_t weight = 0;
 
-				for(ExtendList::Iterator i = extends.begin(); i; i++)
+				for(ExtendList::Iterator i = extends.begin(); i != extends.end(); ++i)
 					weight += i().weight;
 
 				/*
 				 * Layout elements.
 				 */
-				for(ExtendList::Iterator i = extends.begin(); i; i++)
+				for(ExtendList::Iterator i = extends.begin(); i != extends.end(); ++i)
 				{
 					i().rect.width += width * i().weight / weight;
 
