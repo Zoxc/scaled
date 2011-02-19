@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <math.h>
+#include <sstream>
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
 #include "swl/swl.h"
@@ -20,10 +21,51 @@ Layer *layer;
 Extends padding(10, 10, 10, 10);
 GradientObject *quad;
 TextObject text_object;
+TextObject fps;
+TextObject text_object2;
 Extends test(20, 20, 20, 20);
+FontSize *font;
 
 const int width = 640;
 const int height = 400;
+
+int get_ticks()
+{
+	#ifdef WIN32
+		return GetTickCount();
+	#endif
+
+	#ifdef POSIX
+		struct timeval tv;
+
+		if(gettimeofday(&tv, 0) != 0)
+			return 0;
+
+		return tv.tv_sec * 1000 + tv.tv_usec / 1000;
+	#endif
+}
+
+void frame()
+{
+	static size_t frames;
+	static size_t last_update;
+
+	frames++;
+
+	if(get_ticks() - last_update > 100)
+	{
+		std::stringstream caption;
+
+		caption << frames / ((get_ticks() - last_update) / 1000.f) << " fps";
+
+		fps.position(550, 15, font, color_black, caption.str().c_str());
+		fps.place(layer);
+
+		last_update = get_ticks();
+
+		frames = 0;
+	}
+}
 
 int main(void)
 {
@@ -40,10 +82,13 @@ int main(void)
 
 	layer = new Layer();
 
-	FontSize *font = Scene::basic_font.get_size(12);
-
-	text_object.position(100, 200, font, color_black, "Hello world!");
+	font = Scene::basic_font.get_size(9);
+	
+	text_object.position(100, 200, font, color_black, "Hello there, this is just a bunch of text to stress the GPU a little.");
 	text_object.place(layer);
+	
+	text_object2.position(100, 220, font, color_black, "And here is some more. Please don't waste time reading this.");
+	text_object2.place(layer);
 	
 	gradient1.object.vertical(0xFF3412, 0x23FF12);
 	gradient1.width = Element::Flags::Extend;
@@ -62,6 +107,10 @@ int main(void)
 	
 	win.layers.append(layer);
 	Scene::windows.append(&win);
+	
+	frame();
+
+	Scene::raise_errors();
 
 	struct swl_event event;
 	
