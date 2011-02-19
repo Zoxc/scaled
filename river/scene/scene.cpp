@@ -30,8 +30,8 @@ namespace River
 		{
 			GLenum error = glGetError();
 
-			if(error);
-				//assert(0);
+			if(error)
+				assert(0);
 		}
 
 		void alloc()
