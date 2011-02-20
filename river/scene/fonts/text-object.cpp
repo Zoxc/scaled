@@ -28,6 +28,8 @@ namespace River
 			delete object;
 		}
 
+		glyph_list.clear();
+
 		if(font_size)
 		{
 			font_size->deref();

@@ -18,6 +18,12 @@ namespace River
 		
 		T *first;
 		T *last;
+
+		void clear()
+		{
+			first = 0;
+			last = 0;
+		}
 		
 		bool empty()
 		{
