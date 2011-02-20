@@ -54,13 +54,13 @@ void frame()
 
 	frames++;
 
-	if(get_ticks() - last_update > 100)
+	if(get_ticks() - last_update > 250)
 	{
 		std::stringstream caption;
 
 		caption << frames / ((get_ticks() - last_update) / 1000.f) << " fps";
 
-		fps.position(550, 15, font, color_black, caption.str().c_str());
+		fps.position(550, 70, font, color_black, caption.str().c_str());
 		fps.attach(layer);
 
 		last_update = get_ticks();
