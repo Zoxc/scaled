@@ -15,14 +15,15 @@ namespace River
 
 	void TextObject::clear()
 	{
+		GlyphList::Iterator i = glyph_list.begin();
 		GlyphObject *object = glyph_list.first;
 
-		while(object)
+		while(i != glyph_list.end())
 		{
-			GlyphObject *temp = object;
+			GlyphObject *object = *i;
 			object->deattch(layer);
-			object = object->text_entry.next;
-			delete temp;
+			++i;
+			delete object;
 		}
 
 		if(font_size)
