@@ -4,7 +4,7 @@
 
 namespace River
 {
-	TextObject::TextObject() : font_size(0)
+	TextObject::TextObject() : font_size(0), layer(0)
 	{
 	}
 
@@ -20,13 +20,21 @@ namespace River
 		while(object)
 		{
 			GlyphObject *temp = object;
-			object->deattch(layer);
+
+			if(layer)
+				object->deattach(layer);
+
 			object = object->text_entry.next;
 			delete temp;
 		}
 
 		if(font_size)
+		{
 			font_size->deref();
+			font_size = 0;
+		}
+
+		layer = 0;
 	}
 
 	void TextObject::position(int x, int y, FontSize *font_size, color_t color, const char *text)
@@ -65,6 +73,8 @@ namespace River
 
 	void TextObject::attach(Layer *layer)
 	{
+		assert(this->layer == 0);
+
 		this->layer = layer;
 
 		for(GlyphList::Iterator i = glyph_list.begin(); i != glyph_list.end(); ++i)

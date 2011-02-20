@@ -41,7 +41,7 @@ namespace River
 		layer->glyph_object_hash.add(glyph->offsets[offset].cache, this);
 	}
 
-	void GlyphObject::deattch(Layer *layer)
+	void GlyphObject::deattach(Layer *layer)
 	{
 		layer->glyph_object_hash.remove(glyph->offsets[offset].cache, this);
 	}

@@ -27,6 +27,6 @@ namespace River
 		void render();
 		static void render_key(GlyphCache *cache);
 		void attach(Layer *layer);
-		void deattch(Layer *layer);
+		void deattach(Layer *layer);
 	};
 };
