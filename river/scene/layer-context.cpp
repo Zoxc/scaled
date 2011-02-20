@@ -3,7 +3,7 @@
 
 namespace River
 {
-	LayerContext::LayerContext(MemoryPool &memory_pool) : memory_pool(memory_pool), map(2, false, memory_pool)
+	LayerContext::LayerContext(MemoryPool &memory_pool) : map(2, false, memory_pool), memory_pool(memory_pool)
 	{
 	}
 

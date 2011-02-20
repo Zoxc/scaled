@@ -11,6 +11,7 @@ TARGET = $(CFG)/libriver.a
 SOURCES = \
 	gles.cpp \
 	color.cpp \
+	memory-pool.cpp \
 	layout/block.cpp \
 	layout/element.cpp \
 	layout/extends.cpp \
@@ -20,13 +21,16 @@ SOURCES = \
 	scene/fonts/font-size.cpp \
 	scene/fonts/glyph.cpp \
 	scene/fonts/glyph-cache.cpp \
+	scene/fonts/glyph-context.cpp \
 	scene/fonts/glyph-object.cpp \
 	scene/fonts/glyph-state.cpp \
 	scene/fonts/text-object.cpp \
 	scene/gradient-object.cpp \
 	scene/gradient-state.cpp \
 	scene/layer.cpp \
+	scene/layer-context.cpp \
 	scene/object.cpp \
+	scene/buffer.cpp \
 	scene/rectangle.cpp \
 	scene/scene.cpp \
 	scene/state.cpp \

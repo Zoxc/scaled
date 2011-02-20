@@ -52,9 +52,9 @@ namespace River
 			}
 		};
 
-		typedef HashTable<K, V *, bool, Functions, MemoryPool> HashTable;
+		typedef HashTable<K, V *, bool, Functions, MemoryPool> Table;
 
-		HashTable table;
+		Table table;
 
 		ObjectHash(MemoryPool &memory_pool) : table(1, false, memory_pool) {}
 	};

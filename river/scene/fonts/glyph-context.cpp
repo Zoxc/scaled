@@ -115,7 +115,7 @@ namespace River
 	{
 		Content *content = new Content;
 
-		for(GlyphObjectHash::HashTable::Iterator i = glyph_objects.table.begin(); i != glyph_objects.table.end(); ++i)
+		for(GlyphObjectHash::Table::Iterator i = glyph_objects.table.begin(); i != glyph_objects.table.end(); ++i)
 		{
 			GlyphObjectList *list = *i;
 

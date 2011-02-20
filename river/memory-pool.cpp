@@ -1,9 +1,6 @@
 #include "memory-pool.hpp"
 #include <new>
-
-#ifdef VALGRIND
-	#include <cstring>
-#endif
+#include <cstring>
 
 #ifdef WIN32
 	#ifndef NOMINMAX
@@ -11,6 +8,8 @@
 	#endif
 	#define WIN32_LEAN_AND_MEAN
 	#include <windows.h>
+#else
+	#include <sys/mman.h>
 #endif
 
 static const size_t memory_align = 8;
@@ -25,7 +24,7 @@ namespace River
 {
 	MemoryPool::~MemoryPool()
 	{
-		auto page = pages.begin();
+		SimplerList<Page>::Iterator page = pages.begin();
 
 		while(page != pages.end())
 		{
@@ -93,7 +92,7 @@ namespace River
 	{
 		void *result = alloc(new_size);
 			
-		memcpy(result, mem, old_size);
+		std::memcpy(result, mem, old_size);
 			
 		return result;
 	}
