@@ -2,11 +2,12 @@
 #include <algorithm>
 #include "../list.hpp"
 #include "../simple-list.hpp"
-#include "../scene/layer.hpp"
 #include "extends.hpp"
 
 namespace River
 {
+	class LayerContext;
+
 	class Element
 	{
 	public:
@@ -61,7 +62,7 @@ namespace River
 		/*
 		 * place() expects the elements position to be stored in rect.
 		 */
-		virtual void place(Layer *layer, int x, int y) = 0;
+		virtual void place(LayerContext *layer, int x, int y) = 0;
 
 		/*
 		 * place() expects the elements position to be stored in rect.

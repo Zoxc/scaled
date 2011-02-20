@@ -35,8 +35,8 @@ namespace River
 		Rectangle::render();
 	}
 
-	void GradientObject::place(Layer *layer)
+	void GradientObject::place(LayerContext *layer)
 	{
-		layer->gradient_object_list.append(this);
+		// TODO: layer->gradient_object_list.append(this);
 	}
 };

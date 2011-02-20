@@ -8,8 +8,10 @@
 #include "river/layout/block.hpp"
 #include "river/widgets/gradient.hpp"
 #include "river/scene/scene.hpp"
+#include "river/scene/layer-context.hpp"
 #include "river/scene/gradient-object.hpp"
 #include "river/scene/fonts/text-object.hpp"
+#include "river/scene/fonts/glyph-context.hpp"
 #include "river/scene/fonts/glyph.hpp"
 
 #ifndef WIN32
@@ -82,32 +84,42 @@ int main(void)
 	Scene::alloc();
 	Scene::size(width, height);
 
-	layer = new Layer();
+	{
+		MemoryPool memory_pool;
+		LayerContext layer_context(memory_pool);
 
-	font = Scene::basic_font.get_size(9);
-	
-	text_object.position(100, 200, font, color_black, "Hello there, this is just a bunch of text to stress the GPU a little.");
-	text_object.attach(layer);
-	
-	text_object2.position(100, 220, font, color_black, "And here is some more. Please don't waste time reading this.");
-	text_object2.attach(layer);
-	
-	gradient1.object.vertical(0xFF3412, 0x23FF12);
-	gradient1.width = Element::Flags::Extend;
-	gradient1.height = 5;
-	gradient1.margins = &test;
+		font = Scene::basic_font.get_size(9);
 
-	gradient2.object.horizontal(0xFF3412, 0x23FF12);
-	gradient2.width = Element::Flags::Extend;
-	gradient2.height = Element::Flags::Extend;
+		GlyphContext *glyph_context = GlyphContext::acquire(&layer_context);
 
-	win.element.padding = &padding;
-	win.element.children.append(&gradient1);
-	win.element.children.append(&gradient2);
-	win.element.layout(width, height);
-	win.element.place(layer, 0, 0);
+		glyph_context->render_glyph(&layer_context, 10, 10, font->get_glyph('A'), 0, color_black);
+
+	/*
+		text_object.position(100, 200, font, color_black, "Hello there, this is just a bunch of text to stress the GPU a little.");
+		text_object.attach(layer);
 	
-	win.layers.append(layer);
+		text_object2.position(100, 220, font, color_black, "And here is some more. Please don't waste time reading this.");
+		text_object2.attach(layer);
+	*/
+		gradient1.object.vertical(0xFF3412, 0x23FF12);
+		gradient1.width = Element::Flags::Extend;
+		gradient1.height = 5;
+		gradient1.margins = &test;
+
+		gradient2.object.horizontal(0xFF3412, 0x23FF12);
+		gradient2.width = Element::Flags::Extend;
+		gradient2.height = Element::Flags::Extend;
+
+		win.element.padding = &padding;
+		win.element.children.append(&gradient1);
+		win.element.children.append(&gradient2);
+		win.element.layout(width, height);
+		win.element.place(&layer_context, 0, 0);
+		
+		layer = layer_context.render();
+		win.layers.append(layer);
+	}
+
 	Scene::windows.append(&win);
 	
 	Scene::raise_errors();
@@ -124,9 +136,9 @@ int main(void)
 				goto quit;
 
 			case SWLE_RESIZE:
-				Scene::size(event.size_event.width, event.size_event.height);
+				/*Scene::size(event.size_event.width, event.size_event.height);
 				win.element.layout(event.size_event.width, event.size_event.height);
-				win.element.place(layer, 0, 0);
+				win.element.place(layer_context, 0, 0);*/
 				break;
 
 			default:
@@ -137,7 +149,7 @@ int main(void)
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		
-		frame();
+		//frame();
 		Scene::render();
 
 		swl_swap();

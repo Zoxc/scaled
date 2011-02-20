@@ -38,11 +38,11 @@ namespace River
 	{
 		assert(offset < 3);
 
-		layer->glyph_object_hash.add(glyph->offsets[offset].cache, this);
+		//layer->glyph_object_hash.add(glyph->offsets[offset].cache, this);
 	}
 
 	void GlyphObject::deattach(Layer *layer)
 	{
-		layer->glyph_object_hash.remove(glyph->offsets[offset].cache, this);
+		//layer->glyph_object_hash.remove(glyph->offsets[offset].cache, this);
 	}
 };

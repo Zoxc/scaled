@@ -10,7 +10,7 @@ namespace River
 	public:
 		GradientObject object;
 
-		void place(Layer *layer, int x, int y);
+		void place(LayerContext *layer, int x, int y);
 	};
 
 };

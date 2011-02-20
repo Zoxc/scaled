@@ -137,17 +137,6 @@ namespace River
 				std::memset(table, 0, size * sizeof(V));
 			}
 
-		protected:
-			V* get_table()
-			{
-				return table;
-			}
-
-			size_t get_size()
-			{
-				return mask + 1;
-			}
-
 		public:
 			HashTable(size_t initial, S storage) : storage(storage), alloc_ref(A::Storage::def_ref())
 			{
@@ -209,6 +198,91 @@ namespace River
 					increase();
 
 				return existing;
+			}
+			
+			V* get_table()
+			{
+				return table;
+			}
+
+			size_t get_size()
+			{
+				return mask + 1;
+			}
+			
+			class Iterator
+			{
+			private:
+				V *slot;
+				V *end;
+				V current;
+
+				void next_slot()
+				{
+					while(slot != end && !T::valid_value(*slot))
+						slot++;
+				}
+
+			public:
+				Iterator(V *start, V *end) : slot(start), end(end), current(T::invalid_value()){}
+
+				void step()
+				{
+					if(T::valid_value(current))
+					{
+						current = T::get_value_next(current);
+
+						if(T::valid_value(current))
+							return;
+					}
+
+					do
+					{
+						if(slot == end)
+							return;
+
+						current = *slot++;
+					}
+					while(!T::valid_value(current));
+				}
+				
+				bool operator ==(const Iterator &other) const
+				{
+					return current == other.current && slot == other.slot;
+				}
+				
+				bool operator !=(const Iterator &other) const
+				{
+					return current != other.current && slot == other.slot;
+				}
+				
+				V operator ++()
+				{
+					step();
+					return current;
+				}
+				
+				V operator ++(int)
+				{
+					V result = current;
+					step();
+					return result;
+				}
+				
+				V operator*() const
+				{
+					return current;
+				}
+			};
+			
+			Iterator begin()
+			{
+				return Iterator(get_table(), get_table() + get_size());
+			}
+
+			Iterator end()
+			{
+				return Iterator(get_table() + get_size(), get_table() + get_size());
 			}
 	};
 };

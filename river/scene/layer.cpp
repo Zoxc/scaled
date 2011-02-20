@@ -13,11 +13,7 @@ namespace River
 
 	void Layer::render()
 	{
-		Scene::gradient_state.use();
-		gradient_object_list.render();
 		
-		Scene::glyph_state.use();
-		glyph_object_hash.render();
 
 		Scene::raise_errors();
 	}

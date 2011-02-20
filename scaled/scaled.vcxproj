@@ -44,6 +44,7 @@
       <AdditionalIncludeDirectories>X:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.07.27.0484\Builds\OGLES2\Include;B:\Programmering\scaled\swl;B:\Programmering\Libraries\freetype\include;B:\Programmering\Libraries\freetype\include\freetype2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <AdditionalOptions>/wd4355 %(AdditionalOptions)</AdditionalOptions>
+      <PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -59,6 +60,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>X:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.07.27.0484\Builds\OGLES2\Include;B:\Programmering\scaled\swl;B:\Programmering\Libraries\freetype\include;B:\Programmering\Libraries\freetype\include\freetype2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/w04355 %(AdditionalOptions)</AdditionalOptions>
+      <PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -77,15 +79,19 @@
     <ClCompile Include="..\river\layout\extends.cpp" />
     <ClCompile Include="..\river\layout\flow.cpp" />
     <ClCompile Include="..\river\layout\window.cpp" />
+    <ClCompile Include="..\river\memory-pool.cpp" />
+    <ClCompile Include="..\river\scene\buffer.cpp" />
     <ClCompile Include="..\river\scene\fonts\font-size.cpp" />
     <ClCompile Include="..\river\scene\fonts\font.cpp" />
     <ClCompile Include="..\river\scene\fonts\glyph-cache.cpp" />
+    <ClCompile Include="..\river\scene\fonts\glyph-context.cpp" />
     <ClCompile Include="..\river\scene\fonts\glyph-object.cpp" />
     <ClCompile Include="..\river\scene\fonts\glyph-state.cpp" />
     <ClCompile Include="..\river\scene\fonts\glyph.cpp" />
     <ClCompile Include="..\river\scene\fonts\text-object.cpp" />
     <ClCompile Include="..\river\scene\gradient-object.cpp" />
     <ClCompile Include="..\river\scene\gradient-state.cpp" />
+    <ClCompile Include="..\river\scene\layer-context.cpp" />
     <ClCompile Include="..\river\scene\layer.cpp" />
     <ClCompile Include="..\river\scene\object.cpp" />
     <ClCompile Include="..\river\scene\rectangle.cpp" />
@@ -97,6 +103,7 @@
   <ItemGroup>
     <ClInclude Include="..\river\allocator.hpp" />
     <ClInclude Include="..\river\color.hpp" />
+    <ClInclude Include="..\river\counted-simple-list.hpp" />
     <ClInclude Include="..\river\freetype.hpp" />
     <ClInclude Include="..\river\gles.hpp" />
     <ClInclude Include="..\river\hash-table.hpp" />
@@ -106,16 +113,20 @@
     <ClInclude Include="..\river\layout\flow.hpp" />
     <ClInclude Include="..\river\layout\window.hpp" />
     <ClInclude Include="..\river\list.hpp" />
+    <ClInclude Include="..\river\memory-pool.hpp" />
     <ClInclude Include="..\river\ref-object.hpp" />
+    <ClInclude Include="..\river\scene\buffer.hpp" />
     <ClInclude Include="..\river\scene\fonts\font-size.hpp" />
     <ClInclude Include="..\river\scene\fonts\font.hpp" />
     <ClInclude Include="..\river\scene\fonts\glyph-cache.hpp" />
+    <ClInclude Include="..\river\scene\fonts\glyph-context.hpp" />
     <ClInclude Include="..\river\scene\fonts\glyph-object.hpp" />
     <ClInclude Include="..\river\scene\fonts\glyph-state.hpp" />
     <ClInclude Include="..\river\scene\fonts\glyph.hpp" />
     <ClInclude Include="..\river\scene\fonts\text-object.hpp" />
     <ClInclude Include="..\river\scene\gradient-object.hpp" />
     <ClInclude Include="..\river\scene\gradient-state.hpp" />
+    <ClInclude Include="..\river\scene\layer-context.hpp" />
     <ClInclude Include="..\river\scene\object-hash.hpp" />
     <ClInclude Include="..\river\scene\layer.hpp" />
     <ClInclude Include="..\river\scene\object.hpp" />
@@ -125,6 +136,7 @@
     <ClInclude Include="..\river\scene\shader-state.hpp" />
     <ClInclude Include="..\river\scene\state.hpp" />
     <ClInclude Include="..\river\simple-list.hpp" />
+    <ClInclude Include="..\river\simpler-list.hpp" />
     <ClInclude Include="..\river\widgets\gradient.hpp" />
   </ItemGroup>
   <ItemGroup>

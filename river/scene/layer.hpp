@@ -10,14 +10,21 @@ namespace River
 	class Layer
 	{
 	public:
+		class Content
+		{
+			public:
+				virtual void render() = 0;
+
+				virtual ~Content()
+				{
+				}
+		};
+
 		Layer();
 		~Layer();
 
 		Entry<Layer> window_entry;
 		
-		ObjectList<GradientObject> gradient_object_list;
-		ObjectHash<GlyphCache *, GlyphObject> glyph_object_hash;
-
 		void render();
 	};
 };

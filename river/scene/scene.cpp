@@ -1,6 +1,7 @@
 #include <iostream>
 #include "scene.hpp"
 #include "fonts/font.hpp"
+#include "buffer.hpp"
 
 #ifdef SWL_CONTEXT_EGL
 	#include <EGL/egl.h>
@@ -56,6 +57,8 @@ namespace River
 		{
 			glPixelStorei(GL_PACK_ALIGNMENT, 1);
 			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+			Buffer::setup();
 
 			Font::setup();
 

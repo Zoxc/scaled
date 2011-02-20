@@ -5,6 +5,8 @@
 
 namespace River
 {
+	class LayerContext;
+
 	class GradientObject:
 		public Rectangle
 	{
@@ -25,6 +27,6 @@ namespace River
 		void vertical(uint32_t left, uint32_t right);
 
 		void render();
-		void place(Layer *layer);
+		void place(LayerContext *layer);
 	};
 };
