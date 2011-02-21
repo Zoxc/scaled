@@ -44,7 +44,7 @@ namespace River
 				return true;
 			}
 
-			static V *create_value(MemoryPool alloc_ref, bool, K key)
+			static V *create_value(MemoryPool::Ref alloc_ref, bool, K key)
 			{
 				V *list =  new (alloc_ref) V;
 				list->key = key;
