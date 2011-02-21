@@ -66,8 +66,9 @@ namespace River
 		}
 
 		static GlyphContext *acquire(LayerContext *layer);
-
+		
 		void render_glyph(LayerContext *layer, int x, int y, Glyph *glyph, uint8_t subpixel_offset, color_t color);
+		void render_text(LayerContext *layer, int x, int y, const char *text, FontSize *font_size, color_t color);
 
 		void render(Layer *layer);
 	};

@@ -8,6 +8,8 @@ namespace River
 {
 	void GlyphContext::Content::render()
 	{
+		Scene::glyph_state.use();
+
 		color_t color = color_black;
 
 		for(std::vector<ContentList *>::iterator i = list.begin(); i != list.end(); ++i)
@@ -51,9 +53,32 @@ namespace River
 
 	void GlyphContext::render_glyph(LayerContext *layer, int x, int y, Glyph *glyph, uint8_t subpixel_offset, color_t color)
 	{
-		Object *object = new (layer->memory_pool) Object(x, y, glyph, subpixel_offset);
+		Object *object = new (layer->memory_pool) Object(x, y - glyph->offset_y, glyph, subpixel_offset);
 
 		glyph_objects.table.get(glyph->offsets[subpixel_offset].cache)->append(object);
+	}
+	
+	void GlyphContext::render_text(LayerContext *layer, int x, int y, const char *text, FontSize *font_size, color_t color)
+	{
+		int left = 0;
+
+		while(*text)
+		{
+			Glyph *glyph = font_size->get_glyph(*text);
+
+			int offset = left + glyph->offset_x;
+			int subpixel_offset = offset % 3;
+
+			// Make sure it's a positive number
+			if(subpixel_offset < 0)
+				subpixel_offset += 3;
+
+			render_glyph(layer, x + offset / 3, y, glyph, subpixel_offset, color);
+
+			left += glyph->advance;
+			
+			text++;
+		}
 	}
 	
     GLshort *GlyphContext::buffer_quad(GLshort *buffer, bool first, int x, int y, int width, int height)
@@ -129,7 +154,7 @@ namespace River
 			GLshort *vertex_map = (GLshort *)content_list->vertex_buffer->map();
 			GLfloat *coords_map = (GLfloat *)content_list->coords_buffer->map();
 			
-			 bool first = true;
+			bool first = true;
 
 			for(GlyphObjectList::Iterator j = list->begin(); j != list->end(); ++j)
 			{
@@ -144,8 +169,12 @@ namespace River
 
 			content_list->vertex_buffer->unmap();
 			content_list->coords_buffer->unmap();
+
+			content->list.push_back(content_list);
 		}
 		
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		layer->append(content);
 	}
 };

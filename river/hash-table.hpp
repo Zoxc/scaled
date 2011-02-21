@@ -217,14 +217,13 @@ namespace River
 				V *end;
 				V current;
 
-				void next_slot()
+			public:
+				Iterator(V *start, V *end) : slot(start), end(end), current(T::invalid_value())
 				{
-					while(slot != end && !T::valid_value(*slot))
-						slot++;
+					step();
 				}
 
-			public:
-				Iterator(V *start, V *end) : slot(start), end(end), current(T::invalid_value()){}
+				Iterator(V *end) : slot(end), end(end), current(T::invalid_value()) {}
 
 				void step()
 				{
@@ -248,12 +247,12 @@ namespace River
 				
 				bool operator ==(const Iterator &other) const
 				{
-					return current == other.current && slot == other.slot;
+					return (current == other.current) && (slot == other.slot);
 				}
 				
 				bool operator !=(const Iterator &other) const
 				{
-					return current != other.current && slot == other.slot;
+					return (current != other.current) && (slot != other.slot);
 				}
 				
 				V operator ++()
@@ -282,7 +281,7 @@ namespace River
 
 			Iterator end()
 			{
-				return Iterator(get_table() + get_size(), get_table() + get_size());
+				return Iterator(get_table() + get_size());
 			}
 	};
 };

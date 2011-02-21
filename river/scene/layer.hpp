@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "../list.hpp"
 #include "object-list.hpp"
 #include "object-hash.hpp"
@@ -20,11 +21,16 @@ namespace River
 				}
 		};
 
+	private:
+		std::vector<Content *> list;
+
+	public:
 		Layer();
 		~Layer();
-
-		Entry<Layer> window_entry;
 		
+		Entry<Layer> window_entry;
+
+		void append(Content *content);
 		void render();
 	};
 };

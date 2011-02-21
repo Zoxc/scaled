@@ -24,6 +24,7 @@ Gradient gradient1;
 Gradient gradient2;
 River::Window win;
 Layer *layer;
+Layer *fps_layer;
 Extends padding(10, 10, 10, 10);
 GradientObject *quad;
 TextObject text_object;
@@ -58,14 +59,27 @@ void frame()
 
 	if(get_ticks() - last_update > 250)
 	{
+		if(fps_layer)
+		{
+			win.layers.remove(fps_layer);
+			delete fps_layer;
+		}
+
+		MemoryPool memory_pool;
+		LayerContext layer_context(memory_pool);
+		GlyphContext *glyph_context = GlyphContext::acquire(&layer_context);
+
 		std::stringstream caption;
 
 		caption << frames / ((get_ticks() - last_update) / 1000.f) << " fps";
 
-		fps.position(550, 70, font, color_black, caption.str().c_str());
-		fps.attach(layer);
+		glyph_context->render_text(&layer_context, 550, 70, caption.str().c_str(), font, color_black);
 
 		last_update = get_ticks();
+
+		fps_layer = layer_context.render();
+
+		win.layers.append(fps_layer);
 
 		frames = 0;
 	}
@@ -91,16 +105,10 @@ int main(void)
 		font = Scene::basic_font.get_size(9);
 
 		GlyphContext *glyph_context = GlyphContext::acquire(&layer_context);
+		
+		glyph_context->render_text(&layer_context, 100, 200, "Hello there, this is just a bunch of text to stress the GPU a little.", font, color_black);
+		glyph_context->render_text(&layer_context, 100, 220, "And here is some more. Please don't waste time reading this.", font, color_black);
 
-		glyph_context->render_glyph(&layer_context, 10, 10, font->get_glyph('A'), 0, color_black);
-
-	/*
-		text_object.position(100, 200, font, color_black, "Hello there, this is just a bunch of text to stress the GPU a little.");
-		text_object.attach(layer);
-	
-		text_object2.position(100, 220, font, color_black, "And here is some more. Please don't waste time reading this.");
-		text_object2.attach(layer);
-	*/
 		gradient1.object.vertical(0xFF3412, 0x23FF12);
 		gradient1.width = Element::Flags::Extend;
 		gradient1.height = 5;
@@ -149,7 +157,7 @@ int main(void)
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		
-		//frame();
+		frame();
 		Scene::render();
 
 		swl_swap();
