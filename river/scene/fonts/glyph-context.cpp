@@ -147,9 +147,9 @@ namespace River
 			ContentList *content_list = new ContentList;
 
 			content_list->texture = list->key->texture;
-			content_list->indices = list->size * 10;
-			content_list->vertex_buffer = new Buffer(GL_ARRAY_BUFFER, content_list->indices * sizeof(GLshort));
-			content_list->coords_buffer = new Buffer(GL_ARRAY_BUFFER, content_list->indices * sizeof(GLfloat));
+			content_list->indices = list->size * 5;
+			content_list->vertex_buffer = new Buffer(GL_ARRAY_BUFFER, content_list->indices * 2 * sizeof(GLshort));
+			content_list->coords_buffer = new Buffer(GL_ARRAY_BUFFER, content_list->indices * 2 * sizeof(GLfloat));
 			
 			GLshort *vertex_map = (GLshort *)content_list->vertex_buffer->map();
 			GLfloat *coords_map = (GLfloat *)content_list->coords_buffer->map();
