@@ -27,7 +27,7 @@ namespace River
 			list->coords_buffer->bind();
 			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
-			glDrawArrays(GL_TRIANGLE_STRIP, 0, list->indices);
+			glDrawArrays(GL_TRIANGLES, 0, list->indices);
 			
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 		}
@@ -86,12 +86,6 @@ namespace River
 		int right = x + width;
 		int bottom = y + height;
 		
-        if(!first)
-        {
-            *buffer++ = x;
-			*buffer++ = y;
-        }
-
         *buffer++ = x;
 		*buffer++ = y;
 
@@ -102,36 +96,36 @@ namespace River
 		*buffer++ = bottom;
 
         *buffer++ = right;
+		*buffer++ = y;
+
+        *buffer++ = x;
 		*buffer++ = bottom;
 
-        if(first)
-        {
-            *buffer++ = right;
-			*buffer++ = bottom;
-        }
+        *buffer++ = right;
+		*buffer++ = bottom;
 
         return buffer;
     }
 
     GLfloat *GlyphContext::buffer_coords(GLfloat *buffer, bool first, Glyph::Variation *variant)
     {
-        if(!first)
-        {
-            *buffer++ = variant->coords[0].x;
-			*buffer++ = variant->coords[0].y;
-        }
+        *buffer++ = variant->coords[0].x;
+		*buffer++ = variant->coords[0].y;
+		
+        *buffer++ = variant->coords[1].x;
+		*buffer++ = variant->coords[1].y;
 
-        for(int i = 0; i < 4; i++)
-		{
-            *buffer++ = variant->coords[i].x;
-			*buffer++ = variant->coords[i].y;
-		}
+        *buffer++ = variant->coords[2].x;
+		*buffer++ = variant->coords[2].y;
 
-        if(first)
-        {
-            *buffer++ = variant->coords[3].x;
-			*buffer++ = variant->coords[3].y;
-        }
+        *buffer++ = variant->coords[1].x;
+		*buffer++ = variant->coords[1].y;
+		
+        *buffer++ = variant->coords[2].x;
+		*buffer++ = variant->coords[2].y;
+
+        *buffer++ = variant->coords[3].x;
+		*buffer++ = variant->coords[3].y;
 
         return buffer;
     }
@@ -147,7 +141,7 @@ namespace River
 			ContentList *content_list = new ContentList;
 
 			content_list->texture = list->key->texture;
-			content_list->indices = list->size * 5;
+			content_list->indices = list->size * 6;
 			content_list->vertex_buffer = new Buffer(GL_ARRAY_BUFFER, content_list->indices * 2 * sizeof(GLshort));
 			content_list->coords_buffer = new Buffer(GL_ARRAY_BUFFER, content_list->indices * 2 * sizeof(GLfloat));
 			
