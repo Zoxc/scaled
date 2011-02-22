@@ -213,11 +213,6 @@ int main(void)
 
 	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &orginal_fbo);
 	
-	TestWindow win1(50, 1.0);
-	TestWindow win2(150, 1.5);
-	TestWindow win3(250, 2.0);
-	TestWindow win4(350, 2.5);
-	
 	{
 		MemoryPool memory_pool;
 		LayerContext layer_context(memory_pool);
@@ -226,10 +221,10 @@ int main(void)
 
 		GlyphContext *glyph_context = GlyphContext::acquire(&layer_context);
 		
-		for(int i = 0; i < 4; i++)
+		for(int i = 0; i < 21; i++)
 		{
-			glyph_context->render_text(&layer_context, 100, 200 + i * 40, "Hello there, this is just a bunch of text to stress the GPU a little.", font, color_black);
-			glyph_context->render_text(&layer_context, 100, 220 + i * 40, "And here is some more. Please don't waste time reading this.", font, color_black);
+			glyph_context->render_text(&layer_context, -50, i * 20, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi eget sem quis libero fermentum aliquam. Etiam tempor venenatis tincidunt.", font, color_black);
+			glyph_context->render_text(&layer_context, -50, 10 + i * 20, "In suscipit porttitor leo sit amet varius. Cras eu erat metus, vitae tristique nibh. Nulla et viverra mauris. Suspendisse potenti. Morbi vel urna nec sem blandit faucibus nec vitae erat.", font, color_black);
 		}
 
 		gradient1.object.vertical(0xFF3412, 0x23FF12);
@@ -277,25 +272,10 @@ int main(void)
 			}
 		}
 		
-		win1.render();
-		win2.render();
-		win3.render();
-		win4.render();
-
-		glBindFramebuffer(GL_FRAMEBUFFER, orginal_fbo);
-		
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		
-		window_state.use();
-		
-		glEnableVertexAttribArray(0);
-		glEnableVertexAttribArray(1);
-		
-		win1.render_view();
-		win2.render_view();
-		win3.render_view();
-		win4.render_view();
+		Scene::render();
 
 		swl_swap();
 		frame();
