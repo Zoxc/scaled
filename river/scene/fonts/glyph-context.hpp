@@ -56,8 +56,8 @@ namespace River
 
 		typedef ObjectHash<GlyphCache *, GlyphObjectList> GlyphObjectHash;
 
-		GLshort *buffer_quad(GLshort *buffer, bool first, int x, int y, int width, int height);
-		GLfloat *buffer_coords(GLfloat *buffer, bool first, Glyph::Variation *variant);
+		GLshort *buffer_quad(GLshort *buffer, int x, int y, int width, int height);
+		GLfloat *buffer_coords(GLfloat *buffer, Glyph::Variation *variant);
 
 		GlyphObjectHash glyph_objects;
 	public:

@@ -1,10 +1,6 @@
 #pragma once
 #include <vector>
 #include "../list.hpp"
-#include "object-list.hpp"
-#include "object-hash.hpp"
-#include "gradient-object.hpp"
-#include "fonts/glyph-object.hpp"
 
 namespace River
 {

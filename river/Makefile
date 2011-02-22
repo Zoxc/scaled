@@ -22,9 +22,7 @@ SOURCES = \
 	scene/fonts/glyph.cpp \
 	scene/fonts/glyph-cache.cpp \
 	scene/fonts/glyph-context.cpp \
-	scene/fonts/glyph-object.cpp \
 	scene/fonts/glyph-state.cpp \
-	scene/fonts/text-object.cpp \
 	scene/gradient-object.cpp \
 	scene/gradient-state.cpp \
 	scene/layer.cpp \

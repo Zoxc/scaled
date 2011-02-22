@@ -10,7 +10,6 @@
 #include "river/scene/scene.hpp"
 #include "river/scene/layer-context.hpp"
 #include "river/scene/gradient-object.hpp"
-#include "river/scene/fonts/text-object.hpp"
 #include "river/scene/fonts/glyph-context.hpp"
 #include "river/scene/fonts/glyph.hpp"
 
@@ -27,9 +26,6 @@ Layer *layer;
 Layer *fps_layer;
 Extends padding(10, 10, 10, 10);
 GradientObject *quad;
-TextObject text_object;
-TextObject fps;
-TextObject text_object2;
 Extends test(20, 20, 20, 20);
 FontSize *font;
 

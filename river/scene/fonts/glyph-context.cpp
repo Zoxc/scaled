@@ -81,7 +81,7 @@ namespace River
 		}
 	}
 	
-    GLshort *GlyphContext::buffer_quad(GLshort *buffer, bool first, int x, int y, int width, int height)
+    GLshort *GlyphContext::buffer_quad(GLshort *buffer, int x, int y, int width, int height)
     {
 		int right = x + width;
 		int bottom = y + height;
@@ -107,7 +107,7 @@ namespace River
         return buffer;
     }
 
-    GLfloat *GlyphContext::buffer_coords(GLfloat *buffer, bool first, Glyph::Variation *variant)
+    GLfloat *GlyphContext::buffer_coords(GLfloat *buffer, Glyph::Variation *variant)
     {
         *buffer++ = variant->coords[0].x;
 		*buffer++ = variant->coords[0].y;
@@ -148,17 +148,13 @@ namespace River
 			GLshort *vertex_map = (GLshort *)content_list->vertex_buffer->map();
 			GLfloat *coords_map = (GLfloat *)content_list->coords_buffer->map();
 			
-			bool first = true;
-
 			for(GlyphObjectList::Iterator j = list->begin(); j != list->end(); ++j)
 			{
 				Object *object = *j;
 				Glyph::Variation *variantion = &object->glyph->offsets[object->offset];
 				
-				vertex_map = buffer_quad(vertex_map, first, object->x, object->y, variantion->width, object->glyph->height);
-				coords_map = buffer_coords(coords_map, first, variantion);
-
-				first = false;
+				vertex_map = buffer_quad(vertex_map, object->x, object->y, variantion->width, object->glyph->height);
+				coords_map = buffer_coords(coords_map, variantion);
 			}
 
 			content_list->vertex_buffer->unmap();
