@@ -97,6 +97,7 @@
     <ClCompile Include="..\river\scene\shader-state.cpp" />
     <ClCompile Include="..\river\scene\state.cpp" />
     <ClCompile Include="..\river\widgets\gradient.cpp" />
+    <ClCompile Include="..\window-state.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\river\allocator.hpp" />
@@ -134,6 +135,7 @@
     <ClInclude Include="..\river\simple-list.hpp" />
     <ClInclude Include="..\river\simpler-list.hpp" />
     <ClInclude Include="..\river\widgets\gradient.hpp" />
+    <ClInclude Include="..\window-state.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\swl\msvc\swl.vcxproj">

@@ -13,6 +13,7 @@
 #include "river/scene/gradient-object.hpp"
 #include "river/scene/fonts/glyph-context.hpp"
 #include "river/scene/fonts/glyph.hpp"
+#include "window-state.hpp"
 
 #ifndef WIN32
 	#include <sys/time.h>
@@ -28,6 +29,7 @@ Extends padding(10, 10, 10, 10);
 GradientObject *quad;
 Extends test(20, 20, 20, 20);
 FontSize *font;
+WindowState window_state;
 
 const int width = 640;
 const int height = 400;
@@ -45,6 +47,53 @@ int get_ticks()
 		return tv.tv_sec * 1000 + tv.tv_usec / 1000;
 	#endif
 }
+
+GLshort *buffer_quad(GLshort *buffer, int x, int y, int x2, int y2)
+{
+    *buffer++ = x;
+	*buffer++ = y;
+
+    *buffer++ = x2;
+	*buffer++ = y;
+
+    *buffer++ = x;
+	*buffer++ = y2;
+
+    *buffer++ = x2;
+	*buffer++ = y;
+
+    *buffer++ = x;
+	*buffer++ = y2;
+
+    *buffer++ = x2;
+	*buffer++ = y2;
+
+    return buffer;
+}
+
+GLfloat *buffer_coords(GLfloat *buffer, int x, int y, int x2, int y2)
+{
+    *buffer++ = (GLfloat)x;
+	*buffer++ = (GLfloat)y;
+		
+    *buffer++ = (GLfloat)x2;
+	*buffer++ = (GLfloat)y;
+
+    *buffer++ = (GLfloat)x;
+	*buffer++ = (GLfloat)y2;
+	
+    *buffer++ = (GLfloat)x2;
+	*buffer++ = (GLfloat)y;
+
+    *buffer++ = (GLfloat)x;
+	*buffer++ = (GLfloat)y2;
+
+    *buffer++ = (GLfloat)x2;
+	*buffer++ = (GLfloat)y2;
+
+    return buffer;
+}
+
 
 void frame()
 {
@@ -86,10 +135,38 @@ int main(void)
 		printf("Unable to setup window... %d", result);
 		return -1;
 	}
-	
+
 	Scene::alloc();
 	Scene::size(width, height);
+	
+	window_state.alloc();
+	window_state.size(width, height);
+	
+	GLuint fbo;
+	GLint orginal_fbo;
+	GLuint win_tex;
 
+	glGenFramebuffers(1, &fbo);
+	glGenTextures(1, &win_tex);
+	
+	glBindTexture(GL_TEXTURE_2D, win_tex);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &orginal_fbo);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, win_tex, 0);
+	
+	GLenum err = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+
+	assert(err == GL_FRAMEBUFFER_COMPLETE);
+	
+	glBindTexture(GL_TEXTURE_2D, 0);
+	
 	{
 		MemoryPool memory_pool;
 		LayerContext layer_context(memory_pool);
@@ -146,13 +223,46 @@ int main(void)
 			}
 		}
 		
+		glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+		
+		glViewport(0, 0, width, height);
+
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-		
-		frame();
+
 		Scene::render();
 
+		glBindFramebuffer(GL_FRAMEBUFFER, orginal_fbo);
+		
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+		
+		glBindTexture(GL_TEXTURE_2D, win_tex);
+
+		window_state.use();
+		
+		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
+
+		GLshort win[12];
+		
+		buffer_quad(win, 100 + (int)floor(sin(get_ticks() / 1000.0) * 30), 100 + (int)floor(sin(get_ticks() / 700.0) * 30), 500 + (int)floor(sin(get_ticks() / 200.0) * 30), 300 + (int)floor(sin(get_ticks() / 800.0) * 30));
+
+		GLfloat tex[12];
+
+		buffer_coords(tex, 0, 1, 1, 0);
+
+		glVertexAttribPointer(0, 2, GL_SHORT, GL_FALSE, 0, win);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, tex);
+
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+
+		Scene::draw_call();
+		
+		glBindTexture(GL_TEXTURE_2D, 0);
+		
 		swl_swap();
+		frame();
 	}
 
 	delete layer;
