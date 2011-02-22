@@ -28,6 +28,8 @@ namespace River
 			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
 			glDrawArrays(GL_TRIANGLES, 0, list->indices);
+
+			Scene::draw_call();
 			
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 		}

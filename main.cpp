@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <iostream>
 #include <math.h>
 #include <sstream>
 #include <GLES2/gl2.h>
@@ -23,7 +24,6 @@ Gradient gradient1;
 Gradient gradient2;
 River::Window win;
 Layer *layer;
-Layer *fps_layer;
 Extends padding(10, 10, 10, 10);
 GradientObject *quad;
 Extends test(20, 20, 20, 20);
@@ -50,32 +50,28 @@ void frame()
 {
 	static size_t frames;
 	static size_t last_update;
+	static size_t calls;
 
 	frames++;
 
-	if(get_ticks() - last_update > 250)
+	if(get_ticks() - last_update > 1000)
 	{
-		if(fps_layer)
-		{
-			win.layers.remove(fps_layer);
-			delete fps_layer;
-		}
+		std::stringstream fps_str;
 
-		MemoryPool memory_pool;
-		LayerContext layer_context(memory_pool);
-		GlyphContext *glyph_context = GlyphContext::acquire(&layer_context);
+		fps_str << frames / ((get_ticks() - last_update) / 1000.f) << " fps";
 
-		std::stringstream caption;
+		std::cout << fps_str.str() << "\n";
 
-		caption << frames / ((get_ticks() - last_update) / 1000.f) << " fps";
+		std::stringstream call_str;
 
-		glyph_context->render_text(&layer_context, 550, 70, caption.str().c_str(), font, color_black);
+		size_t call_count = Scene::get_draw_calls();
+
+		call_str << (call_count - calls) / ((get_ticks() - last_update) / 1000.f) << " call/s";
+
+		std::cout << call_str.str() << "\n";
 
 		last_update = get_ticks();
-
-		fps_layer = layer_context.render();
-
-		win.layers.append(fps_layer);
+		calls = call_count;
 
 		frames = 0;
 	}

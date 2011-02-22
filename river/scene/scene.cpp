@@ -74,5 +74,17 @@ namespace River
 			gradient_state.free();
 			glyph_state.free();
 		}
+
+		static size_t draw_calls;
+		
+		size_t get_draw_calls()
+		{
+			return draw_calls;
+		}
+
+		void draw_call()
+		{
+			draw_calls++;
+		}
 	};
 };

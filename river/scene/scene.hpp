@@ -25,5 +25,8 @@ namespace River
 		void size(int width, int height);
 		void raise_errors();
 		void free();
+
+		size_t get_draw_calls();
+		void draw_call();
 	};
 };
