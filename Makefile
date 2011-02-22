@@ -8,6 +8,7 @@ TARGET = $(CFG)/scaled
 
 SOURCES = \
 	main.cpp \
+	window-state.cpp \
 	$(NULL)
 
 OBJECTS = $(patsubst %.cpp, $(CFG)/%.o, $(SOURCES) )

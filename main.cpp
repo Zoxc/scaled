@@ -135,7 +135,7 @@ public:
 	float scale;
 	int x;
 
-	TestWindow(int x, float scale) : x(x), scale(scale)
+	TestWindow(int x, float scale) : scale(scale), x(x)
 	{
 		glGenFramebuffers(1, &fbo);
 		glGenTextures(1, &tex);
