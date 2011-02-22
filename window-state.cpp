@@ -18,6 +18,7 @@ static const char* fragment_shader = "precision highp float;\
 	void main(void)\
 	{\
 		gl_FragColor = texture2D(texture, v_tex_coord);\
+		gl_FragColor.a = 0.5;\
 	}";
 
 WindowState::WindowState() : ShaderState(vertex_shader, fragment_shader)
@@ -39,7 +40,8 @@ void WindowState::get_uniforms(GLuint program)
 
 void WindowState::use()
 {
-	glDisable(GL_BLEND);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		
 	ShaderState::use();
 
