@@ -91,8 +91,6 @@
     <ClCompile Include="..\river\scene\gradient-state.cpp" />
     <ClCompile Include="..\river\scene\layer-context.cpp" />
     <ClCompile Include="..\river\scene\layer.cpp" />
-    <ClCompile Include="..\river\scene\object.cpp" />
-    <ClCompile Include="..\river\scene\rectangle.cpp" />
     <ClCompile Include="..\river\scene\scene.cpp" />
     <ClCompile Include="..\river\scene\shader-state.cpp" />
     <ClCompile Include="..\river\scene\state.cpp" />
@@ -126,9 +124,6 @@
     <ClInclude Include="..\river\scene\layer-context.hpp" />
     <ClInclude Include="..\river\scene\object-hash.hpp" />
     <ClInclude Include="..\river\scene\layer.hpp" />
-    <ClInclude Include="..\river\scene\object.hpp" />
-    <ClInclude Include="..\river\scene\object-list.hpp" />
-    <ClInclude Include="..\river\scene\rectangle.hpp" />
     <ClInclude Include="..\river\scene\scene.hpp" />
     <ClInclude Include="..\river\scene\shader-state.hpp" />
     <ClInclude Include="..\river\scene\state.hpp" />

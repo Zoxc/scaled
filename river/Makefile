@@ -26,9 +26,7 @@ SOURCES = \
 	scene/gradient-state.cpp \
 	scene/layer.cpp \
 	scene/layer-context.cpp \
-	scene/object.cpp \
 	scene/buffer.cpp \
-	scene/rectangle.cpp \
 	scene/scene.cpp \
 	scene/state.cpp \
 	scene/shader-state.cpp \
