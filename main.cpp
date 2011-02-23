@@ -146,7 +146,7 @@ int main(void)
 		GradientContext *gradient_context = GradientContext::acquire(&layer_context);
 		GlyphContext *glyph_context = GlyphContext::acquire(&layer_context);
 
-		gradient_context->render_horizontal(&layer_context, 0, 0, width, height, 0x232b24, 0x2d332e);
+		gradient_context->render_vertical(&layer_context, 0, 0, width, height, 0x232b24, 0x2d332e);
 
 		glyph_context->render_text(&layer_context, 100, 200, "Hello there, this is just a bunch of text to stress the GPU a little.", font, color_black);
 		glyph_context->render_text(&layer_context, 100, 220, "And here is some more. Please don't waste time reading this.", font, color_black);

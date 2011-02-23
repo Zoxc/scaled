@@ -28,19 +28,10 @@ namespace River
 
 	GradientContext *GradientContext::acquire(LayerContext *layer)
 	{
-		GradientContext *result = (GradientContext *)layer->lookup(LayerContext::Entry::GradientContext);
-
-		if(result)
-			return result;
-
-		result = new (layer->memory_pool) GradientContext;
-
-		layer->store(result);
-
-		return result;
+		return layer->acquire_class<GradientContext, LayerContext::Entry::GradientContext>();
 	}
 	
-	void GradientContext::render_horizontal(LayerContext *layer, int x, int y, int width, int height, color_t top, color_t bottom)
+	void GradientContext::render_vertical(LayerContext *layer, int x, int y, int width, int height, color_t top, color_t bottom)
 	{
 		Object *object = new (layer->memory_pool) Object(x, y, width, height);
 		
@@ -52,7 +43,7 @@ namespace River
 		objects.append(object);
 	}
 
-	void GradientContext::render_vertical(LayerContext *layer, int x, int y, int width, int height, uint32_t left, uint32_t right)
+	void GradientContext::render_horizontal(LayerContext *layer, int x, int y, int width, int height, uint32_t left, uint32_t right)
 	{
 		Object *object = new (layer->memory_pool) Object(x, y, width, height);
 		

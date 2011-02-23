@@ -3,14 +3,14 @@
 
 namespace River
 {
-	void Gradient::horizontal(color_t top, color_t bottom)
+	void Gradient::vertical(color_t top, color_t bottom)
 	{
 		colors[0] = top;
 		colors[1] = bottom;
 		is_horizontal = true;
 	}
 
-	void Gradient::vertical(color_t left, color_t right)
+	void Gradient::horizontal(color_t left, color_t right)
 	{
 		colors[0] = left;
 		colors[1] = right;

@@ -41,16 +41,7 @@ namespace River
 
 	GlyphContext *GlyphContext::acquire(LayerContext *layer)
 	{
-		GlyphContext *result = (GlyphContext *)layer->lookup(LayerContext::Entry::GlyphContext);
-
-		if(result)
-			return result;
-
-		result = new (layer->memory_pool) GlyphContext(layer->memory_pool);
-
-		layer->store(result);
-
-		return result;
+		return layer->acquire_class<GlyphContext, LayerContext::Entry::GlyphContext>();
 	}
 
 	void GlyphContext::render_glyph(LayerContext *layer, int x, int y, Glyph *glyph, uint8_t subpixel_offset, color_t color)

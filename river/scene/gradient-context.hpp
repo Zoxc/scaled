@@ -47,14 +47,14 @@ namespace River
 
 		ObjectList objects;
 	public:
-		GradientContext() : LayerContext::Entry(LayerContext::Entry::GlyphContext)
+		GradientContext(MemoryPool &memory_pool) : LayerContext::Entry(LayerContext::Entry::GradientContext)
 		{
 		}
 
 		static GradientContext *acquire(LayerContext *layer);
 		
-		void render_horizontal(LayerContext *layer, int x, int y, int width, int height, color_t top, color_t bottom);
-		void render_vertical(LayerContext *layer, int x, int y, int width, int height, uint32_t left, uint32_t right);
+		void render_vertical(LayerContext *layer, int x, int y, int width, int height, color_t top, color_t bottom);
+		void render_horizontal(LayerContext *layer, int x, int y, int width, int height, uint32_t left, uint32_t right);
 
 		void render(Layer *layer);
 	};

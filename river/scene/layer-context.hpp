@@ -72,6 +72,20 @@ namespace River
 		LayerContext(MemoryPool &memory_pool);
 
 		MemoryPool &memory_pool;
+
+		template<class T, uint32_t entry_type> T *acquire_class()
+		{
+			T *result = (T *)lookup(entry_type);
+
+			if(result)
+				return result;
+
+			result = new (memory_pool) T(memory_pool);
+
+			store(result);
+
+			return result;
+		};
 		
 		Entry *lookup(uint32_t entry_type);
 		void store(Entry *content);
