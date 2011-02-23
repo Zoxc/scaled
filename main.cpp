@@ -151,7 +151,7 @@ int main(void)
 
 		gradient_context->render_vertical(&layer_context, 0, top_bar, width, height - top_bar, 0x232b24, 0x2d332e);
 		
-		glyph_context->render_text(&layer_context, 10, 23, "Application Launcher", font, color_white);
+		glyph_context->render_text(&layer_context, 10, 23, "Launch Application", font, color_white);
 		glyph_context->render_text(&layer_context, 590, 23, "20:32", font, color_white);
 
 		glyph_context->render_text(&layer_context, 100, 200, "Hello there, this is just a bunch of text to stress the GPU a little.", font, color_white);
