@@ -20,17 +20,13 @@ namespace River
 
 		uint32_t code;
 		
-		#pragma pack(push, 1)
-		struct TexCoord {
-			GLfloat x;
-			GLfloat y;
-		};
-		#pragma pack(pop)
-
 		struct Variation {
 			size_t width;
 			GlyphCache *cache;
-			TexCoord coords[4];
+			GLfloat x;
+			GLfloat y;
+			GLfloat x2;
+			GLfloat y2;
 		};
 
 		Variation offsets[3];

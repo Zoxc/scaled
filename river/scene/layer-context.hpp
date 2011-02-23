@@ -1,6 +1,7 @@
 #pragma once
 #include <stdint.h>
 #include "../hash-table.hpp"
+#include "../gles.hpp"
 #include "../memory-pool.hpp"
 
 namespace River
@@ -15,11 +16,15 @@ namespace River
 			public:
 				enum Type
 				{
-					GlyphContext
+					GlyphContext,
+					GradientContext
 				};
 
 				uint32_t entry_type;
 				Entry *context_next;
+
+				static GLfloat *buffer_coords(GLfloat *buffer, GLfloat x, GLfloat y, GLfloat x2, GLfloat y2);
+				static GLshort *buffer_quad(GLshort *buffer, int x, int y, int width, int height);
 			
 				Entry(uint32_t entry_type) : entry_type(entry_type)
 				{

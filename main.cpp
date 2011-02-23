@@ -29,7 +29,6 @@ Extends padding(10, 10, 10, 10);
 GradientObject *quad;
 Extends test(20, 20, 20, 20);
 FontSize *font;
-WindowState window_state;
 
 const int width = 640;
 const int height = 400;
@@ -126,73 +125,6 @@ void frame()
 	}
 }
 
-class TestWindow
-{
-public:
-	Layer *layer;
-	GLuint fbo;
-	GLuint tex;
-	float scale;
-	int x;
-
-	TestWindow(int x, float scale) : scale(scale), x(x)
-	{
-		glGenFramebuffers(1, &fbo);
-		glGenTextures(1, &tex);
-	
-		glBindTexture(GL_TEXTURE_2D, tex);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	
-		glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, tex, 0);
-	
-		GLenum err = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-
-		assert(err == GL_FRAMEBUFFER_COMPLETE);
-	
-		glBindTexture(GL_TEXTURE_2D, 0);
-	}
-
-	void render()
-	{
-		glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-		
-		glViewport(0, 0, width, height);
-
-		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
-		
-		Scene::render();
-	}
-
-	void render_view()
-	{
-		glBindTexture(GL_TEXTURE_2D, tex);
-
-		GLshort win[12];
-		
-		buffer_quad(win, x + (int)floor(sin(get_ticks() / 1000.0 * scale) * 30), 50 + (int)floor(sin(get_ticks() / 700.0 * scale) * 30), x + 300 + (int)floor(sin(get_ticks() / 200.0 * scale) * 30), 360 + (int)floor(sin(get_ticks() / 800.0 * scale) * 30));
-
-		GLfloat tex[12];
-
-		buffer_coords(tex, 0, 1, 1, 0);
-
-		glVertexAttribPointer(0, 2, GL_SHORT, GL_FALSE, 0, win);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, tex);
-
-		glDrawArrays(GL_TRIANGLES, 0, 6);
-
-		Scene::draw_call();
-		
-		glBindTexture(GL_TEXTURE_2D, 0);
-		
-	}
-};
-
 int main(void)
 {
 	enum swl_result result = swl_init("scaled", width, height, true);
@@ -206,13 +138,6 @@ int main(void)
 	Scene::alloc();
 	Scene::size(width, height);
 	
-	window_state.alloc();
-	window_state.size(width, height);
-	
-	GLint orginal_fbo;
-
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &orginal_fbo);
-	
 	{
 		MemoryPool memory_pool;
 		LayerContext layer_context(memory_pool);
@@ -220,19 +145,16 @@ int main(void)
 		font = Scene::basic_font.get_size(9);
 
 		GlyphContext *glyph_context = GlyphContext::acquire(&layer_context);
-		
-		for(int i = 0; i < 21; i++)
-		{
-			glyph_context->render_text(&layer_context, -50, i * 20, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi eget sem quis libero fermentum aliquam. Etiam tempor venenatis tincidunt.", font, color_black);
-			glyph_context->render_text(&layer_context, -50, 10 + i * 20, "In suscipit porttitor leo sit amet varius. Cras eu erat metus, vitae tristique nibh. Nulla et viverra mauris. Suspendisse potenti. Morbi vel urna nec sem blandit faucibus nec vitae erat.", font, color_black);
-		}
 
-		gradient1.object.vertical(0xFF3412, 0x23FF12);
+		glyph_context->render_text(&layer_context, 100, 200, "Hello there, this is just a bunch of text to stress the GPU a little.", font, color_black);
+		glyph_context->render_text(&layer_context, 100, 220, "And here is some more. Please don't waste time reading this.", font, color_black);
+		
+		gradient1.vertical(0xFF3412, 0x23FF12);
 		gradient1.width = Element::Flags::Extend;
 		gradient1.height = 5;
 		gradient1.margins = &test;
 
-		gradient2.object.horizontal(0xFF3412, 0x23FF12);
+		gradient2.horizontal(0xFF3412, 0x23FF12);
 		gradient2.width = Element::Flags::Extend;
 		gradient2.height = Element::Flags::Extend;
 

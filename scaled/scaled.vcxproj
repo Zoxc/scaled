@@ -87,6 +87,7 @@
     <ClCompile Include="..\river\scene\fonts\glyph-context.cpp" />
     <ClCompile Include="..\river\scene\fonts\glyph-state.cpp" />
     <ClCompile Include="..\river\scene\fonts\glyph.cpp" />
+    <ClCompile Include="..\river\scene\gradient-context.cpp" />
     <ClCompile Include="..\river\scene\gradient-object.cpp" />
     <ClCompile Include="..\river\scene\gradient-state.cpp" />
     <ClCompile Include="..\river\scene\layer-context.cpp" />
@@ -121,6 +122,7 @@
     <ClInclude Include="..\river\scene\fonts\glyph-context.hpp" />
     <ClInclude Include="..\river\scene\fonts\glyph-state.hpp" />
     <ClInclude Include="..\river\scene\fonts\glyph.hpp" />
+    <ClInclude Include="..\river\scene\gradient-context.hpp" />
     <ClInclude Include="..\river\scene\gradient-object.hpp" />
     <ClInclude Include="..\river\scene\gradient-state.hpp" />
     <ClInclude Include="..\river\scene\layer-context.hpp" />

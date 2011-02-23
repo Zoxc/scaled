@@ -43,17 +43,11 @@ namespace River
 		
 		const int offset = 0;
 
-		variation->coords[0].x = (GLfloat)(x + offset) / (GLfloat)this->width;
-		variation->coords[0].y = (GLfloat)y / (GLfloat)this->height;
+		variation->x = (GLfloat)x / (GLfloat)this->width;
+		variation->y = (GLfloat)y / (GLfloat)this->height;
 
-		variation->coords[1].x = (GLfloat)(x + width) / (GLfloat)this->width;
-		variation->coords[1].y = (GLfloat)y / (GLfloat)this->height;
-		
-		variation->coords[2].x = (GLfloat)(x + offset) / (GLfloat)this->width;
-		variation->coords[2].y = (GLfloat)(y + height) / (GLfloat)this->height;
-		
-		variation->coords[3].x = (GLfloat)(x + width) / (GLfloat)this->width;
-		variation->coords[3].y = (GLfloat)(y + height) / (GLfloat)this->height;
+		variation->x2 = (GLfloat)(x + width) / (GLfloat)this->width;
+		variation->y2 = (GLfloat)(y + height) / (GLfloat)this->height;
 		
 		x += width;
 		line_height = std::max(line_height, height);

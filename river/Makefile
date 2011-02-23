@@ -23,7 +23,6 @@ SOURCES = \
 	scene/fonts/glyph-cache.cpp \
 	scene/fonts/glyph-context.cpp \
 	scene/fonts/glyph-state.cpp \
-	scene/gradient-object.cpp \
 	scene/gradient-state.cpp \
 	scene/layer.cpp \
 	scene/layer-context.cpp \
