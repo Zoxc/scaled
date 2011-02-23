@@ -16,7 +16,7 @@ namespace River
 			#endif
 		};
 
-		static const unsigned int max_alloc = 0x1000 * 4;
+		static const unsigned int max_alloc = 0x1000;
 
 		private:
 			uint8_t *current;
