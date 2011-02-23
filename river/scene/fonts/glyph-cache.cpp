@@ -41,8 +41,6 @@ namespace River
 		glBindTexture(GL_TEXTURE_2D, texture);
 		glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, width, height, GL_RGB, GL_UNSIGNED_BYTE, raster);
 		
-		const int offset = 0;
-
 		variation->x = (GLfloat)x / (GLfloat)this->width;
 		variation->y = (GLfloat)y / (GLfloat)this->height;
 
