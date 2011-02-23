@@ -10,8 +10,8 @@
 #include "river/widgets/gradient.hpp"
 #include "river/scene/scene.hpp"
 #include "river/scene/layer-context.hpp"
-#include "river/scene/gradient-object.hpp"
 #include "river/scene/fonts/glyph-context.hpp"
+#include "river/scene/gradient-context.hpp"
 #include "river/scene/fonts/glyph.hpp"
 #include "window-state.hpp"
 
@@ -26,7 +26,6 @@ Gradient gradient2;
 River::Window win;
 Layer *layer;
 Extends padding(10, 10, 10, 10);
-GradientObject *quad;
 Extends test(20, 20, 20, 20);
 FontSize *font;
 
@@ -144,7 +143,10 @@ int main(void)
 
 		font = Scene::basic_font.get_size(9);
 
+		GradientContext *gradient_context = GradientContext::acquire(&layer_context);
 		GlyphContext *glyph_context = GlyphContext::acquire(&layer_context);
+
+		gradient_context->render_horizontal(&layer_context, 0, 0, width, height, 0x232b24, 0x2d332e);
 
 		glyph_context->render_text(&layer_context, 100, 200, "Hello there, this is just a bunch of text to stress the GPU a little.", font, color_black);
 		glyph_context->render_text(&layer_context, 100, 220, "And here is some more. Please don't waste time reading this.", font, color_black);
@@ -202,9 +204,6 @@ int main(void)
 		swl_swap();
 		frame();
 	}
-
-	delete layer;
-	delete quad;
 
 	Scene::free();
 

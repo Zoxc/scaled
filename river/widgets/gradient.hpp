@@ -1,7 +1,6 @@
 #pragma once
 #include "../color.hpp"
 #include "../layout/element.hpp"
-#include "../scene/gradient-object.hpp"
 
 namespace River
 {
