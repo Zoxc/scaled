@@ -31,6 +31,8 @@ namespace River
 		class ContentList
 		{
 			public:
+				virtual ~ContentList();
+
 				GLuint texture;
 				size_t indices;
 				Buffer *vertex_buffer;
@@ -41,6 +43,8 @@ namespace River
 			public Layer::Content
 		{
 			public:
+				virtual ~Content();
+
 				std::vector<ContentList *> list;
 
 				void render();

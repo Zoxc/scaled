@@ -6,6 +6,18 @@
 
 namespace River
 {
+	GlyphContext::ContentList::~ContentList()
+	{
+		delete vertex_buffer;
+		delete coords_buffer;
+	}
+
+	GlyphContext::Content::~Content()
+	{
+		for(std::vector<ContentList *>::iterator i = list.begin(); i != list.end(); ++i)
+			delete *i;
+	}
+
 	void GlyphContext::Content::render()
 	{
 		Scene::glyph_state.use();

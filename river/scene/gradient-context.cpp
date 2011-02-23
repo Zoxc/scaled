@@ -5,6 +5,12 @@
 
 namespace River
 {
+	GradientContext::Content::~Content()
+	{
+		delete vertex_buffer;
+		delete color_buffer;
+	}
+
 	void GradientContext::Content::render()
 	{
 		Scene::gradient_state.use();

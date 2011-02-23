@@ -34,6 +34,7 @@ namespace River
 			public Layer::Content
 		{
 			public:
+				virtual ~Content();
 				size_t indices;
 				Buffer *vertex_buffer;
 				Buffer *color_buffer;
