@@ -24,10 +24,8 @@ using namespace River;
 Gradient gradient1;
 Gradient gradient2;
 River::Window win;
-Layer *layer;
 Extends padding(10, 10, 10, 10);
 Extends test(20, 20, 20, 20);
-FontSize *font;
 
 const int width = 640;
 const int height = 400;
@@ -140,17 +138,25 @@ int main(void)
 	{
 		MemoryPool memory_pool;
 		LayerContext layer_context(memory_pool);
+		LayerContext back_layer_context(memory_pool);
+		
+		FontSize *font = Scene::basic_font.get_size(12);
 
-		font = Scene::basic_font.get_size(9);
-
-		GradientContext *gradient_context = GradientContext::acquire(&layer_context);
+		GradientContext *gradient_context = GradientContext::acquire(&back_layer_context);
 		GlyphContext *glyph_context = GlyphContext::acquire(&layer_context);
 
-		gradient_context->render_vertical(&layer_context, 0, 0, width, height, 0x232b24, 0x2d332e);
-
-		glyph_context->render_text(&layer_context, 100, 200, "Hello there, this is just a bunch of text to stress the GPU a little.", font, color_black);
-		glyph_context->render_text(&layer_context, 100, 220, "And here is some more. Please don't waste time reading this.", font, color_black);
+		size_t top_bar = 36;
 		
+		gradient_context->render_vertical(&layer_context, 0, 0, width, top_bar, 0x1a1c1a, 0x1a1c1a);
+
+		gradient_context->render_vertical(&layer_context, 0, top_bar, width, height - top_bar, 0x232b24, 0x2d332e);
+		
+		glyph_context->render_text(&layer_context, 10, 23, "Application Launcher", font, color_white);
+		glyph_context->render_text(&layer_context, 590, 23, "20:32", font, color_white);
+
+		glyph_context->render_text(&layer_context, 100, 200, "Hello there, this is just a bunch of text to stress the GPU a little.", font, color_white);
+		glyph_context->render_text(&layer_context, 100, 220, "And here is some more. Please don't waste time reading this.", font, color_white);
+		/*
 		gradient1.vertical(0xFF3412, 0x23FF12);
 		gradient1.width = Element::Flags::Extend;
 		gradient1.height = 5;
@@ -159,15 +165,15 @@ int main(void)
 		gradient2.horizontal(0xFF3412, 0x23FF12);
 		gradient2.width = Element::Flags::Extend;
 		gradient2.height = Element::Flags::Extend;
-
+		
 		win.element.padding = &padding;
 		win.element.children.append(&gradient1);
 		win.element.children.append(&gradient2);
 		win.element.layout(width, height);
 		win.element.place(&layer_context, 0, 0);
-		
-		layer = layer_context.render();
-		win.layers.append(layer);
+		*/
+		win.layers.append(back_layer_context.render());
+		win.layers.append(layer_context.render());
 	}
 	
 	Scene::windows.append(&win);
