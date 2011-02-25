@@ -41,15 +41,15 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>X:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.07.27.0484\Builds\OGLES2\Include;B:\Programmering\scaled\swl;B:\Programmering\Libraries\freetype\include;B:\Programmering\Libraries\freetype\include\freetype2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>X:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.07.27.0484\Builds\OGLES2\Include;B:\Programmering\swl\include;B:\Programmering\Libraries\freetype\include;B:\Programmering\Libraries\freetype\include\freetype2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <AdditionalOptions>/wd4355 %(AdditionalOptions)</AdditionalOptions>
       <PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>X:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.07.27.0484\Builds\OGLES2\WindowsPC\Lib;B:\Programmering\Libraries\freetype\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>EGL.lib;GLESv2.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>X:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.07.27.0484\Builds\OGLES2\WindowsPC\Lib;B:\Programmering\Libraries\freetype\lib;B:\Programmering\swl\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>EGL.lib;GLESv2.lib;freetype.lib;libswl.dll.a</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -58,7 +58,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>X:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.07.27.0484\Builds\OGLES2\Include;B:\Programmering\scaled\swl;B:\Programmering\Libraries\freetype\include;B:\Programmering\Libraries\freetype\include\freetype2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>X:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.07.27.0484\Builds\OGLES2\Include;B:\Programmering\swl\include;B:\Programmering\Libraries\freetype\include;B:\Programmering\Libraries\freetype\include\freetype2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/w04355 %(AdditionalOptions)</AdditionalOptions>
       <PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
@@ -66,8 +66,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>X:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.07.27.0484\Builds\OGLES2\WindowsPC\Lib;B:\Programmering\Libraries\freetype\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>EGL.lib;GLESv2.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>X:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.07.27.0484\Builds\OGLES2\WindowsPC\Lib;B:\Programmering\Libraries\freetype\lib;B:\Programmering\swl\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>EGL.lib;GLESv2.lib;freetype.lib;libswl.dll.a</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -131,11 +131,6 @@
     <ClInclude Include="..\river\simpler-list.hpp" />
     <ClInclude Include="..\river\widgets\gradient.hpp" />
     <ClInclude Include="..\window-state.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\swl\msvc\swl.vcxproj">
-      <Project>{3d7301a4-516e-45a0-a14e-f4ee138d795f}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

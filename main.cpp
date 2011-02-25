@@ -4,7 +4,7 @@
 #include <sstream>
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
-#include "swl/swl.h"
+#include <swl.h>
 #include "river/color.hpp"
 #include "river/layout/block.hpp"
 #include "river/widgets/gradient.hpp"

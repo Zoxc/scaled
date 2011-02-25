@@ -41,16 +41,6 @@ namespace River
 				std::cout << "glGetError returned " << gl_error << "\n";
 				assert(0);
 			}
-
-			#ifdef SWL_CONTEXT_EGL
-				EGLint egl_error = eglGetError();
-
-				if(egl_error != EGL_SUCCESS)
-				{
-					std::cout << "eglGetError returned " << egl_error << "\n";
-					assert(0);
-				}
-			#endif
 		}
 
 		void alloc()

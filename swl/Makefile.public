@@ -1,12 +1,6 @@
-include $(root)/swl/Makefile.shared
+-include $(root)/swl/Makefile.conf
 
-.PHONY: swl 
-swl:
-	$(MAKE) -C $(root)/swl
+LIBS += swl
 
-.PHONY: swl-clean
-swl-clean:
-	$(MAKE) -C $(root)/swl clean
-
-INCLUDE_DIRS += $(root)/swl
-LIB_DIRS += $(root)/swl
+CFLAGS += $(LIBSWL_CFLAGS)
+LDFLAGS += $(LIBSWL_LDFLAGS)
