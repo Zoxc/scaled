@@ -171,7 +171,7 @@ int main(void)
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		{
-			Window::LayerList::Iterator i = win.layers.begin();
+			River::Window::LayerList::Iterator i = win.layers.begin();
 
 			while(i !=  win.layers.end())
 			{
