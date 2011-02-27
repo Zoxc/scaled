@@ -6,6 +6,7 @@
 #include "layer.hpp"
 #include "state.hpp"
 #include "gradient-state.hpp"
+#include "colored-image-canvas.hpp"
 
 namespace River
 {
@@ -17,6 +18,7 @@ namespace River
 
 		extern Font basic_font;
 		
+		extern ColoredImageState colored_image_state;
 		extern GradientState gradient_state;
 		extern GlyphState glyph_state;
 		

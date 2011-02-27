@@ -13,6 +13,7 @@ namespace River
 	{
 		WindowList windows;
 
+		ColoredImageState colored_image_state;
 		GradientState gradient_state;
 		GlyphState glyph_state;
 		
@@ -28,6 +29,7 @@ namespace River
 		{
 			glViewport(0, 0, width, height);
 			
+			colored_image_state.size(width, height);
 			gradient_state.size(width, height);
 			glyph_state.size(width, height);
 		}
@@ -55,12 +57,14 @@ namespace River
 			if(!basic_font.allocate("fonts/DroidSans.ttf"))
 				printf("Unable to alllocate basic font.\n");
 			
+			colored_image_state.alloc();
 			gradient_state.alloc();
 			glyph_state.alloc();
 		}
 
 		void free()
 		{
+			colored_image_state.free();
 			gradient_state.free();
 			glyph_state.free();
 		}

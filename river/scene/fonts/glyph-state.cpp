@@ -1,6 +1,5 @@
 #include "../scene.hpp"
 #include "glyph-state.hpp"
-#include "glyph-cache.hpp"
 
 namespace River
 {

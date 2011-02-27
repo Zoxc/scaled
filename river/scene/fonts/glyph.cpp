@@ -65,7 +65,7 @@ namespace River
 		
 		advance = glyph->advance.x >> 6;
 		
-		offsets[0].cache = font_size->place(&offsets[0], height, raster);
+		offsets[0].cache = font_size->glyph_atlas.place(&offsets[0].entry, offsets[0].width, height, raster);
 
 		for(size_t i = 1; i < 3; ++i)
 		{
@@ -90,7 +90,7 @@ namespace River
 				}
 			}
 
-			offsets[i].cache = font_size->place(&offsets[i], height, variant_raster);
+			offsets[i].cache = font_size->glyph_atlas.place(&offsets[i].entry, offsets[i].width, height, variant_raster);
 
 			free(variant_raster);
 		}

@@ -17,7 +17,8 @@ namespace River
 				enum Type
 				{
 					GlyphContext,
-					GradientContext
+					GradientContext,
+					ColoredImageCanvas
 				};
 
 				uint32_t entry_type;

@@ -24,8 +24,6 @@ namespace River
 		glDrawArrays(GL_TRIANGLES, 0, indices);
 
 		Scene::draw_call();
-		
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
 	GradientContext::Object::Object(int x, int y, int width, int height) : x(x), y(y), width(width), height(height)
@@ -49,7 +47,7 @@ namespace River
 		objects.append(object);
 	}
 
-	void GradientContext::render_horizontal(LayerContext *layer, int x, int y, int width, int height, uint32_t left, uint32_t right)
+	void GradientContext::render_horizontal(LayerContext *layer, int x, int y, int width, int height, color_t left, color_t right)
 	{
 		Object *object = new (layer->memory_pool) Object(x, y, width, height);
 		
@@ -63,9 +61,9 @@ namespace River
 	
 	GLubyte *GradientContext::buffer_color(GLubyte *buffer, uint32_t color)
 	{
-		*buffer++ = (color >> 24) & 0xFF;
-		*buffer++ = (color >> 16) & 0xFF;
-		*buffer++ = (color >> 8) & 0xFF;
+		*buffer++ = color_red_component(color);
+		*buffer++ = color_green_component(color);
+		*buffer++ = color_blue_component(color);
 
 		return buffer;
 	}

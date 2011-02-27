@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include "../../gles.hpp"
 #include "../../freetype.hpp"
+#include "../atlas.hpp"
 
 namespace River
 {
@@ -20,13 +21,11 @@ namespace River
 
 		uint32_t code;
 		
-		struct Variation {
+		struct Variation
+		{
 			size_t width;
-			GlyphCache *cache;
-			GLfloat x;
-			GLfloat y;
-			GLfloat x2;
-			GLfloat y2;
+			River::Atlas<GL_RGB>::Texture *cache; // TODO: Find out why this requires the River prefix!
+			AtlasEntry entry;
 		};
 
 		Variation offsets[3];

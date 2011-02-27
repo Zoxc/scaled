@@ -1,3 +1,4 @@
 include $(root)/swl/Makefile.public
 include $(root)/gles/Makefile.public
 include $(root)/freetype/Makefile.public
+include $(root)/png/Makefile.public

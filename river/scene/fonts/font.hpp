@@ -3,48 +3,23 @@
 #include "../../hash-table.hpp"
 #include "../../allocator.hpp"
 #include "../../ref-object.hpp"
-#include "font-size.hpp"
 
 namespace River
 {
+	class Font;
+	class FontSize;
+
 	class FontSizeFunctions:
 		public HashTableFunctions<size_t, FontSize *, Font *, StdLibAllocator>
 	{
 	public:
-		static bool compare_key_value(size_t key, FontSize *value)
-		{
-			return key == value->size;
-		}
-
-		static size_t get_key(FontSize *value)
-		{
-			return value->size;
-		}
-
-		static FontSize *get_value_next(FontSize *value)
-		{
-			return value->next;
-		}
-
-		static void set_value_next(FontSize *value, FontSize *next)
-		{
-			value->next = next;
-		}
-
-		static bool valid_key(size_t key)
-		{
-			return true;
-		}
-
-		static bool create_value()
-		{
-			return true;
-		}
-
-		static FontSize *create_value(StdLibAllocator::Ref alloc_ref, Font *font, size_t key)
-		{
-			return new FontSize(*font, key);
-		}
+		static bool compare_key_value(size_t key, FontSize *value);
+		static size_t get_key(FontSize *value);
+		static FontSize *get_value_next(FontSize *value);
+		static void set_value_next(FontSize *value, FontSize *next);
+		static bool valid_key(size_t key);
+		static bool create_value();
+		static FontSize *create_value(StdLibAllocator::Ref alloc_ref, Font *font, size_t key);
 	};
 
 	typedef HashTable<size_t, FontSize *, Font *, FontSizeFunctions> FontSizeTable;

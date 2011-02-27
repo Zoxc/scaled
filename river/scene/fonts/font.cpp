@@ -1,8 +1,44 @@
 #include "font.hpp"
+#include "font-size.hpp"
 #include <assert.h>
 
 namespace River
 {
+	bool FontSizeFunctions::compare_key_value(size_t key, FontSize *value)
+	{
+		return key == value->size;
+	}
+
+	size_t FontSizeFunctions::get_key(FontSize *value)
+	{
+		return value->size;
+	}
+
+	FontSize *FontSizeFunctions::get_value_next(FontSize *value)
+	{
+		return value->next;
+	}
+
+	void FontSizeFunctions::set_value_next(FontSize *value, FontSize *next)
+	{
+		value->next = next;
+	}
+
+	bool FontSizeFunctions::valid_key(size_t key)
+	{
+		return true;
+	}
+
+	bool FontSizeFunctions::create_value()
+	{
+		return true;
+	}
+
+	FontSize *FontSizeFunctions::create_value(StdLibAllocator::Ref alloc_ref, Font *font, size_t key)
+	{
+		return new FontSize(*font, key);
+	}
+
 	FT_Library Font::library;
 
 	void Font::setup()

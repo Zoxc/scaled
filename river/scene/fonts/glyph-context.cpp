@@ -2,6 +2,7 @@
 #include "../buffer.hpp"
 #include "../scene.hpp"
 #include "glyph-context.hpp"
+#include "font-size.hpp"
 #include "glyph.hpp"
 
 namespace River
@@ -128,7 +129,7 @@ namespace River
 					Glyph::Variation *variantion = &object->glyph->offsets[object->offset];
 				
 					vertex_map = buffer_quad(vertex_map, object->x, object->y, variantion->width, object->glyph->height);
-					coords_map = buffer_coords(coords_map, variantion->x, variantion->y, variantion->x2, variantion->y2);
+					coords_map = buffer_coords(coords_map, variantion->entry.x, variantion->entry.y, variantion->entry.x2, variantion->entry.y2);
 				}
 
 				key_content->vertex_buffer->unmap();

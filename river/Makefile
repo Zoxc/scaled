@@ -20,17 +20,18 @@ SOURCES = \
 	scene/fonts/font.cpp \
 	scene/fonts/font-size.cpp \
 	scene/fonts/glyph.cpp \
-	scene/fonts/glyph-cache.cpp \
 	scene/fonts/glyph-context.cpp \
 	scene/fonts/glyph-state.cpp \
 	scene/gradient-state.cpp \
 	scene/gradient-context.cpp \
+	scene/colored-image-canvas.cpp \
 	scene/layer.cpp \
 	scene/layer-context.cpp \
 	scene/buffer.cpp \
 	scene/scene.cpp \
 	scene/state.cpp \
 	scene/shader-state.cpp \
+	image.cpp \
 	widgets/gradient.cpp \
 	$(NULL)
 

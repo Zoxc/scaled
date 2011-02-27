@@ -4,6 +4,7 @@
 #include "../../counted-simple-list.hpp"
 #include "../object-hash.hpp"
 #include "../layer-context.hpp"
+#include "../atlas.hpp"
 
 namespace River
 {
@@ -75,11 +76,11 @@ namespace River
 			public:
 				ColorKeyHash(MemoryPool &memory_pool) : ObjectHash(memory_pool) {}
 
-				GlyphCache *key;
+				Atlas<GL_RGB>::Texture *key;
 				ColorKeyHash *next;
 		};
 
-		typedef ObjectHash<GlyphCache *, ColorKeyHash> GlyphObjectHash;
+		typedef ObjectHash<Atlas<GL_RGB>::Texture *, ColorKeyHash> GlyphObjectHash;
 
 		GlyphObjectHash glyph_objects;
 	public:
