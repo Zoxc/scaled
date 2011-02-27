@@ -30,4 +30,15 @@ namespace River
 	{
 		return table.get(size);
 	}
+
+	FT_Face Font::use_size(size_t size)
+	{
+		if(current_size != size)
+		{
+			assert(FT_Set_Char_Size(face, 0, size * 64, 3 * 96, 96) == 0);
+			current_size = size;
+		}
+
+		return face;
+	}
 };

@@ -65,6 +65,7 @@ namespace River
 		
 		Font &font;
 		size_t size;
+		size_t line_height;
 		FontGlyphTable table;
 		FontSize *next;
 		GlyphCacheList glyph_caches;

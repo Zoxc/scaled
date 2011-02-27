@@ -63,9 +63,9 @@ namespace River
 	
 	GLubyte *GradientContext::buffer_color(GLubyte *buffer, uint32_t color)
 	{
-		*buffer++ = color & 0xFF;
-		*buffer++ = (color >> 8) & 0xFF;
+		*buffer++ = (color >> 24) & 0xFF;
 		*buffer++ = (color >> 16) & 0xFF;
+		*buffer++ = (color >> 8) & 0xFF;
 
 		return buffer;
 	}

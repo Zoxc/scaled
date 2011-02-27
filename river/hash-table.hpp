@@ -240,7 +240,8 @@ namespace River
 						if(slot == end)
 							return;
 
-						current = *slot++;
+						current = *slot;
+						slot++;
 					}
 					while(!T::valid_value(current));
 				}
@@ -252,7 +253,7 @@ namespace River
 				
 				bool operator !=(const Iterator &other) const
 				{
-					return (current != other.current) && (slot != other.slot);
+					return (current != other.current) || (slot != other.slot);
 				}
 				
 				V operator ++()

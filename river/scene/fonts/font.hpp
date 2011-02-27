@@ -52,6 +52,9 @@ namespace River
 	class Font:
 		public RefObject
 	{
+	private:
+		size_t current_size;
+		FT_Face face;
 	public:
 		Font();
 		~Font();
@@ -63,9 +66,9 @@ namespace River
 
 		static FT_Library library;
 
-		size_t current_size;
 		const char *name;
-		FT_Face face;
+
+		FT_Face use_size(size_t size);
 
 		/*
 		 * TODO: Make FontSize's destructor remove the reference in this hash table.

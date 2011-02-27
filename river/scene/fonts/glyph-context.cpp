@@ -6,10 +6,16 @@
 
 namespace River
 {
-	GlyphContext::ContentList::~ContentList()
+	GlyphContext::ColorKeyContent::~ColorKeyContent()
 	{
 		delete vertex_buffer;
 		delete coords_buffer;
+	}
+
+	GlyphContext::ContentList::~ContentList()
+	{
+		for(std::vector<ColorKeyContent *>::iterator i = keys.begin(); i != keys.end(); ++i)
+			delete *i;
 	}
 
 	GlyphContext::Content::~Content()
@@ -29,21 +35,24 @@ namespace River
 			ContentList *list = *i;
 			
 			glBindTexture(GL_TEXTURE_2D, list->texture);
-
-			glUniform1f(Scene::glyph_state.alpha_uniform, color_alpha_component(color) / (GLfloat)255.0);
-			glBlendColor(color_red_component(color) / (GLfloat)255.0, color_green_component(color) / (GLfloat)255.0, color_blue_component(color) / (GLfloat)255.0, 0.0);
-
-			list->vertex_buffer->bind();
-			glVertexAttribPointer(0, 2, GL_SHORT, GL_FALSE, 0, 0);
-
-			list->coords_buffer->bind();
-			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
-
-			glDrawArrays(GL_TRIANGLES, 0, list->indices);
-
-			Scene::draw_call();
 			
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			for(std::vector<ColorKeyContent *>::iterator j = list->keys.begin(); j != list->keys.end(); ++j)
+			{
+				ColorKeyContent *key = *j;
+
+				glUniform1f(Scene::glyph_state.alpha_uniform, key->a);
+				glBlendColor(key->r, key->g, key->b, 0.0);
+
+				key->vertex_buffer->bind();
+				glVertexAttribPointer(0, 2, GL_SHORT, GL_FALSE, 0, 0);
+
+				key->coords_buffer->bind();
+				glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+				glDrawArrays(GL_TRIANGLES, 0, key->indices);
+
+				Scene::draw_call();
+			}
 		}
 	}
 
@@ -60,7 +69,7 @@ namespace River
 	{
 		Object *object = new (layer->memory_pool) Object(x, y - glyph->offset_y, glyph, subpixel_offset);
 
-		glyph_objects.table.get(glyph->offsets[subpixel_offset].cache)->append(object);
+		glyph_objects.table.get(glyph->offsets[subpixel_offset].cache)->table.get(color)->append(object);
 	}
 	
 	void GlyphContext::render_text(LayerContext *layer, int x, int y, const char *text, FontSize *font_size, color_t color)
@@ -92,29 +101,41 @@ namespace River
 
 		for(GlyphObjectHash::Table::Iterator i = glyph_objects.table.begin(); i != glyph_objects.table.end(); ++i)
 		{
-			GlyphObjectList *list = *i;
+			ColorKeyHash *hash = *i;
 
 			ContentList *content_list = new ContentList;
+			content_list->texture = hash->key->texture;
 
-			content_list->texture = list->key->texture;
-			content_list->indices = list->size * 6;
-			content_list->vertex_buffer = new Buffer(GL_ARRAY_BUFFER, content_list->indices * 2 * sizeof(GLshort));
-			content_list->coords_buffer = new Buffer(GL_ARRAY_BUFFER, content_list->indices * 2 * sizeof(GLfloat));
-			
-			GLshort *vertex_map = (GLshort *)content_list->vertex_buffer->map();
-			GLfloat *coords_map = (GLfloat *)content_list->coords_buffer->map();
-			
-			for(GlyphObjectList::Iterator j = list->begin(); j != list->end(); ++j)
+			for(ColorKeyHash::Table::Iterator j = hash->table.begin(); j != hash->table.end(); ++j)
 			{
-				Object *object = *j;
-				Glyph::Variation *variantion = &object->glyph->offsets[object->offset];
+				ColorKeyContent *key_content = new ColorKeyContent;
+				GlyphObjectList *list = *j;
 				
-				vertex_map = buffer_quad(vertex_map, object->x, object->y, variantion->width, object->glyph->height);
-				coords_map = buffer_coords(coords_map, variantion->x, variantion->y, variantion->x2, variantion->y2);
-			}
+				key_content->r = color_red_component(list->key) / (GLclampf)255.0;
+				key_content->g = color_green_component(list->key) / (GLclampf)255.0;
+				key_content->b = color_blue_component(list->key) / (GLclampf)255.0;
+				key_content->a = color_alpha_component(list->key) / (GLclampf)255.0;
+				key_content->indices = list->size * 6;
+				key_content->vertex_buffer = new Buffer(GL_ARRAY_BUFFER, key_content->indices * 2 * sizeof(GLshort));
+				key_content->coords_buffer = new Buffer(GL_ARRAY_BUFFER, key_content->indices * 2 * sizeof(GLfloat));
+				
+				GLshort *vertex_map = (GLshort *)key_content->vertex_buffer->map();
+				GLfloat *coords_map = (GLfloat *)key_content->coords_buffer->map();
+				
+				for(GlyphObjectList::Iterator k = list->begin(); k != list->end(); ++k)
+				{
+					Object *object = *k;
+					Glyph::Variation *variantion = &object->glyph->offsets[object->offset];
+				
+					vertex_map = buffer_quad(vertex_map, object->x, object->y, variantion->width, object->glyph->height);
+					coords_map = buffer_coords(coords_map, variantion->x, variantion->y, variantion->x2, variantion->y2);
+				}
 
-			content_list->vertex_buffer->unmap();
-			content_list->coords_buffer->unmap();
+				key_content->vertex_buffer->unmap();
+				key_content->coords_buffer->unmap();
+				
+				content_list->keys.push_back(key_content);
+			}
 
 			content->list.push_back(content_list);
 		}

@@ -28,15 +28,24 @@ namespace River
 			uint8_t offset;
 		};
 		
+		class ColorKeyContent
+		{
+			public:
+				virtual ~ColorKeyContent();
+
+				GLclampf r, g, b, a;
+				size_t indices;
+				Buffer *vertex_buffer;
+				Buffer *coords_buffer;
+		};
+
 		class ContentList
 		{
 			public:
 				virtual ~ContentList();
-
+				
 				GLuint texture;
-				size_t indices;
-				Buffer *vertex_buffer;
-				Buffer *coords_buffer;
+				std::vector<ColorKeyContent *> keys;
 		};
 
 		class Content:
@@ -54,11 +63,23 @@ namespace River
 			public CountedSimpleList<Object>
 		{
 			public:
-				GlyphCache *key;
+				GlyphObjectList(MemoryPool &memory_pool) {}
+				
+				color_t key;
 				GlyphObjectList *next;
 		};
+		
+		class ColorKeyHash:
+			public ObjectHash<color_t, GlyphObjectList>
+		{
+			public:
+				ColorKeyHash(MemoryPool &memory_pool) : ObjectHash(memory_pool) {}
 
-		typedef ObjectHash<GlyphCache *, GlyphObjectList> GlyphObjectHash;
+				GlyphCache *key;
+				ColorKeyHash *next;
+		};
+
+		typedef ObjectHash<GlyphCache *, ColorKeyHash> GlyphObjectHash;
 
 		GlyphObjectHash glyph_objects;
 	public:
