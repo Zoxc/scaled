@@ -30,7 +30,7 @@ $(CFG)/%.o: %.c
 
 $(CFG)/%.o: %.cpp
 	@echo Building $< for $(CFG)
-	$(CXX) $(CFLAGS) $(CXXFLAGS) -c $< -o $@
+	@$(CXX) $(CFLAGS) $(CXXFLAGS) -c $< -o $@
 
 .PHONY: build-dirs 
 build-dirs:
