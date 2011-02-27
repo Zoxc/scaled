@@ -1,4 +1,4 @@
-include $(root)/png/Makefile.conf
+-include $(root)/png/Makefile.conf
 
 LIBS += png
 
