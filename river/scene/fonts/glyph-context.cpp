@@ -27,9 +27,7 @@ namespace River
 	void GlyphContext::Content::render()
 	{
 		Scene::glyph_state.use();
-
-		color_t color = color_white;
-
+		
 		for(std::vector<ContentList *>::iterator i = list.begin(); i != list.end(); ++i)
 		{
 			ContentList *list = *i;
