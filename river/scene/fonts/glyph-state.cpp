@@ -18,7 +18,7 @@ namespace River
 	static const char* fragment_shader = "precision highp float;\
 		varying vec2 v_tex_coord;\
 		uniform float alpha;\
-		uniform lowp sampler2D texture;\
+		uniform sampler2D texture;\
 		void main(void)\
 		{\
 			gl_FragColor = texture2D(texture, v_tex_coord);\
