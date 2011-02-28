@@ -74,7 +74,7 @@ namespace River
 			public ObjectHash<color_t, GlyphObjectList>
 		{
 			public:
-				ColorKeyHash(MemoryPool &memory_pool) : ObjectHash(memory_pool) {}
+				ColorKeyHash(MemoryPool &memory_pool) : ObjectHash<color_t, GlyphObjectList>(memory_pool) {}
 
 				Atlas<GL_RGB>::Texture *key;
 				ColorKeyHash *next;

@@ -3,7 +3,7 @@
 
 namespace River
 {
-	Image::Image(Atlas<GL_RGBA> *atlas) : texture(GL_NONE), atlas(atlas)
+	Image::Image(Atlas<GL_RGBA> *atlas) : atlas(atlas), texture(GL_NONE)
 	{
 	}
 
