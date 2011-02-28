@@ -26,11 +26,11 @@ LDFLAGS += $(patsubst %, -l%, $(LIBS))
 
 $(CFG)/%.o: %.c
 	@echo Building $< for $(CFG)
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 $(CFG)/%.o: %.cpp
 	@echo Building $< for $(CFG)
-	@$(CXX) $(CFLAGS) $(CXXFLAGS) -c $< -o $@
+	@$(CXX) $(CFLAGS) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
 .PHONY: build-dirs 
 build-dirs:
