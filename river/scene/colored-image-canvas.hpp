@@ -19,6 +19,8 @@ namespace River
 	public:
 		ColoredImageState();
 
+		GLuint texture_uniform;
+
 		void bind_attributes(GLuint program);
 		void get_uniforms(GLuint program);
 		void use();
@@ -31,7 +33,7 @@ namespace River
 		class Object
 		{
 		public:
-			Object(int x, int y, int width, int height, color_t color, Image *image);
+			Object(int x, int y, int width, int height, color_t color, AtlasEntry *entry);
 
 			SimpleEntry<Object> entry;
 			
@@ -40,7 +42,7 @@ namespace River
 			int width;
 			int height;
 			color_t color;
-			Image *image;
+			AtlasEntry *atlas_entry;
 		};
 		
 		class ContentEntry
@@ -52,6 +54,7 @@ namespace River
 				size_t indices;
 				Buffer *vertex_buffer;
 				Buffer *color_buffer;
+				Buffer *coords_buffer;
 
 				void render();
 		};

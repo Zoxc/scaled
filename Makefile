@@ -19,5 +19,5 @@ $(TARGET): river swl $(OBJECTS)
 all: build-dirs $(TARGET)
 
 .PHONY: clean 
-clean: river-clean swl-clean
+clean: river-clean
 	@rm -f $(OBJECTS) $(TARGET)

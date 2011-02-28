@@ -184,10 +184,10 @@ int main(void)
 			Image *image = new Image(&icon_atlas);
 			image->load_png("icons/" + categories[i] + ".png");
 			size_t top = cat_top + cat_height * i;
-			size_t icon_height = 22;
+			size_t icon_height = image->height;
 			color_t tint = cat_selected == i ? 0xba9565ff : 0x7f837fff;
-			colored_image_canvas->render_image(&layer_context, 40, top + center(icon_height, cat_height), 22, 22, tint, image);
-			glyph_context->render_text(&layer_context, 75,  top + 25, categories[i].c_str(), font, tint);
+			colored_image_canvas->render_image(&layer_context, 40, top + center(icon_height, cat_height), image->width, image->height, tint, image);
+			glyph_context->render_text(&layer_context, 78,  top + 25, categories[i].c_str(), font, tint);
 		}
 
 		/*

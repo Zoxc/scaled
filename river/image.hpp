@@ -13,13 +13,13 @@ namespace River
 	class Image
 	{
 	private:
-		bool Allocated;
-		size_t width;
-		size_t height;
 		Atlas<GL_RGBA> *atlas;
-		AtlasEntry entry;
 	public:
 		Atlas<GL_RGBA>::Texture *texture;
+		AtlasEntry entry;
+
+		size_t width;
+		size_t height;
 
 		Image(Atlas<GL_RGBA> *atlas);
 

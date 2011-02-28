@@ -38,8 +38,6 @@ namespace River
 	{
 		alpha_uniform = glGetUniformLocation(program, "alpha");
 		texture_uniform = glGetUniformLocation(program, "texture");
-		
-		ShaderState::use();
 	}
 
 	void GlyphState::use()
