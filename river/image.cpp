@@ -55,8 +55,8 @@ namespace River
 
 		png_read_info(png_ptr, info_ptr);
 
-		width = info_ptr->width;
-		height = info_ptr->height;
+		width = png_get_image_width(png_ptr, info_ptr);
+		height = png_get_image_height(png_ptr, info_ptr);
 
 		// Expand to RGB
 		png_set_expand(png_ptr);
@@ -75,7 +75,7 @@ namespace River
 
 		delete[] row_pointers;
 
-		assert(info_ptr->channels == 4 && info_ptr->bit_depth == 8);
+		assert(png_get_channels(png_ptr, info_ptr) == 4 && png_get_bit_depth(png_ptr, info_ptr) == 8);
 
 		texture = atlas->place(&entry, width, height, image_data);
 

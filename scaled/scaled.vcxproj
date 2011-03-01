@@ -41,15 +41,15 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>X:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.07.27.0484\Builds\OGLES2\Include;B:\Programmering\swl\include;B:\Programmering\Libraries\freetype\include;B:\Programmering\Libraries\freetype\include\freetype2;B:\Programmering\Libraries\libpng\include;B:\Programmering\Libraries\zlib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>X:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.07.27.0484\Builds\OGLES2\Include;B:\Programmering\swl\include;B:\Programmering\Libraries\freetype\include;B:\Programmering\Libraries\freetype\include\freetype2;B:\Programmering\Libraries\libpng;B:\Programmering\Libraries\zlib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <AdditionalOptions>/wd4355 %(AdditionalOptions)</AdditionalOptions>
       <PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>X:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.07.27.0484\Builds\OGLES2\WindowsPC\Lib;B:\Programmering\Libraries\freetype\lib;B:\Programmering\swl\lib;B:\Programmering\Libraries\libpng\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>EGL.lib;GLESv2.lib;freetype.lib;libswl.dll.a;libpng.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>X:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.07.27.0484\Builds\OGLES2\WindowsPC\Lib;B:\Programmering\Libraries\freetype\lib;B:\Programmering\swl\lib;B:\Programmering\Libraries\libpng;B:\Programmering\Libraries\zlib\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>EGL.lib;GLESv2.lib;freetype.lib;libswl.dll.a;libpng.lib;libz.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -66,8 +66,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>X:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.07.27.0484\Builds\OGLES2\WindowsPC\Lib;B:\Programmering\Libraries\freetype\lib;B:\Programmering\swl\lib;B:\Programmering\Libraries\libpng\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>EGL.lib;GLESv2.lib;freetype.lib;libswl.dll.a;libpng.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>X:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.07.27.0484\Builds\OGLES2\WindowsPC\Lib;B:\Programmering\Libraries\freetype\lib;B:\Programmering\swl\lib;B:\Programmering\Libraries\libpng;B:\Programmering\Libraries\zlib\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>EGL.lib;GLESv2.lib;freetype.lib;libswl.dll.a;libpng.lib;libz.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

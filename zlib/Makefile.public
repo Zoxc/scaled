@@ -1,0 +1,6 @@
+-include $(root)/zlib/Makefile.conf
+
+LIBS += z
+
+CFLAGS += $(LIBZ_CFLAGS)
+LDFLAGS += $(LIBZ_LDFLAGS)
