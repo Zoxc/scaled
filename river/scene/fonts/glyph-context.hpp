@@ -5,12 +5,12 @@
 #include "../object-hash.hpp"
 #include "../layer-context.hpp"
 #include "../atlas.hpp"
+#include "../buffer.hpp"
 
 namespace River
 {
 	class Glyph;
 	class GlyphCache;
-	class Buffer;
 	
 	class GlyphContext:
 		public LayerContext::Entry
@@ -36,8 +36,8 @@ namespace River
 
 				GLclampf r, g, b, a;
 				size_t indices;
-				Buffer *vertex_buffer;
-				Buffer *coords_buffer;
+				Buffer<GL_ARRAY_BUFFER, GLshort> vertex_buffer;
+				Buffer<GL_ARRAY_BUFFER, GLfloat> coords_buffer;
 		};
 
 		class Content:

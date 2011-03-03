@@ -62,9 +62,7 @@ namespace River
 	
 	void ColoredImageCanvas::ContentEntry::deallocate()
 	{
-		delete vertex_buffer;
-		delete color_buffer;
-		delete coords_buffer;
+		ContentEntry::~ContentEntry();
 	}
 	
 	void ColoredImageCanvas::Content::render(ContentWalker &walker)
@@ -79,13 +77,13 @@ namespace River
 			
 			glBindTexture(GL_TEXTURE_2D, entry.texture);
 			
-			entry.vertex_buffer->bind();
+			entry.vertex_buffer.bind();
 			glVertexAttribPointer(0, 2, GL_SHORT, GL_FALSE, 0, 0);
 
-			entry.color_buffer->bind();
+			entry.color_buffer.bind();
 			glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, 0, 0);
 
-			entry.coords_buffer->bind();
+			entry.coords_buffer.bind();
 			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
 			glDrawArrays(GL_TRIANGLES, 0, entry.indices);
@@ -151,13 +149,10 @@ namespace River
 
 			entry.texture = list->key->texture;
 			entry.indices = list->size * 6;
-			entry.vertex_buffer = new Buffer(GL_ARRAY_BUFFER, entry.indices * 2 * sizeof(GLshort));
-			entry.color_buffer = new Buffer(GL_ARRAY_BUFFER, entry.indices * 4 * sizeof(GLubyte));
-			entry.coords_buffer = new Buffer(GL_ARRAY_BUFFER, entry.indices * 2 * sizeof(GLfloat));
-		
-			GLshort *vertex_map = (GLshort *)entry.vertex_buffer->map();
-			GLubyte *color_map = (GLubyte *)entry.color_buffer->map();
-			GLfloat *coords_map = (GLfloat *)entry.coords_buffer->map();
+			
+			GLshort *vertex_map = entry.vertex_buffer.setup(entry.indices * 2);
+			GLubyte *color_map = entry.color_buffer.setup(entry.indices * 4);
+			GLfloat *coords_map = entry.coords_buffer.setup(entry.indices * 2);
 			
 			for(ObjectList::Iterator j = list->begin(); j != list->end(); ++j)
 			{
@@ -176,9 +171,9 @@ namespace River
 				coords_map = buffer_coords(coords_map, object->atlas_entry->x, object->atlas_entry->y, object->atlas_entry->x2, object->atlas_entry->y2);
 			}
 
-			entry.vertex_buffer->unmap();
-			entry.color_buffer->unmap();
-			entry.coords_buffer->unmap();
+			entry.vertex_buffer.unmap();
+			entry.color_buffer.unmap();
+			entry.coords_buffer.unmap();
 		}
 	}
 };

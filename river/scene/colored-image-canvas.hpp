@@ -7,10 +7,10 @@
 #include "layer.hpp"
 #include "shader-state.hpp"
 #include "atlas.hpp"
+#include "buffer.hpp"
 
 namespace River
 {
-	class Buffer;
 	class Image;
 	
 	class ColoredImageState:
@@ -51,9 +51,9 @@ namespace River
 				
 				GLuint texture;
 				size_t indices;
-				Buffer *vertex_buffer;
-				Buffer *color_buffer;
-				Buffer *coords_buffer;
+				Buffer<GL_ARRAY_BUFFER, GLshort> vertex_buffer;
+				Buffer<GL_ARRAY_BUFFER, GLubyte> color_buffer;
+				Buffer<GL_ARRAY_BUFFER, GLfloat> coords_buffer;
 
 				void render();
 				void deallocate();

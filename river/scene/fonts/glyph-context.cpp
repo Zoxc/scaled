@@ -10,8 +10,7 @@ namespace River
 {
 	void GlyphContext::ColorKeyContent::deallocate()
 	{
-		delete vertex_buffer;
-		delete coords_buffer;
+		ColorKeyContent::~ColorKeyContent();
 	}
 
 	void GlyphContext::Content::deallocate(ContentWalker &walker)
@@ -44,10 +43,10 @@ namespace River
 				glUniform1f(Scene::glyph_state.alpha_uniform, key.a);
 				glBlendColor(key.r, key.g, key.b, 0.0);
 
-				key.vertex_buffer->bind();
+				key.vertex_buffer.bind();
 				glVertexAttribPointer(0, 2, GL_SHORT, GL_FALSE, 0, 0);
 
-				key.coords_buffer->bind();
+				key.coords_buffer.bind();
 				glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
 				glDrawArrays(GL_TRIANGLES, 0, key.indices);
@@ -137,11 +136,9 @@ namespace River
 				key_content.b = color_blue_component(list->key) / (GLclampf)255.0;
 				key_content.a = color_alpha_component(list->key) / (GLclampf)255.0;
 				key_content.indices = list->size * 6;
-				key_content.vertex_buffer = new Buffer(GL_ARRAY_BUFFER, key_content.indices * 2 * sizeof(GLshort));
-				key_content.coords_buffer = new Buffer(GL_ARRAY_BUFFER, key_content.indices * 2 * sizeof(GLfloat));
 				
-				GLshort *vertex_map = (GLshort *)key_content.vertex_buffer->map();
-				GLfloat *coords_map = (GLfloat *)key_content.coords_buffer->map();
+				GLshort *vertex_map = key_content.vertex_buffer.setup(key_content.indices * 2);
+				GLfloat *coords_map = key_content.coords_buffer.setup(key_content.indices * 2);
 				
 				for(GlyphObjectList::Iterator k = list->begin(); k != list->end(); ++k)
 				{
@@ -152,8 +149,8 @@ namespace River
 					coords_map = buffer_coords(coords_map, variantion->entry.x, variantion->entry.y, variantion->entry.x2, variantion->entry.y2);
 				}
 
-				key_content.vertex_buffer->unmap();
-				key_content.coords_buffer->unmap();
+				key_content.vertex_buffer.unmap();
+				key_content.coords_buffer.unmap();
 			}
 		}
 	}

@@ -1,59 +1,29 @@
 #include <iostream>
 #include <malloc.h>
 #include "buffer.hpp"
+#include <GLES2/gl2ext.h>
+#include <EGL/egl.h>
+
+#define RIVER_BUFFER_USE_EXTESION
 
 namespace River
 {
-	#ifdef RIVER_BUFFER_USE_EXTESION
 	PFNGLMAPBUFFEROESPROC glMapBufferOES;
 	PFNGLUNMAPBUFFEROESPROC glUnmapBufferOES;
-	#endif
 
-	void Buffer::setup()
+	void buffer_setup()
 	{
-		#ifdef RIVER_BUFFER_USE_EXTESION
-			glMapBufferOES = (PFNGLMAPBUFFEROESPROC)eglGetProcAddress("glMapBufferOES");
-			glUnmapBufferOES = (PFNGLUNMAPBUFFEROESPROC)eglGetProcAddress("glUnmapBufferOES");
-		#endif
+		glMapBufferOES = (PFNGLMAPBUFFEROESPROC)eglGetProcAddress("glMapBufferOES");
+		glUnmapBufferOES = (PFNGLUNMAPBUFFEROESPROC)eglGetProcAddress("glUnmapBufferOES");
 	}
 
-	Buffer::Buffer(GLenum target, GLsizeiptr size) : size(size), target(target)
+	void *buffer_map(GLenum target)
 	{
-		glGenBuffers(1, &handle);
-		bind();
-		glBufferData(target, size, 0, GL_STATIC_DRAW);
+		return glMapBufferOES(target, GL_WRITE_ONLY_OES);
 	}
 
-	void Buffer::bind()
+	void buffer_unmap(GLenum target)
 	{
-		glBindBuffer(target, handle);
-	}
-
-	void *Buffer::map()
-	{
-		#ifdef RIVER_BUFFER_USE_EXTESION
-			bind();
-			return glMapBufferOES(target, GL_WRITE_ONLY_OES);
-		#else
-			mapped = malloc(size);
-			return mapped;
-		#endif
-	}
-
-	void Buffer::unmap()
-	{
-		#ifdef RIVER_BUFFER_USE_EXTESION
-			glUnmapBufferOES(target);
-		#else
-			bind();
-			glBufferData(target, size, mapped, GL_STATIC_DRAW);
-			free(mapped);
-		#endif
-	}
-
-	Buffer::~Buffer()
-	{
-		if(handle != 0)
-			glDeleteBuffers(1, &handle);
+		glUnmapBufferOES(target);
 	}
 };

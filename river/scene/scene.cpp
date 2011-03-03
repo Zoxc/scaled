@@ -50,7 +50,7 @@ namespace River
 			glPixelStorei(GL_PACK_ALIGNMENT, 1);
 			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-			Buffer::setup();
+			buffer_setup();
 
 			Font::setup();
 

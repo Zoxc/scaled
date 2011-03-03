@@ -5,12 +5,12 @@
 #include "object-hash.hpp"
 #include "layer-context.hpp"
 #include "layer.hpp"
+#include "buffer.hpp"
 
 namespace River
 {
 	class Glyph;
 	class GlyphCache;
-	class Buffer;
 	
 	class GradientContext:
 		public LayerContext::Entry
@@ -35,8 +35,8 @@ namespace River
 		{
 			public:
 				size_t indices;
-				Buffer *vertex_buffer;
-				Buffer *color_buffer;
+				Buffer<GL_ARRAY_BUFFER, GLshort> vertex_buffer;
+				Buffer<GL_ARRAY_BUFFER, GLubyte> color_buffer;
 
 				void render(ContentWalker &walker);
 				void deallocate(ContentWalker &walker);

@@ -3,21 +3,43 @@
 
 namespace River
 {
-    class Buffer
-    {
-        public:
-            Buffer(GLenum target, GLsizeiptr size);
-            ~Buffer();
+	void *buffer_map(GLenum target);
+	void buffer_unmap(GLenum target);
+	void buffer_setup();
 
-            void bind();
-            void *map();
-            void unmap();
+	template<GLenum target, class T> class Buffer
+	{
+	private:
+		GLuint handle;
+	public:
+		~Buffer()
+		{
+			glDeleteBuffers(1, &handle);
+		}
 
-            static void setup();
+		T *setup(GLsizeiptr size)
+		{
+			glGenBuffers(1, &handle);
+			bind();
+			glBufferData(target, size * sizeof(T), 0, GL_STATIC_DRAW);
+			return (T *)buffer_map(target);
+		}
 
-            size_t size;
-            void *mapped;
-            GLuint handle;
-            GLenum target;
-    };
+		void bind()
+		{
+			glBindBuffer(target, handle);
+		}
+
+		T *map()
+		{
+			bind();
+			return (T *)buffer_map(target);
+		}
+
+		void unmap()
+		{
+			bind();
+			buffer_unmap(target);
+		}
+	};
 };

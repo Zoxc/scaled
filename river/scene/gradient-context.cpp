@@ -12,10 +12,10 @@ namespace River
 		
 		Scene::gradient_state.use();
 
-		vertex_buffer->bind();
+		vertex_buffer.bind();
 		glVertexAttribPointer(0, 2, GL_SHORT, GL_FALSE, 0, 0);
 
-		color_buffer->bind();
+		color_buffer.bind();
 		glVertexAttribPointer(1, 3, GL_UNSIGNED_BYTE, GL_TRUE, 0, 0);
 
 		glDrawArrays(GL_TRIANGLES, 0, indices);
@@ -27,8 +27,7 @@ namespace River
 	{
 		walker.read_object<Content>(); // Skip this
 		
-		delete vertex_buffer;
-		delete color_buffer;
+		Content::~Content();
 	}
 
 	GradientContext::Object::Object(int x, int y, int width, int height) : x(x), y(y), width(width), height(height)
@@ -87,11 +86,9 @@ namespace River
 		Content &content = serializer.write_object<Content>();
 		
 		content.indices = objects.size * 6;
-		content.vertex_buffer = new Buffer(GL_ARRAY_BUFFER, content.indices * 2 * sizeof(GLshort));
-		content.color_buffer = new Buffer(GL_ARRAY_BUFFER, content.indices * 3 * sizeof(GLubyte));
 		
-		GLshort *vertex_map = (GLshort *)content.vertex_buffer->map();
-		GLubyte *color_map = (GLubyte *)content.color_buffer->map();
+		GLshort *vertex_map = content.vertex_buffer.setup(content.indices * 2);
+		GLubyte *color_map = content.color_buffer.setup(content.indices * 3);
 			
 		for(ObjectList::Iterator i = objects.begin(); i != objects.end(); ++i)
 		{
@@ -108,7 +105,7 @@ namespace River
 			color_map = buffer_color(color_map, object->colors[3]);
 		}
 
-		content.vertex_buffer->unmap();
-		content.color_buffer->unmap();
+		content.vertex_buffer.unmap();
+		content.color_buffer.unmap();
 	}
 };
