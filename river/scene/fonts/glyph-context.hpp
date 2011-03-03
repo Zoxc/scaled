@@ -32,8 +32,6 @@ namespace River
 		class ColorKeyContent
 		{
 			public:
-				void deallocate();
-
 				GLclampf r, g, b, a;
 				size_t indices;
 				Buffer<GL_ARRAY_BUFFER, GLshort> vertex_buffer;

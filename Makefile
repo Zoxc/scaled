@@ -14,7 +14,7 @@ SOURCES = \
 OBJECTS = $(patsubst %.cpp, $(CFG)/%.o, $(SOURCES) )
 
 $(TARGET): river swl $(OBJECTS)
-	$(CXX) $(CFLAGS) $(CXXFLAGS) $(OBJECTS) $(LDFLAGS) -o $@
+	@$(CXX) $(CFLAGS) $(CXXFLAGS) $(OBJECTS) $(LDFLAGS) -o $@
 
 all: build-dirs $(TARGET)
 

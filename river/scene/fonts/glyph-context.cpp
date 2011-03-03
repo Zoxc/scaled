@@ -8,11 +8,6 @@
 
 namespace River
 {
-	void GlyphContext::ColorKeyContent::deallocate()
-	{
-		ColorKeyContent::~ColorKeyContent();
-	}
-
 	void GlyphContext::Content::deallocate(ContentWalker &walker)
 	{
 		walker.read_object<Content>(); // Skip this
@@ -20,7 +15,7 @@ namespace River
 		for(ContentWalker::Iterator<GLuint> i = walker.read_list<GLuint>(); i.get_next();)
 		{
 			for(ContentWalker::Iterator<ColorKeyContent> j = walker.read_list<ColorKeyContent>(); j.get_next();)
-				j().deallocate();
+				j().~ColorKeyContent();
 		}
 	}
 

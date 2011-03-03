@@ -8,10 +8,6 @@ BUILD_DIRS += .
 CFLAGS += -pipe -Wall
 CXXFLAGS += -Wno-invalid-offsetof -std=gnu++98
 
-ifeq ($(ARCH),arm)
-CFLAGS += -march=armv7-a -mfloat-abi=softfp -mfpu=neon -mcpu=cortex-a8 -mtune=cortex-a8 -funsafe-math-optimizations 
-endif
-
 ifeq ($(CFG),release)
 CFLAGS += -O3 -s
 else

@@ -27,7 +27,7 @@ namespace River
 	{
 		walker.read_object<Content>(); // Skip this
 		
-		Content::~Content();
+		this->~Content();
 	}
 
 	GradientContext::Object::Object(int x, int y, int width, int height) : x(x), y(y), width(width), height(height)

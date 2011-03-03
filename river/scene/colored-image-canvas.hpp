@@ -54,9 +54,6 @@ namespace River
 				Buffer<GL_ARRAY_BUFFER, GLshort> vertex_buffer;
 				Buffer<GL_ARRAY_BUFFER, GLubyte> color_buffer;
 				Buffer<GL_ARRAY_BUFFER, GLfloat> coords_buffer;
-
-				void render();
-				void deallocate();
 		};
 
 		class Content:

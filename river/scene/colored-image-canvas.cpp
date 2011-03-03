@@ -60,18 +60,13 @@ namespace River
 		glUniform1i(texture_uniform, 0);
 	}
 	
-	void ColoredImageCanvas::ContentEntry::deallocate()
-	{
-		ContentEntry::~ContentEntry();
-	}
-	
 	void ColoredImageCanvas::Content::render(ContentWalker &walker)
 	{
 		walker.read_object<Content>(); // Skip this
 
 		Scene::colored_image_state.use();
 		
-		for(ContentWalker::Iterator<ContentEntry> i = walker.read_list<ContentEntry>(); i.get_next();i)
+		for(ContentWalker::Iterator<ContentEntry> i = walker.read_list<ContentEntry>(); i.get_next();)
 		{
 			ContentEntry &entry = i();
 			
@@ -97,7 +92,7 @@ namespace River
 		walker.read_object<Content>(); // Skip this
 		
 		for(ContentWalker::Iterator<ContentEntry> i = walker.read_list<ContentEntry>(); i.get_next();)
-			i().deallocate();
+			i().~ContentEntry();
 	}
 
 	ColoredImageCanvas::Object::Object(int x, int y, int width, int height, color_t color, AtlasEntry *entry) : x(x), y(y), width(width), height(height), color(color), atlas_entry(entry)

@@ -5,55 +5,55 @@
 namespace River
 {
 
-    GLshort *LayerContext::Entry::buffer_quad(GLshort *buffer, int x, int y, int width, int height)
-    {
+	GLshort *LayerContext::Entry::buffer_quad(GLshort *buffer, int x, int y, int width, int height)
+	{
 		int right = x + width;
 		int bottom = y + height;
-		
-        *buffer++ = x;
+
+		*buffer++ = x;
 		*buffer++ = y;
 
-        *buffer++ = right;
+		*buffer++ = right;
 		*buffer++ = y;
 
-        *buffer++ = x;
+		*buffer++ = x;
 		*buffer++ = bottom;
 
-        *buffer++ = right;
+		*buffer++ = right;
 		*buffer++ = y;
 
-        *buffer++ = x;
+		*buffer++ = x;
 		*buffer++ = bottom;
 
-        *buffer++ = right;
+		*buffer++ = right;
 		*buffer++ = bottom;
 
-        return buffer;
-    }
+		return buffer;
+	}
 
-    GLfloat *LayerContext::Entry::buffer_coords(GLfloat *buffer, GLfloat x, GLfloat y, GLfloat x2, GLfloat y2)
-    {
-        *buffer++ = x;
-		*buffer++ = y;
-		
-        *buffer++ = x2;
+	GLfloat *LayerContext::Entry::buffer_coords(GLfloat *buffer, GLfloat x, GLfloat y, GLfloat x2, GLfloat y2)
+	{
+		*buffer++ = x;
 		*buffer++ = y;
 
-        *buffer++ = x;
-		*buffer++ = y2;
-
-        *buffer++ = x2;
+		*buffer++ = x2;
 		*buffer++ = y;
 
-        *buffer++ = x;
+		*buffer++ = x;
 		*buffer++ = y2;
 
-        *buffer++ = x2;
+		*buffer++ = x2;
+		*buffer++ = y;
+
+		*buffer++ = x;
 		*buffer++ = y2;
 
-        return buffer;
-    }
-	
+		*buffer++ = x2;
+		*buffer++ = y2;
+
+		return buffer;
+	}
+
 	LayerContext::LayerContext(MemoryPool &memory_pool) : map(2, false, memory_pool), memory_pool(memory_pool)
 	{
 	}
@@ -80,7 +80,7 @@ namespace River
 			magic = 0xBEEF;
 		}
 
-		assert(serializer.get_position() - (char *)memory == measurer.get_size());
+		assert((size_t)(serializer.get_position() - (char *)memory) == measurer.get_size());
 		
 		return new Layer(memory, measurer.get_size());
 	}
