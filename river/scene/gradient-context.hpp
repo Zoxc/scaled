@@ -34,12 +34,12 @@ namespace River
 			public Layer::Content
 		{
 			public:
-				virtual ~Content();
 				size_t indices;
 				Buffer *vertex_buffer;
 				Buffer *color_buffer;
 
-				void render();
+				void render(ContentWalker &walker);
+				void deallocate(ContentWalker &walker);
 		};
 
 		typedef CountedSimpleList<Object> ObjectList;
@@ -48,15 +48,14 @@ namespace River
 
 		ObjectList objects;
 	public:
-		GradientContext(MemoryPool &memory_pool) : LayerContext::Entry(LayerContext::Entry::GradientContext)
-		{
-		}
+		GradientContext(MemoryPool &memory_pool);
 
 		static GradientContext *acquire(LayerContext *layer);
 		
 		void render_vertical(LayerContext *layer, int x, int y, int width, int height, color_t top, color_t bottom);
 		void render_horizontal(LayerContext *layer, int x, int y, int width, int height, color_t left, color_t right);
-
-		void render(Layer *layer);
+		
+		void measure(ContentMeasurer &measurer);
+		void serialize(ContentSerializer &serializer);
 	};
 };

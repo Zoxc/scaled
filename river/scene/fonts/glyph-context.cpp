@@ -1,54 +1,56 @@
 #include "../../memory-pool.hpp"
 #include "../buffer.hpp"
 #include "../scene.hpp"
+#include "../content-serializer.hpp"
 #include "glyph-context.hpp"
 #include "font-size.hpp"
 #include "glyph.hpp"
 
 namespace River
 {
-	GlyphContext::ColorKeyContent::~ColorKeyContent()
+	void GlyphContext::ColorKeyContent::deallocate()
 	{
 		delete vertex_buffer;
 		delete coords_buffer;
 	}
 
-	GlyphContext::ContentList::~ContentList()
+	void GlyphContext::Content::deallocate(ContentWalker &walker)
 	{
-		for(std::vector<ColorKeyContent *>::iterator i = keys.begin(); i != keys.end(); ++i)
-			delete *i;
+		walker.read_object<Content>(); // Skip this
+		
+		for(ContentWalker::Iterator<GLuint> i = walker.read_list<GLuint>(); i.get_next();)
+		{
+			for(ContentWalker::Iterator<ColorKeyContent> j = walker.read_list<ColorKeyContent>(); j.get_next();)
+				j().deallocate();
+		}
 	}
 
-	GlyphContext::Content::~Content()
+	void GlyphContext::Content::render(ContentWalker &walker)
 	{
-		for(std::vector<ContentList *>::iterator i = list.begin(); i != list.end(); ++i)
-			delete *i;
-	}
-
-	void GlyphContext::Content::render()
-	{
+		walker.read_object<Content>(); // Skip this
+		
 		Scene::glyph_state.use();
 		
-		for(std::vector<ContentList *>::iterator i = list.begin(); i != list.end(); ++i)
+		for(ContentWalker::Iterator<GLuint> i = walker.read_list<GLuint>(); i.get_next();)
 		{
-			ContentList *list = *i;
+			GLuint &texture = i();
 			
-			glBindTexture(GL_TEXTURE_2D, list->texture);
+			glBindTexture(GL_TEXTURE_2D, texture);
 			
-			for(std::vector<ColorKeyContent *>::iterator j = list->keys.begin(); j != list->keys.end(); ++j)
+			for(ContentWalker::Iterator<ColorKeyContent> j = walker.read_list<ColorKeyContent>(); j.get_next();)
 			{
-				ColorKeyContent *key = *j;
+				ColorKeyContent &key = j();
 
-				glUniform1f(Scene::glyph_state.alpha_uniform, key->a);
-				glBlendColor(key->r, key->g, key->b, 0.0);
+				glUniform1f(Scene::glyph_state.alpha_uniform, key.a);
+				glBlendColor(key.r, key.g, key.b, 0.0);
 
-				key->vertex_buffer->bind();
+				key.vertex_buffer->bind();
 				glVertexAttribPointer(0, 2, GL_SHORT, GL_FALSE, 0, 0);
 
-				key->coords_buffer->bind();
+				key.coords_buffer->bind();
 				glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
-				glDrawArrays(GL_TRIANGLES, 0, key->indices);
+				glDrawArrays(GL_TRIANGLES, 0, key.indices);
 
 				Scene::draw_call();
 			}
@@ -56,6 +58,10 @@ namespace River
 	}
 
 	GlyphContext::Object::Object(int x, int y, Glyph *glyph, uint8_t offset) : x(x), y(y), glyph(glyph), offset(offset)
+	{
+	}
+
+	GlyphContext::GlyphContext(MemoryPool &memory_pool) : LayerContext::Entry(LayerContext::Entry::GlyphContext), glyph_objects(memory_pool), glyph_lists(0)
 	{
 	}
 
@@ -94,32 +100,48 @@ namespace River
 		}
 	}
 	
-	void GlyphContext::render(Layer *layer)
+	void GlyphContext::measure(ContentMeasurer &measurer)
 	{
-		Content *content = new Content;
+		measurer.count_objects<Content>(1);
+		
+		measurer.count_lists(glyph_objects.table.get_entries() + 1);
 
+		measurer.count_objects<GLuint>(glyph_objects.table.get_entries());
+		
+		// TODO: Calculate list count when adding objects
+		for(GlyphObjectHash::Table::Iterator i = glyph_objects.table.begin(); i != glyph_objects.table.end(); ++i)
+			measurer.count_objects<ColorKeyContent>((*i)->table.get_entries());
+	}
+
+	void GlyphContext::serialize(ContentSerializer &serializer)
+	{
+		serializer.write_object<Content>();
+		serializer.write_list(glyph_objects.table.get_entries());
+		
 		for(GlyphObjectHash::Table::Iterator i = glyph_objects.table.begin(); i != glyph_objects.table.end(); ++i)
 		{
 			ColorKeyHash *hash = *i;
 
-			ContentList *content_list = new ContentList;
-			content_list->texture = hash->key->texture;
+			GLuint &texture = serializer.write_object<GLuint>();
+			texture = hash->key->texture;
+			
+			serializer.write_list(hash->table.get_entries());
 
 			for(ColorKeyHash::Table::Iterator j = hash->table.begin(); j != hash->table.end(); ++j)
 			{
-				ColorKeyContent *key_content = new ColorKeyContent;
+				ColorKeyContent &key_content = serializer.write_object<ColorKeyContent>();
 				GlyphObjectList *list = *j;
 				
-				key_content->r = color_red_component(list->key) / (GLclampf)255.0;
-				key_content->g = color_green_component(list->key) / (GLclampf)255.0;
-				key_content->b = color_blue_component(list->key) / (GLclampf)255.0;
-				key_content->a = color_alpha_component(list->key) / (GLclampf)255.0;
-				key_content->indices = list->size * 6;
-				key_content->vertex_buffer = new Buffer(GL_ARRAY_BUFFER, key_content->indices * 2 * sizeof(GLshort));
-				key_content->coords_buffer = new Buffer(GL_ARRAY_BUFFER, key_content->indices * 2 * sizeof(GLfloat));
+				key_content.r = color_red_component(list->key) / (GLclampf)255.0;
+				key_content.g = color_green_component(list->key) / (GLclampf)255.0;
+				key_content.b = color_blue_component(list->key) / (GLclampf)255.0;
+				key_content.a = color_alpha_component(list->key) / (GLclampf)255.0;
+				key_content.indices = list->size * 6;
+				key_content.vertex_buffer = new Buffer(GL_ARRAY_BUFFER, key_content.indices * 2 * sizeof(GLshort));
+				key_content.coords_buffer = new Buffer(GL_ARRAY_BUFFER, key_content.indices * 2 * sizeof(GLfloat));
 				
-				GLshort *vertex_map = (GLshort *)key_content->vertex_buffer->map();
-				GLfloat *coords_map = (GLfloat *)key_content->coords_buffer->map();
+				GLshort *vertex_map = (GLshort *)key_content.vertex_buffer->map();
+				GLfloat *coords_map = (GLfloat *)key_content.coords_buffer->map();
 				
 				for(GlyphObjectList::Iterator k = list->begin(); k != list->end(); ++k)
 				{
@@ -130,17 +152,9 @@ namespace River
 					coords_map = buffer_coords(coords_map, variantion->entry.x, variantion->entry.y, variantion->entry.x2, variantion->entry.y2);
 				}
 
-				key_content->vertex_buffer->unmap();
-				key_content->coords_buffer->unmap();
-				
-				content_list->keys.push_back(key_content);
+				key_content.vertex_buffer->unmap();
+				key_content.coords_buffer->unmap();
 			}
-
-			content->list.push_back(content_list);
 		}
-		
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-		layer->append(content);
 	}
 };

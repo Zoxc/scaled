@@ -204,10 +204,15 @@ namespace River
 			{
 				return table;
 			}
-
+			
 			size_t get_size()
 			{
 				return mask + 1;
+			}
+			
+			size_t get_entries()
+			{
+				return entries;
 			}
 			
 			class Iterator

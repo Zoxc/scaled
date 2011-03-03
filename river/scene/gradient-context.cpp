@@ -2,17 +2,14 @@
 #include "buffer.hpp"
 #include "scene.hpp"
 #include "gradient-context.hpp"
+#include "content-serializer.hpp"
 
 namespace River
 {
-	GradientContext::Content::~Content()
+	void GradientContext::Content::render(ContentWalker &walker)
 	{
-		delete vertex_buffer;
-		delete color_buffer;
-	}
-
-	void GradientContext::Content::render()
-	{
+		walker.read_object<Content>(); // Skip this
+		
 		Scene::gradient_state.use();
 
 		vertex_buffer->bind();
@@ -26,7 +23,19 @@ namespace River
 		Scene::draw_call();
 	}
 
+	void GradientContext::Content::deallocate(ContentWalker &walker)
+	{
+		walker.read_object<Content>(); // Skip this
+		
+		delete vertex_buffer;
+		delete color_buffer;
+	}
+
 	GradientContext::Object::Object(int x, int y, int width, int height) : x(x), y(y), width(width), height(height)
+	{
+	}
+
+	GradientContext::GradientContext(MemoryPool &memory_pool) : LayerContext::Entry(LayerContext::Entry::GradientContext)
 	{
 	}
 
@@ -67,17 +76,22 @@ namespace River
 
 		return buffer;
 	}
-
-	void GradientContext::render(Layer *layer)
+	
+	void GradientContext::measure(ContentMeasurer &measurer)
 	{
-		Content *content = new Content;
+		measurer.count_objects<Content>(1);
+	}
 
-		content->indices = objects.size * 6;
-		content->vertex_buffer = new Buffer(GL_ARRAY_BUFFER, content->indices * 2 * sizeof(GLshort));
-		content->color_buffer = new Buffer(GL_ARRAY_BUFFER, content->indices * 3 * sizeof(GLubyte));
+	void GradientContext::serialize(ContentSerializer &serializer)
+	{
+		Content &content = serializer.write_object<Content>();
 		
-		GLshort *vertex_map = (GLshort *)content->vertex_buffer->map();
-		GLubyte *color_map = (GLubyte *)content->color_buffer->map();
+		content.indices = objects.size * 6;
+		content.vertex_buffer = new Buffer(GL_ARRAY_BUFFER, content.indices * 2 * sizeof(GLshort));
+		content.color_buffer = new Buffer(GL_ARRAY_BUFFER, content.indices * 3 * sizeof(GLubyte));
+		
+		GLshort *vertex_map = (GLshort *)content.vertex_buffer->map();
+		GLubyte *color_map = (GLubyte *)content.color_buffer->map();
 			
 		for(ObjectList::Iterator i = objects.begin(); i != objects.end(); ++i)
 		{
@@ -94,9 +108,7 @@ namespace River
 			color_map = buffer_color(color_map, object->colors[3]);
 		}
 
-		content->vertex_buffer->unmap();
-		content->color_buffer->unmap();
-
-		layer->append(content);
+		content.vertex_buffer->unmap();
+		content.color_buffer->unmap();
 	}
 };

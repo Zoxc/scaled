@@ -4,24 +4,24 @@
 
 namespace River
 {
+	class ContentWalker;
+
 	class Layer
 	{
 	public:
 		class Content
 		{
 			public:
-				virtual void render() = 0;
-
-				virtual ~Content()
-				{
-				}
+				virtual void render(ContentWalker &walker) = 0;
+				virtual void deallocate(ContentWalker &walker) = 0;
 		};
 
 	private:
-		std::vector<Content *> list;
+		void *serialized;
+		Content *serialized_end;
 
 	public:
-		Layer();
+		Layer(void *serialized, size_t size);
 		~Layer();
 		
 		Entry<Layer> window_entry;

@@ -1,5 +1,6 @@
 #include "layer-context.hpp"
 #include "layer.hpp"
+#include "content-serializer.hpp"
 
 namespace River
 {
@@ -59,12 +60,29 @@ namespace River
 
 	Layer *LayerContext::render()
 	{
-		Layer *layer = new Layer;
+		ContentMeasurer measurer;
+
+		measurer.count_objects<size_t>(map.get_entries());
 
 		for(EntryMap::Iterator i = map.begin(); i != map.end(); ++i)
-			(*i)->render(layer);
+			(*i)->measure(measurer);
 
-		return layer;
+		void *memory = std::malloc(measurer.get_size());
+			
+		ContentSerializer serializer(memory);
+
+		for(EntryMap::Iterator i = map.begin(); i != map.end(); ++i)
+		{
+			(*i)->serialize(serializer);
+
+			// TODO: Add a conditional for debug test
+			size_t &magic = serializer.write_object<size_t>();
+			magic = 0xBEEF;
+		}
+
+		assert(serializer.get_position() - (char *)memory == measurer.get_size());
+		
+		return new Layer(memory, measurer.get_size());
 	}
 
 	LayerContext::Entry *LayerContext::lookup(uint32_t entry_type)

@@ -32,7 +32,7 @@ namespace River
 		class ColorKeyContent
 		{
 			public:
-				virtual ~ColorKeyContent();
+				void deallocate();
 
 				GLclampf r, g, b, a;
 				size_t indices;
@@ -40,24 +40,12 @@ namespace River
 				Buffer *coords_buffer;
 		};
 
-		class ContentList
-		{
-			public:
-				virtual ~ContentList();
-				
-				GLuint texture;
-				std::vector<ColorKeyContent *> keys;
-		};
-
 		class Content:
 			public Layer::Content
 		{
 			public:
-				virtual ~Content();
-
-				std::vector<ContentList *> list;
-
-				void render();
+				void render(ContentWalker &walker);
+				void deallocate(ContentWalker &walker);
 		};
 
 		class GlyphObjectList:
@@ -83,16 +71,16 @@ namespace River
 		typedef ObjectHash<Atlas<GL_RGB>::Texture *, ColorKeyHash> GlyphObjectHash;
 
 		GlyphObjectHash glyph_objects;
+		size_t glyph_lists;
 	public:
-		GlyphContext(MemoryPool &memory_pool) : LayerContext::Entry(LayerContext::Entry::GlyphContext), glyph_objects(memory_pool)
-		{
-		}
+		GlyphContext(MemoryPool &memory_pool);
 
 		static GlyphContext *acquire(LayerContext *layer);
 		
 		void render_glyph(LayerContext *layer, int x, int y, Glyph *glyph, uint8_t subpixel_offset, color_t color);
 		void render_text(LayerContext *layer, int x, int y, const char *text, FontSize *font_size, color_t color);
-
-		void render(Layer *layer);
+		
+		void measure(ContentMeasurer &measurer);
+		void serialize(ContentSerializer &serializer);
 	};
 };

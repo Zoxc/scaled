@@ -83,6 +83,7 @@
     <ClCompile Include="..\river\memory-pool.cpp" />
     <ClCompile Include="..\river\scene\buffer.cpp" />
     <ClCompile Include="..\river\scene\colored-image-canvas.cpp" />
+    <ClCompile Include="..\river\scene\content-serializer.cpp" />
     <ClCompile Include="..\river\scene\fonts\font-size.cpp" />
     <ClCompile Include="..\river\scene\fonts\font.cpp" />
     <ClCompile Include="..\river\scene\fonts\glyph-context.cpp" />
@@ -115,6 +116,7 @@
     <ClInclude Include="..\river\ref-object.hpp" />
     <ClInclude Include="..\river\scene\buffer.hpp" />
     <ClInclude Include="..\river\scene\colored-image-canvas.hpp" />
+    <ClInclude Include="..\river\scene\content-serializer.hpp" />
     <ClInclude Include="..\river\scene\fonts\font-size.hpp" />
     <ClInclude Include="..\river\scene\fonts\font.hpp" />
     <ClInclude Include="..\river\scene\fonts\glyph-context.hpp" />

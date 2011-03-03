@@ -8,6 +8,9 @@ namespace River
 {
 	class Layer;
 
+	class ContentMeasurer;
+	class ContentSerializer;
+
 	class LayerContext
 	{
 	public:
@@ -31,7 +34,8 @@ namespace River
 				{
 				}
 			
-				virtual void render(Layer *layer) = 0;
+				virtual void measure(ContentMeasurer &measurer) = 0;
+				virtual void serialize(ContentSerializer &serializer) = 0;
 		};
 
 	private:

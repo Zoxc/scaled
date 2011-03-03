@@ -3,6 +3,7 @@
 #include "scene.hpp"
 #include "../image.hpp"
 #include "colored-image-canvas.hpp"
+#include "content-serializer.hpp"
 
 namespace River
 {
@@ -59,45 +60,53 @@ namespace River
 		glUniform1i(texture_uniform, 0);
 	}
 	
-	ColoredImageCanvas::ContentEntry::~ContentEntry()
+	void ColoredImageCanvas::ContentEntry::deallocate()
 	{
 		delete vertex_buffer;
 		delete color_buffer;
 		delete coords_buffer;
 	}
-
-	ColoredImageCanvas::Content::~Content()
+	
+	void ColoredImageCanvas::Content::render(ContentWalker &walker)
 	{
-		for(std::vector<ContentEntry *>::iterator i = list.begin(); i != list.end(); ++i)
-			delete *i;
-	}
+		walker.read_object<Content>(); // Skip this
 
-	void ColoredImageCanvas::Content::render()
-	{
 		Scene::colored_image_state.use();
 		
-		for(std::vector<ContentEntry *>::iterator i = list.begin(); i != list.end(); ++i)
+		for(ContentWalker::Iterator<ContentEntry> i = walker.read_list<ContentEntry>(); i.get_next();i)
 		{
-			ContentEntry *entry = *i;
+			ContentEntry &entry = i();
 			
-			glBindTexture(GL_TEXTURE_2D, entry->texture);
+			glBindTexture(GL_TEXTURE_2D, entry.texture);
 			
-			entry->vertex_buffer->bind();
+			entry.vertex_buffer->bind();
 			glVertexAttribPointer(0, 2, GL_SHORT, GL_FALSE, 0, 0);
 
-			entry->color_buffer->bind();
+			entry.color_buffer->bind();
 			glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, 0, 0);
 
-			entry->coords_buffer->bind();
+			entry.coords_buffer->bind();
 			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
-			glDrawArrays(GL_TRIANGLES, 0, entry->indices);
+			glDrawArrays(GL_TRIANGLES, 0, entry.indices);
 
 			Scene::draw_call();
 		}
 	}
 
+	void ColoredImageCanvas::Content::deallocate(ContentWalker &walker)
+	{
+		walker.read_object<Content>(); // Skip this
+		
+		for(ContentWalker::Iterator<ContentEntry> i = walker.read_list<ContentEntry>(); i.get_next();)
+			i().deallocate();
+	}
+
 	ColoredImageCanvas::Object::Object(int x, int y, int width, int height, color_t color, AtlasEntry *entry) : x(x), y(y), width(width), height(height), color(color), atlas_entry(entry)
+	{
+	}
+
+	ColoredImageCanvas::ColoredImageCanvas(MemoryPool &memory_pool) : LayerContext::Entry(LayerContext::Entry::ColoredImageCanvas), object_table(memory_pool)
 	{
 	}
 
@@ -122,25 +131,33 @@ namespace River
 
 		return buffer;
 	}
-
-	void ColoredImageCanvas::render(Layer *layer)
+	
+	void ColoredImageCanvas::measure(ContentMeasurer &measurer)
 	{
-		Content *content = new Content;
+		measurer.count_objects<Content>(1);
+		measurer.count_lists(1);
+		measurer.count_objects<ContentEntry>(object_table.table.get_entries());
+	}
+
+	void ColoredImageCanvas::serialize(ContentSerializer &serializer)
+	{
+		serializer.write_object<Content>();
+		serializer.write_list(object_table.table.get_entries());
 		
 		for(ObjectListHash::Table::Iterator i = object_table.table.begin(); i != object_table.table.end(); ++i)
 		{
 			ObjectList *list = *i;
-			ContentEntry *entry = new ContentEntry;
+			ContentEntry &entry = serializer.write_object<ContentEntry>();
 
-			entry->texture = list->key->texture;
-			entry->indices = list->size * 6;
-			entry->vertex_buffer = new Buffer(GL_ARRAY_BUFFER, entry->indices * 2 * sizeof(GLshort));
-			entry->color_buffer = new Buffer(GL_ARRAY_BUFFER, entry->indices * 4 * sizeof(GLubyte));
-			entry->coords_buffer = new Buffer(GL_ARRAY_BUFFER, entry->indices * 2 * sizeof(GLfloat));
+			entry.texture = list->key->texture;
+			entry.indices = list->size * 6;
+			entry.vertex_buffer = new Buffer(GL_ARRAY_BUFFER, entry.indices * 2 * sizeof(GLshort));
+			entry.color_buffer = new Buffer(GL_ARRAY_BUFFER, entry.indices * 4 * sizeof(GLubyte));
+			entry.coords_buffer = new Buffer(GL_ARRAY_BUFFER, entry.indices * 2 * sizeof(GLfloat));
 		
-			GLshort *vertex_map = (GLshort *)entry->vertex_buffer->map();
-			GLubyte *color_map = (GLubyte *)entry->color_buffer->map();
-			GLfloat *coords_map = (GLfloat *)entry->coords_buffer->map();
+			GLshort *vertex_map = (GLshort *)entry.vertex_buffer->map();
+			GLubyte *color_map = (GLubyte *)entry.color_buffer->map();
+			GLfloat *coords_map = (GLfloat *)entry.coords_buffer->map();
 			
 			for(ObjectList::Iterator j = list->begin(); j != list->end(); ++j)
 			{
@@ -159,13 +176,9 @@ namespace River
 				coords_map = buffer_coords(coords_map, object->atlas_entry->x, object->atlas_entry->y, object->atlas_entry->x2, object->atlas_entry->y2);
 			}
 
-			entry->vertex_buffer->unmap();
-			entry->color_buffer->unmap();
-			entry->coords_buffer->unmap();
-
-			content->list.push_back(entry);
+			entry.vertex_buffer->unmap();
+			entry.color_buffer->unmap();
+			entry.coords_buffer->unmap();
 		}
-
-		layer->append(content);
 	}
 };

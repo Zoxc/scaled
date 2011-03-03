@@ -31,6 +31,7 @@ SOURCES = \
 	scene/scene.cpp \
 	scene/state.cpp \
 	scene/shader-state.cpp \
+	scene/content-serializer.cpp \
 	image.cpp \
 	widgets/gradient.cpp \
 	$(NULL)

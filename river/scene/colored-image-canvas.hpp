@@ -48,7 +48,6 @@ namespace River
 		class ContentEntry
 		{
 			public:
-				~ContentEntry();
 				
 				GLuint texture;
 				size_t indices;
@@ -57,17 +56,15 @@ namespace River
 				Buffer *coords_buffer;
 
 				void render();
+				void deallocate();
 		};
 
 		class Content:
 			public Layer::Content
 		{
 			public:
-				virtual ~Content();
-
-				std::vector<ContentEntry *> list;
-
-				void render();
+				void render(ContentWalker &walker);
+				void deallocate(ContentWalker &walker);
 		};
 		
 		class ObjectList:
@@ -86,14 +83,13 @@ namespace River
 
 		ObjectListHash object_table;
 	public:
-		ColoredImageCanvas(MemoryPool &memory_pool) : LayerContext::Entry(LayerContext::Entry::ColoredImageCanvas), object_table(memory_pool)
-		{
-		}
+		ColoredImageCanvas(MemoryPool &memory_pool);
 
 		static ColoredImageCanvas *acquire(LayerContext *layer);
 		
 		void render_image(LayerContext *layer, int x, int y, int width, int height, color_t color, Image *image);
 
-		void render(Layer *layer);
+		void measure(ContentMeasurer &measurer);
+		void serialize(ContentSerializer &serializer);
 	};
 };
