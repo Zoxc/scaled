@@ -20,13 +20,13 @@ SOURCES = \
 	scene/fonts/font.cpp \
 	scene/fonts/font-size.cpp \
 	scene/fonts/glyph.cpp \
-	scene/fonts/glyph-context.cpp \
+	scene/fonts/glyph-canvas.cpp \
 	scene/fonts/glyph-state.cpp \
 	scene/gradient-state.cpp \
-	scene/gradient-context.cpp \
+	scene/gradient-canvas.cpp \
 	scene/colored-image-canvas.cpp \
 	scene/layer.cpp \
-	scene/layer-context.cpp \
+	scene/layer-canvas.cpp \
 	scene/buffer.cpp \
 	scene/scene.cpp \
 	scene/state.cpp \

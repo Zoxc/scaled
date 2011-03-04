@@ -3,7 +3,7 @@
 #include "../color.hpp"
 #include "../counted-simple-list.hpp"
 #include "object-hash.hpp"
-#include "layer-context.hpp"
+#include "layer-canvas.hpp"
 #include "layer.hpp"
 #include "shader-state.hpp"
 #include "atlas.hpp"
@@ -27,7 +27,7 @@ namespace River
 	};
 
 	class ColoredImageCanvas:
-		public LayerContext::Entry
+		public LayerCanvas::Entry
 	{
 	private:
 		class Object
@@ -82,9 +82,9 @@ namespace River
 	public:
 		ColoredImageCanvas(MemoryPool &memory_pool);
 
-		static ColoredImageCanvas *acquire(LayerContext *layer);
+		static ColoredImageCanvas *acquire(LayerCanvas *layer);
 		
-		void render_image(LayerContext *layer, int x, int y, int width, int height, color_t color, Image *image);
+		void render_image(LayerCanvas *layer, int x, int y, int width, int height, color_t color, Image *image);
 
 		void measure(ContentMeasurer &measurer);
 		void serialize(ContentSerializer &serializer);

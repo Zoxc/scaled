@@ -10,9 +10,9 @@
 #include "river/layout/block.hpp"
 #include "river/widgets/gradient.hpp"
 #include "river/scene/scene.hpp"
-#include "river/scene/layer-context.hpp"
-#include "river/scene/fonts/glyph-context.hpp"
-#include "river/scene/gradient-context.hpp"
+#include "river/scene/layer-canvas.hpp"
+#include "river/scene/fonts/glyph-canvas.hpp"
+#include "river/scene/gradient-canvas.hpp"
 #include "river/scene/fonts/glyph.hpp"
 #include "river/scene/fonts/font-size.hpp"
 #include "window-state.hpp"
@@ -150,20 +150,20 @@ int main(void)
 
 	{
 		MemoryPool memory_pool;
-		LayerContext layer_context(memory_pool);
-		LayerContext back_layer_context(memory_pool);
+		LayerCanvas layer_canvas(memory_pool);
+		LayerCanvas back_layer_canvas(memory_pool);
 		
-		GradientContext *gradient_context = GradientContext::acquire(&back_layer_context);
-		GlyphContext *glyph_context = GlyphContext::acquire(&layer_context);
-		ColoredImageCanvas *colored_image_canvas = ColoredImageCanvas::acquire(&layer_context);
+		GradientCanvas *gradient_canvas = GradientCanvas::acquire(&back_layer_canvas);
+		GlyphCanvas *glyph_canvas = GlyphCanvas::acquire(&layer_canvas);
+		ColoredImageCanvas *colored_image_canvas = ColoredImageCanvas::acquire(&layer_canvas);
 
 		size_t top_bar = 36;
 
-		gradient_context->render_vertical(&layer_context, 0, 0, width, top_bar, 0x1a1c1aff, 0x1a1c1aff);
-		gradient_context->render_vertical(&layer_context, 0, top_bar, width, height - top_bar, 0x2d332eff, 0x232b24ff);
+		gradient_canvas->render_vertical(&layer_canvas, 0, 0, width, top_bar, 0x1a1c1aff, 0x1a1c1aff);
+		gradient_canvas->render_vertical(&layer_canvas, 0, top_bar, width, height - top_bar, 0x2d332eff, 0x232b24ff);
 		
-		glyph_context->render_text(&layer_context, 10, 23, "Launch Application", font, 0xcdcdcdff);
-		glyph_context->render_text(&layer_context, 590, 23, "20:32", font, 0xcdcdcdff);
+		glyph_canvas->render_text(&layer_canvas, 10, 23, "Launch Application", font, 0xcdcdcdff);
+		glyph_canvas->render_text(&layer_canvas, 590, 23, "20:32", font, 0xcdcdcdff);
 
 		std::vector<std::string> categories;
 		
@@ -186,8 +186,8 @@ int main(void)
 			size_t top = cat_top + cat_height * i;
 			size_t icon_height = image->height;
 			color_t tint = cat_selected == i ? 0xba9565ff : 0x7f837fff;
-			colored_image_canvas->render_image(&layer_context, 40, top + center(icon_height, cat_height), image->width, image->height, tint, image);
-			glyph_context->render_text(&layer_context, 78,  top + 25, categories[i].c_str(), font, tint);
+			colored_image_canvas->render_image(&layer_canvas, 40, top + center(icon_height, cat_height), image->width, image->height, tint, image);
+			glyph_canvas->render_text(&layer_canvas, 78,  top + 25, categories[i].c_str(), font, tint);
 		}
 
 		/*
@@ -206,8 +206,8 @@ int main(void)
 		win.element.layout(width, height);
 		win.element.place(&layer_context, 0, 0);
 		*/
-		win.layers.append(back_layer_context.render());
-		win.layers.append(layer_context.render());
+		win.layers.append(back_layer_canvas.render());
+		win.layers.append(layer_canvas.render());
 	}
 	
 	Scene::windows.append(&win);

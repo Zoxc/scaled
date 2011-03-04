@@ -1,5 +1,5 @@
 #include "gradient.hpp"
-#include "../scene/gradient-context.hpp"
+#include "../scene/gradient-canvas.hpp"
 
 namespace River
 {
@@ -17,13 +17,13 @@ namespace River
 		is_horizontal = false;
 	}
 
-	void Gradient::place(LayerContext *layer, int x, int y)
+	void Gradient::place(LayerCanvas *layer, int x, int y)
 	{
-		GradientContext *gradient_context = GradientContext::acquire(layer);
+		GradientCanvas *gradient_canvas = GradientCanvas::acquire(layer);
 
 		if(is_horizontal)
-			gradient_context->render_horizontal(layer, x, y, rect.width, rect.height, colors[0], colors[1]);
+			gradient_canvas->render_horizontal(layer, x, y, rect.width, rect.height, colors[0], colors[1]);
 		else
-			gradient_context->render_vertical(layer, x, y, rect.width, rect.height, colors[0], colors[1]);
+			gradient_canvas->render_vertical(layer, x, y, rect.width, rect.height, colors[0], colors[1]);
 	}
 };

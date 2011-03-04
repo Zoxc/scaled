@@ -2,13 +2,13 @@
 #include "../buffer.hpp"
 #include "../scene.hpp"
 #include "../content-serializer.hpp"
-#include "glyph-context.hpp"
+#include "glyph-canvas.hpp"
 #include "font-size.hpp"
 #include "glyph.hpp"
 
 namespace River
 {
-	void GlyphContext::Content::deallocate(ContentWalker &walker)
+	void GlyphCanvas::Content::deallocate(ContentWalker &walker)
 	{
 		walker.read_object<Content>(); // Skip this
 		
@@ -19,7 +19,7 @@ namespace River
 		}
 	}
 
-	void GlyphContext::Content::render(ContentWalker &walker)
+	void GlyphCanvas::Content::render(ContentWalker &walker)
 	{
 		walker.read_object<Content>(); // Skip this
 		
@@ -51,27 +51,27 @@ namespace River
 		}
 	}
 
-	GlyphContext::Object::Object(int x, int y, Glyph *glyph, uint8_t offset) : x(x), y(y), glyph(glyph), offset(offset)
+	GlyphCanvas::Object::Object(int x, int y, Glyph *glyph, uint8_t offset) : x(x), y(y), glyph(glyph), offset(offset)
 	{
 	}
 
-	GlyphContext::GlyphContext(MemoryPool &memory_pool) : LayerContext::Entry(LayerContext::Entry::GlyphContext), glyph_objects(memory_pool), glyph_lists(0)
+	GlyphCanvas::GlyphCanvas(MemoryPool &memory_pool) : LayerCanvas::Entry(LayerCanvas::Entry::GlyphCanvas), glyph_objects(memory_pool), glyph_lists(0)
 	{
 	}
 
-	GlyphContext *GlyphContext::acquire(LayerContext *layer)
+	GlyphCanvas *GlyphCanvas::acquire(LayerCanvas *layer)
 	{
-		return layer->acquire_class<GlyphContext, LayerContext::Entry::GlyphContext>();
+		return layer->acquire_class<GlyphCanvas, LayerCanvas::Entry::GlyphCanvas>();
 	}
 
-	void GlyphContext::render_glyph(LayerContext *layer, int x, int y, Glyph *glyph, uint8_t subpixel_offset, color_t color)
+	void GlyphCanvas::render_glyph(LayerCanvas *layer, int x, int y, Glyph *glyph, uint8_t subpixel_offset, color_t color)
 	{
 		Object *object = new (layer->memory_pool) Object(x, y - glyph->offset_y, glyph, subpixel_offset);
 
 		glyph_objects.table.get(glyph->offsets[subpixel_offset].cache)->table.get(color)->append(object);
 	}
 	
-	void GlyphContext::render_text(LayerContext *layer, int x, int y, const char *text, FontSize *font_size, color_t color)
+	void GlyphCanvas::render_text(LayerCanvas *layer, int x, int y, const char *text, FontSize *font_size, color_t color)
 	{
 		int left = 0;
 
@@ -94,7 +94,7 @@ namespace River
 		}
 	}
 	
-	void GlyphContext::measure(ContentMeasurer &measurer)
+	void GlyphCanvas::measure(ContentMeasurer &measurer)
 	{
 		measurer.count_objects<Content>(1);
 		
@@ -107,7 +107,7 @@ namespace River
 			measurer.count_objects<ColorKeyContent>((*i)->table.get_entries());
 	}
 
-	void GlyphContext::serialize(ContentSerializer &serializer)
+	void GlyphCanvas::serialize(ContentSerializer &serializer)
 	{
 		serializer.write_object<Content>();
 		serializer.write_list(glyph_objects.table.get_entries());

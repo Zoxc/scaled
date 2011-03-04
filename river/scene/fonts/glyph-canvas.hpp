@@ -3,7 +3,7 @@
 #include "../../color.hpp"
 #include "../../counted-simple-list.hpp"
 #include "../object-hash.hpp"
-#include "../layer-context.hpp"
+#include "../layer-canvas.hpp"
 #include "../atlas.hpp"
 #include "../buffer.hpp"
 
@@ -12,8 +12,8 @@ namespace River
 	class Glyph;
 	class GlyphCache;
 	
-	class GlyphContext:
-		public LayerContext::Entry
+	class GlyphCanvas:
+		public LayerCanvas::Entry
 	{
 	private:
 		class Object
@@ -71,12 +71,12 @@ namespace River
 		GlyphObjectHash glyph_objects;
 		size_t glyph_lists;
 	public:
-		GlyphContext(MemoryPool &memory_pool);
+		GlyphCanvas(MemoryPool &memory_pool);
 
-		static GlyphContext *acquire(LayerContext *layer);
+		static GlyphCanvas *acquire(LayerCanvas *layer);
 		
-		void render_glyph(LayerContext *layer, int x, int y, Glyph *glyph, uint8_t subpixel_offset, color_t color);
-		void render_text(LayerContext *layer, int x, int y, const char *text, FontSize *font_size, color_t color);
+		void render_glyph(LayerCanvas *layer, int x, int y, Glyph *glyph, uint8_t subpixel_offset, color_t color);
+		void render_text(LayerCanvas *layer, int x, int y, const char *text, FontSize *font_size, color_t color);
 		
 		void measure(ContentMeasurer &measurer);
 		void serialize(ContentSerializer &serializer);

@@ -11,7 +11,7 @@ namespace River
 	class ContentMeasurer;
 	class ContentSerializer;
 
-	class LayerContext
+	class LayerCanvas
 	{
 	public:
 		class Entry
@@ -19,8 +19,8 @@ namespace River
 			public:
 				enum Type
 				{
-					GlyphContext,
-					GradientContext,
+					GlyphCanvas,
+					GradientCanvas,
 					ColoredImageCanvas
 				};
 
@@ -74,7 +74,7 @@ namespace River
 		EntryMap map;
 
 	public:
-		LayerContext(MemoryPool &memory_pool);
+		LayerCanvas(MemoryPool &memory_pool);
 
 		MemoryPool &memory_pool;
 

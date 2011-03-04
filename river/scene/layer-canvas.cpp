@@ -1,11 +1,11 @@
-#include "layer-context.hpp"
+#include "layer-canvas.hpp"
 #include "layer.hpp"
 #include "content-serializer.hpp"
 
 namespace River
 {
 
-	GLshort *LayerContext::Entry::buffer_quad(GLshort *buffer, int x, int y, int width, int height)
+	GLshort *LayerCanvas::Entry::buffer_quad(GLshort *buffer, int x, int y, int width, int height)
 	{
 		int right = x + width;
 		int bottom = y + height;
@@ -31,7 +31,7 @@ namespace River
 		return buffer;
 	}
 
-	GLfloat *LayerContext::Entry::buffer_coords(GLfloat *buffer, GLfloat x, GLfloat y, GLfloat x2, GLfloat y2)
+	GLfloat *LayerCanvas::Entry::buffer_coords(GLfloat *buffer, GLfloat x, GLfloat y, GLfloat x2, GLfloat y2)
 	{
 		*buffer++ = x;
 		*buffer++ = y;
@@ -54,11 +54,11 @@ namespace River
 		return buffer;
 	}
 
-	LayerContext::LayerContext(MemoryPool &memory_pool) : map(2, false, memory_pool), memory_pool(memory_pool)
+	LayerCanvas::LayerCanvas(MemoryPool &memory_pool) : map(2, false, memory_pool), memory_pool(memory_pool)
 	{
 	}
 
-	Layer *LayerContext::render()
+	Layer *LayerCanvas::render()
 	{
 		ContentMeasurer measurer;
 
@@ -85,12 +85,12 @@ namespace River
 		return new Layer(memory, measurer.get_size());
 	}
 
-	LayerContext::Entry *LayerContext::lookup(uint32_t entry_type)
+	LayerCanvas::Entry *LayerCanvas::lookup(uint32_t entry_type)
 	{
 		return map.get(entry_type);
 	}
 
-	void LayerContext::store(Entry *content)
+	void LayerCanvas::store(Entry *content)
 	{
 		map.set(content->entry_type, content);
 	}

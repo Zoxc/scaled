@@ -1,12 +1,12 @@
 #include "../memory-pool.hpp"
 #include "buffer.hpp"
 #include "scene.hpp"
-#include "gradient-context.hpp"
+#include "gradient-canvas.hpp"
 #include "content-serializer.hpp"
 
 namespace River
 {
-	void GradientContext::Content::render(ContentWalker &walker)
+	void GradientCanvas::Content::render(ContentWalker &walker)
 	{
 		walker.read_object<Content>(); // Skip this
 		
@@ -23,27 +23,27 @@ namespace River
 		Scene::draw_call();
 	}
 
-	void GradientContext::Content::deallocate(ContentWalker &walker)
+	void GradientCanvas::Content::deallocate(ContentWalker &walker)
 	{
 		walker.read_object<Content>(); // Skip this
 		
 		this->~Content();
 	}
 
-	GradientContext::Object::Object(int x, int y, int width, int height) : x(x), y(y), width(width), height(height)
+	GradientCanvas::Object::Object(int x, int y, int width, int height) : x(x), y(y), width(width), height(height)
 	{
 	}
 
-	GradientContext::GradientContext(MemoryPool &memory_pool) : LayerContext::Entry(LayerContext::Entry::GradientContext)
+	GradientCanvas::GradientCanvas(MemoryPool &memory_pool) : LayerCanvas::Entry(LayerCanvas::Entry::GradientCanvas)
 	{
 	}
 
-	GradientContext *GradientContext::acquire(LayerContext *layer)
+	GradientCanvas *GradientCanvas::acquire(LayerCanvas *layer)
 	{
-		return layer->acquire_class<GradientContext, LayerContext::Entry::GradientContext>();
+		return layer->acquire_class<GradientCanvas, LayerCanvas::Entry::GradientCanvas>();
 	}
 	
-	void GradientContext::render_vertical(LayerContext *layer, int x, int y, int width, int height, color_t top, color_t bottom)
+	void GradientCanvas::render_vertical(LayerCanvas *layer, int x, int y, int width, int height, color_t top, color_t bottom)
 	{
 		Object *object = new (layer->memory_pool) Object(x, y, width, height);
 		
@@ -55,7 +55,7 @@ namespace River
 		objects.append(object);
 	}
 
-	void GradientContext::render_horizontal(LayerContext *layer, int x, int y, int width, int height, color_t left, color_t right)
+	void GradientCanvas::render_horizontal(LayerCanvas *layer, int x, int y, int width, int height, color_t left, color_t right)
 	{
 		Object *object = new (layer->memory_pool) Object(x, y, width, height);
 		
@@ -67,7 +67,7 @@ namespace River
 		objects.append(object);
 	}
 	
-	GLubyte *GradientContext::buffer_color(GLubyte *buffer, uint32_t color)
+	GLubyte *GradientCanvas::buffer_color(GLubyte *buffer, uint32_t color)
 	{
 		*buffer++ = color_red_component(color);
 		*buffer++ = color_green_component(color);
@@ -76,12 +76,12 @@ namespace River
 		return buffer;
 	}
 	
-	void GradientContext::measure(ContentMeasurer &measurer)
+	void GradientCanvas::measure(ContentMeasurer &measurer)
 	{
 		measurer.count_objects<Content>(1);
 	}
 
-	void GradientContext::serialize(ContentSerializer &serializer)
+	void GradientCanvas::serialize(ContentSerializer &serializer)
 	{
 		Content &content = serializer.write_object<Content>();
 		

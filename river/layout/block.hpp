@@ -27,6 +27,6 @@ namespace River
 
 		ChildrenList children;
 
-		void place(LayerContext *layer, int x, int y);
+		void place(LayerCanvas *layer, int x, int y);
 	};
 };

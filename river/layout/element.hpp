@@ -6,7 +6,7 @@
 
 namespace River
 {
-	class LayerContext;
+	class LayerCanvas;
 
 	class Element
 	{
@@ -62,7 +62,7 @@ namespace River
 		/*
 		 * place() expects the elements position to be stored in rect.
 		 */
-		virtual void place(LayerContext *layer, int x, int y) = 0;
+		virtual void place(LayerCanvas *layer, int x, int y) = 0;
 
 		/*
 		 * place() expects the elements position to be stored in rect.

@@ -99,16 +99,16 @@ namespace River
 	{
 	}
 
-	ColoredImageCanvas::ColoredImageCanvas(MemoryPool &memory_pool) : LayerContext::Entry(LayerContext::Entry::ColoredImageCanvas), object_table(memory_pool)
+	ColoredImageCanvas::ColoredImageCanvas(MemoryPool &memory_pool) : LayerCanvas::Entry(LayerCanvas::Entry::ColoredImageCanvas), object_table(memory_pool)
 	{
 	}
 
-	ColoredImageCanvas *ColoredImageCanvas::acquire(LayerContext *layer)
+	ColoredImageCanvas *ColoredImageCanvas::acquire(LayerCanvas *layer)
 	{
-		return layer->acquire_class<ColoredImageCanvas, LayerContext::Entry::ColoredImageCanvas>();
+		return layer->acquire_class<ColoredImageCanvas, LayerCanvas::Entry::ColoredImageCanvas>();
 	}
 	
-	void ColoredImageCanvas::render_image(LayerContext *layer, int x, int y, int width, int height, color_t color, Image *image)
+	void ColoredImageCanvas::render_image(LayerCanvas *layer, int x, int y, int width, int height, color_t color, Image *image)
 	{
 		Object *object = new (layer->memory_pool) Object(x, y, width, height, color, &image->entry);
 		

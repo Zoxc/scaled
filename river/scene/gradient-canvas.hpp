@@ -3,7 +3,7 @@
 #include "../color.hpp"
 #include "../counted-simple-list.hpp"
 #include "object-hash.hpp"
-#include "layer-context.hpp"
+#include "layer-canvas.hpp"
 #include "layer.hpp"
 #include "buffer.hpp"
 
@@ -12,8 +12,8 @@ namespace River
 	class Glyph;
 	class GlyphCache;
 	
-	class GradientContext:
-		public LayerContext::Entry
+	class GradientCanvas:
+		public LayerCanvas::Entry
 	{
 	private:
 		class Object
@@ -48,12 +48,12 @@ namespace River
 
 		ObjectList objects;
 	public:
-		GradientContext(MemoryPool &memory_pool);
+		GradientCanvas(MemoryPool &memory_pool);
 
-		static GradientContext *acquire(LayerContext *layer);
+		static GradientCanvas *acquire(LayerCanvas *layer);
 		
-		void render_vertical(LayerContext *layer, int x, int y, int width, int height, color_t top, color_t bottom);
-		void render_horizontal(LayerContext *layer, int x, int y, int width, int height, color_t left, color_t right);
+		void render_vertical(LayerCanvas *layer, int x, int y, int width, int height, color_t top, color_t bottom);
+		void render_horizontal(LayerCanvas *layer, int x, int y, int width, int height, color_t left, color_t right);
 		
 		void measure(ContentMeasurer &measurer);
 		void serialize(ContentSerializer &serializer);

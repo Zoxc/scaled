@@ -15,7 +15,7 @@ namespace River
 		void vertical(color_t top, color_t bottom);
 		void horizontal(color_t left, color_t right);
 
-		void place(LayerContext *layer, int x, int y);
+		void place(LayerCanvas *layer, int x, int y);
 	};
 
 };
