@@ -75,10 +75,12 @@
     <ClCompile Include="..\river\color.cpp" />
     <ClCompile Include="..\river\gles.cpp" />
     <ClCompile Include="..\river\image.cpp" />
+    <ClCompile Include="..\river\layout\background.cpp" />
     <ClCompile Include="..\river\layout\block.cpp" />
     <ClCompile Include="..\river\layout\element.cpp" />
     <ClCompile Include="..\river\layout\extends.cpp" />
     <ClCompile Include="..\river\layout\flow.cpp" />
+    <ClCompile Include="..\river\layout\stack.cpp" />
     <ClCompile Include="..\river\layout\window.cpp" />
     <ClCompile Include="..\river\memory-pool.cpp" />
     <ClCompile Include="..\river\scene\buffer.cpp" />
@@ -97,6 +99,7 @@
     <ClCompile Include="..\river\scene\shader-state.cpp" />
     <ClCompile Include="..\river\scene\state.cpp" />
     <ClCompile Include="..\river\widgets\gradient.cpp" />
+    <ClCompile Include="..\river\widgets\label.cpp" />
     <ClCompile Include="..\window-state.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -106,10 +109,12 @@
     <ClInclude Include="..\river\freetype.hpp" />
     <ClInclude Include="..\river\gles.hpp" />
     <ClInclude Include="..\river\hash-table.hpp" />
+    <ClInclude Include="..\river\layout\background.hpp" />
     <ClInclude Include="..\river\layout\block.hpp" />
     <ClInclude Include="..\river\layout\element.hpp" />
     <ClInclude Include="..\river\layout\extends.hpp" />
     <ClInclude Include="..\river\layout\flow.hpp" />
+    <ClInclude Include="..\river\layout\stack.hpp" />
     <ClInclude Include="..\river\layout\window.hpp" />
     <ClInclude Include="..\river\list.hpp" />
     <ClInclude Include="..\river\memory-pool.hpp" />
@@ -135,6 +140,7 @@
     <ClInclude Include="..\river\simpler-list.hpp" />
     <ClInclude Include="..\river\image.hpp" />
     <ClInclude Include="..\river\widgets\gradient.hpp" />
+    <ClInclude Include="..\river\widgets\label.hpp" />
     <ClInclude Include="..\window-state.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -15,7 +15,9 @@ SOURCES = \
 	layout/block.cpp \
 	layout/element.cpp \
 	layout/extends.cpp \
+	layout/background.cpp \
 	layout/flow.cpp \
+	layout/stack.cpp \
 	layout/window.cpp \
 	scene/fonts/font.cpp \
 	scene/fonts/font-size.cpp \
@@ -34,6 +36,7 @@ SOURCES = \
 	scene/content-serializer.cpp \
 	image.cpp \
 	widgets/gradient.cpp \
+	widgets/label.cpp \
 	$(NULL)
 
 OBJECTS = $(patsubst %.cpp, $(CFG)/%.o, $(SOURCES) )

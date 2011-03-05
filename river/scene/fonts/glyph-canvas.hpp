@@ -3,6 +3,7 @@
 #include "../../color.hpp"
 #include "../../counted-simple-list.hpp"
 #include "../object-hash.hpp"
+#include "../layer.hpp"
 #include "../layer-canvas.hpp"
 #include "../atlas.hpp"
 #include "../buffer.hpp"
@@ -11,7 +12,8 @@ namespace River
 {
 	class Glyph;
 	class GlyphCache;
-	
+	class FontSize;
+
 	class GlyphCanvas:
 		public LayerCanvas::Entry
 	{

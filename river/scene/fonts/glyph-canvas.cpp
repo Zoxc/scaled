@@ -66,7 +66,7 @@ namespace River
 
 	void GlyphCanvas::render_glyph(LayerCanvas *layer, int x, int y, Glyph *glyph, uint8_t subpixel_offset, color_t color)
 	{
-		Object *object = new (layer->memory_pool) Object(x, y - glyph->offset_y, glyph, subpixel_offset);
+		Object *object = new (layer->memory_pool) Object(x, y + (glyph->height - glyph->offset_y), glyph, subpixel_offset);
 
 		glyph_objects.table.get(glyph->offsets[subpixel_offset].cache)->table.get(color)->append(object);
 	}
