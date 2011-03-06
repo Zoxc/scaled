@@ -39,6 +39,9 @@ namespace River
 		content_height = std::max(available_height - (margins.top + margins.bottom), 0);
 
 		content->layout(content_width, content_height);
+
+		content->rect.left = margins.left;
+		content->rect.top = margins.top;
 		
 		content_width = content->rect.width + margins.left + margins.right;
 		content_height = content->rect.height + margins.top + margins.bottom;

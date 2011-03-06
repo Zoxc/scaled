@@ -24,6 +24,11 @@ namespace River
 		width = caption_width;
 		height = get_font_size()->line_height;
 	}
+	
+	void Label::set_color(color_t color)
+	{
+		this->color = color;
+	}
 
 	void Label::set_caption(std::string value)
 	{
@@ -46,8 +51,12 @@ namespace River
 			text++;
 		}
 
-		if(last)
-			width += last->advance;
+		if(caption.length())
+		{
+			Glyph *glyph = font_size->get_glyph(*(text - 1));
+
+			width += glyph->offsets[0].width;
+		}
 
 		caption_width = width / 3;
 	}
@@ -56,6 +65,6 @@ namespace River
 	{
 		GlyphCanvas *glyph_canvas = GlyphCanvas::acquire(layer);
 
-		glyph_canvas->render_text(layer, x, y, caption.c_str(), get_font_size(), color_white);
+		glyph_canvas->render_text(layer, x, y, caption.c_str(), get_font_size(), color);
 	}
 };
