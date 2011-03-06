@@ -7,6 +7,7 @@
 namespace River
 {
 	class Layer;
+	class LayerContext;
 
 	class ContentMeasurer;
 	class ContentSerializer;
@@ -72,9 +73,12 @@ namespace River
 		typedef HashTable<uint32_t, Entry *, bool, EntryFunctions, MemoryPool> EntryMap;
 		
 		EntryMap map;
+		LayerContext *context;
 
 	public:
-		LayerCanvas(MemoryPool &memory_pool);
+		LayerCanvas(LayerContext *context, MemoryPool &memory_pool);
+
+		SimpleEntry<LayerCanvas> entry;
 
 		MemoryPool &memory_pool;
 
@@ -95,6 +99,9 @@ namespace River
 		Entry *lookup(uint32_t entry_type);
 		void store(Entry *content);
 
-		Layer *render();
+		LayerCanvas *raise();
+		
+		void measure(ContentMeasurer &measurer);
+		void serialize(ContentSerializer &serializer);
 	};
 };

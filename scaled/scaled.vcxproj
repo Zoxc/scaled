@@ -94,6 +94,7 @@
     <ClCompile Include="..\river\scene\gradient-canvas.cpp" />
     <ClCompile Include="..\river\scene\gradient-state.cpp" />
     <ClCompile Include="..\river\scene\layer-canvas.cpp" />
+    <ClCompile Include="..\river\scene\layer-context.cpp" />
     <ClCompile Include="..\river\scene\layer.cpp" />
     <ClCompile Include="..\river\scene\scene.cpp" />
     <ClCompile Include="..\river\scene\shader-state.cpp" />
@@ -130,6 +131,7 @@
     <ClInclude Include="..\river\scene\gradient-canvas.hpp" />
     <ClInclude Include="..\river\scene\gradient-state.hpp" />
     <ClInclude Include="..\river\scene\layer-canvas.hpp" />
+    <ClInclude Include="..\river\scene\layer-context.hpp" />
     <ClInclude Include="..\river\scene\object-hash.hpp" />
     <ClInclude Include="..\river\scene\layer.hpp" />
     <ClInclude Include="..\river\scene\scene.hpp" />

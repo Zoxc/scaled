@@ -1,4 +1,5 @@
 #include "background.hpp"
+#include "../scene/layer-canvas.hpp"
 
 namespace River
 {
@@ -27,7 +28,7 @@ namespace River
 	void Background::place(LayerCanvas *layer, int x, int y)
 	{
 		background->place(layer, x, y);
-		content->place(layer, x + content->rect.left, y + content->rect.top);
+		content->place(layer->raise(), x + content->rect.left, y + content->rect.top);
 	}
 
 	void Background::layout(int available_width, int available_height)

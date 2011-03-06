@@ -1,5 +1,5 @@
 #include "layer-canvas.hpp"
-#include "layer.hpp"
+#include "layer-context.hpp"
 #include "content-serializer.hpp"
 
 namespace River
@@ -54,23 +54,20 @@ namespace River
 		return buffer;
 	}
 
-	LayerCanvas::LayerCanvas(MemoryPool &memory_pool) : map(2, false, memory_pool), memory_pool(memory_pool)
+	LayerCanvas::LayerCanvas(LayerContext *context, MemoryPool &memory_pool) : map(2, false, memory_pool), context(context), memory_pool(memory_pool)
 	{
 	}
-
-	Layer *LayerCanvas::render()
+	
+	void LayerCanvas::measure(ContentMeasurer &measurer)
 	{
-		ContentMeasurer measurer;
-
 		measurer.count_objects<size_t>(map.get_entries());
 
 		for(EntryMap::Iterator i = map.begin(); i != map.end(); ++i)
 			(*i)->measure(measurer);
+	}
 
-		void *memory = std::malloc(measurer.get_size());
-			
-		ContentSerializer serializer(memory);
-
+	void LayerCanvas::serialize(ContentSerializer &serializer)
+	{
 		for(EntryMap::Iterator i = map.begin(); i != map.end(); ++i)
 		{
 			(*i)->serialize(serializer);
@@ -79,10 +76,6 @@ namespace River
 			size_t &magic = serializer.write_object<size_t>();
 			magic = 0xBEEF;
 		}
-
-		assert((size_t)(serializer.get_position() - (char *)memory) == measurer.get_size());
-		
-		return new Layer(memory, measurer.get_size());
 	}
 
 	LayerCanvas::Entry *LayerCanvas::lookup(uint32_t entry_type)
@@ -93,5 +86,13 @@ namespace River
 	void LayerCanvas::store(Entry *content)
 	{
 		map.set(content->entry_type, content);
+	}
+
+	LayerCanvas *LayerCanvas::raise()
+	{
+		if(entry.next)
+			return entry.next;
+		else
+			return context->add_layer();
 	}
 };

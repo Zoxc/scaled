@@ -29,6 +29,7 @@ SOURCES = \
 	scene/colored-image-canvas.cpp \
 	scene/layer.cpp \
 	scene/layer-canvas.cpp \
+	scene/layer-context.cpp \
 	scene/buffer.cpp \
 	scene/scene.cpp \
 	scene/state.cpp \

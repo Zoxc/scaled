@@ -1,4 +1,5 @@
 #pragma once
+#include <new>
 #include <stddef.h>
 
 namespace River

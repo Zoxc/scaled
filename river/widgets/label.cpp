@@ -56,6 +56,6 @@ namespace River
 	{
 		GlyphCanvas *glyph_canvas = GlyphCanvas::acquire(layer);
 
-		glyph_canvas->render_text(layer, x, y, caption.c_str(), get_font_size(), color_black);
+		glyph_canvas->render_text(layer, x, y, caption.c_str(), get_font_size(), color_white);
 	}
 };
