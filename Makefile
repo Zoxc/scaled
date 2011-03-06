@@ -9,6 +9,7 @@ TARGET = $(CFG)/scaled
 SOURCES = \
 	main.cpp \
 	window-state.cpp \
+	launcher/widgets/category.cpp \
 	$(NULL)
 
 OBJECTS = $(patsubst %.cpp, $(CFG)/%.o, $(SOURCES) )

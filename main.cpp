@@ -8,29 +8,26 @@
 #include "river/color.hpp"
 #include "river/image.hpp"
 #include "river/layout/block.hpp"
+#include "river/layout/stack.hpp"
+#include "river/layout/background.hpp"
 #include "river/widgets/gradient.hpp"
+#include "river/widgets/label.hpp"
 #include "river/scene/scene.hpp"
+#include "river/scene/layer-context.hpp"
 #include "river/scene/layer-canvas.hpp"
 #include "river/scene/fonts/glyph-canvas.hpp"
 #include "river/scene/gradient-canvas.hpp"
 #include "river/scene/fonts/glyph.hpp"
 #include "river/scene/fonts/font-size.hpp"
 #include "window-state.hpp"
+#include "launcher/widgets/category.hpp"
 
 #ifndef WIN32
 	#include <sys/time.h>
 #endif
 
 using namespace River;
-
-Gradient gradient1;
-Gradient gradient2;
-River::Window win;
-Extends padding(10, 10, 10, 10);
-Extends test(20, 20, 20, 20);
-
-const int width = 640;
-const int height = 400;
+using namespace Launcher;
 
 int get_ticks()
 {
@@ -45,53 +42,6 @@ int get_ticks()
 		return tv.tv_sec * 1000 + tv.tv_usec / 1000;
 	#endif
 }
-
-GLshort *buffer_quad(GLshort *buffer, int x, int y, int x2, int y2)
-{
-    *buffer++ = x;
-	*buffer++ = y;
-
-    *buffer++ = x2;
-	*buffer++ = y;
-
-    *buffer++ = x;
-	*buffer++ = y2;
-
-    *buffer++ = x2;
-	*buffer++ = y;
-
-    *buffer++ = x;
-	*buffer++ = y2;
-
-    *buffer++ = x2;
-	*buffer++ = y2;
-
-    return buffer;
-}
-
-GLfloat *buffer_coords(GLfloat *buffer, int x, int y, int x2, int y2)
-{
-    *buffer++ = (GLfloat)x;
-	*buffer++ = (GLfloat)y;
-		
-    *buffer++ = (GLfloat)x2;
-	*buffer++ = (GLfloat)y;
-
-    *buffer++ = (GLfloat)x;
-	*buffer++ = (GLfloat)y2;
-	
-    *buffer++ = (GLfloat)x2;
-	*buffer++ = (GLfloat)y;
-
-    *buffer++ = (GLfloat)x;
-	*buffer++ = (GLfloat)y2;
-
-    *buffer++ = (GLfloat)x2;
-	*buffer++ = (GLfloat)y2;
-
-    return buffer;
-}
-
 
 void frame()
 {
@@ -129,6 +79,22 @@ size_t center(size_t object_height, size_t container_height)
 	return (container_height - object_height) >> 1;
 }
 
+Gradient top_bar;
+Gradient background;
+Label title, clock;
+Flow top_flow;
+Extends title_margins(12, 12, 12, 12);
+Extends cat_margins(8, 8, 8, 8);
+Stack top_element, bottom_stack;
+Background top, bottom;
+River::Window win;
+Extends padding(10, 10, 10, 10);
+Extends test(20, 20, 20, 20);
+
+const int width = 800;
+const int height = 480;
+
+
 int main(void)
 {
 	enum swl_result result = swl_init("scaled", width, height, true);
@@ -150,20 +116,7 @@ int main(void)
 
 	{
 		MemoryPool memory_pool;
-		LayerCanvas layer_canvas(memory_pool);
-		LayerCanvas back_layer_canvas(memory_pool);
-		
-		GradientCanvas *gradient_canvas = GradientCanvas::acquire(&back_layer_canvas);
-		GlyphCanvas *glyph_canvas = GlyphCanvas::acquire(&layer_canvas);
-		ColoredImageCanvas *colored_image_canvas = ColoredImageCanvas::acquire(&layer_canvas);
-
-		size_t top_bar = 36;
-
-		gradient_canvas->render_vertical(&layer_canvas, 0, 0, width, top_bar, 0x1a1c1aff, 0x1a1c1aff);
-		gradient_canvas->render_vertical(&layer_canvas, 0, top_bar, width, height - top_bar, 0x2d332eff, 0x232b24ff);
-		
-		glyph_canvas->render_text(&layer_canvas, 10, 23, "Launch Application", font, 0xcdcdcdff);
-		glyph_canvas->render_text(&layer_canvas, 590, 23, "20:32", font, 0xcdcdcdff);
+		LayerContext context;
 
 		std::vector<std::string> categories;
 		
@@ -174,40 +127,54 @@ int main(void)
 		categories.push_back("Utilities");
 		categories.push_back("Configuration");
 
-		size_t cat_height = font->line_height + 26;
-
-		size_t cat_top = top_bar + center(categories.size() * cat_height, height - top_bar);
-		size_t cat_selected = 1;
-
 		for(size_t i = 0; i < categories.size(); ++i)
 		{
 			Image *image = new Image(&icon_atlas);
 			image->load_png("icons/" + categories[i] + ".png");
-			size_t top = cat_top + cat_height * i;
-			size_t icon_height = image->height;
-			color_t tint = cat_selected == i ? 0xba9565ff : 0x7f837fff;
-			colored_image_canvas->render_image(&layer_canvas, 40, top + center(icon_height, cat_height), image->width, image->height, tint, image);
-			glyph_canvas->render_text(&layer_canvas, 78,  top + 25, categories[i].c_str(), font, tint);
+
+			CategoryWidget *widget = new CategoryWidget();
+			widget->set_title(categories[i]);
+			widget->margins = &cat_margins;
+			widget->set_icon(image);
+			bottom_stack.children.append(widget);
 		}
-
-		/*
-		gradient1.vertical(0xFF3412, 0x23FF12);
-		gradient1.width = Element::Flags::Extend;
-		gradient1.height = 5;
-		gradient1.margins = &test;
-
-		gradient2.horizontal(0xFF3412, 0x23FF12);
-		gradient2.width = Element::Flags::Extend;
-		gradient2.height = Element::Flags::Extend;
 		
-		win.element.padding = &padding;
-		win.element.children.append(&gradient1);
-		win.element.children.append(&gradient2);
+		
+		title.margins = &title_margins;
+		title.set_caption("Launch Application");
+		title.set_color(0xcdcdcdff);
+		title.width = Element::Flags::Extend;
+		
+		clock.margins = &title_margins;
+		clock.set_caption("20:34");
+		clock.set_color(0xcdcdcdff);
+
+		top_flow.children.append(&title);
+		top_flow.children.append(&clock);
+		
+		top.width = Element::Flags::Extend;
+		top.set_content(&top_flow);
+
+		bottom.width = Element::Flags::Extend;
+		bottom.height = Element::Flags::Extend;
+		bottom.set_content(&bottom_stack);
+
+		top_element.children.append(&top);
+		top_element.children.append(&bottom);
+		
+		top_bar.vertical(0x1a1c1aff, 0x1a1c1aff);
+
+		top.set_background(&top_bar);
+
+		background.vertical(0x2d332eff, 0x232b24ff);
+
+		bottom.set_background(&background);
+
+		win.element.children.append(&top_element);
 		win.element.layout(width, height);
-		win.element.place(&layer_context, 0, 0);
-		*/
-		win.layers.append(back_layer_canvas.render());
-		win.layers.append(layer_canvas.render());
+		win.element.place(context.add_layer(), 0, 0);
+		
+		win.layers.append(context.render());
 	}
 	
 	Scene::windows.append(&win);
@@ -221,6 +188,7 @@ int main(void)
 		{
 			switch(event.type)
 			{
+			case SWLE_KEYDOWN:
 			case SWLE_QUIT:
 				goto quit;
 

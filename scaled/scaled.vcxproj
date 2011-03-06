@@ -71,6 +71,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\launcher\widgets\category.cpp" />
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="..\river\color.cpp" />
     <ClCompile Include="..\river\gles.cpp" />
@@ -104,6 +105,7 @@
     <ClCompile Include="..\window-state.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\launcher\widgets\category.hpp" />
     <ClInclude Include="..\river\allocator.hpp" />
     <ClInclude Include="..\river\color.hpp" />
     <ClInclude Include="..\river\counted-simple-list.hpp" />
