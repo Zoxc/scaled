@@ -78,34 +78,17 @@ namespace River
 			{
 				i().rect.height += height * i().weight / weight;
 				i().layout(i().rect.width, i().rect.height);
-				/*
-				 * If the element is not width extended, layout it now.
-				 /
-				if(i().width != Flags::Extend)
-				{
-					i().layout(i().rect.width, i().rect.height);
-						
-					/*
-						* Update line height and margin if needed.
-						/
-					int element_span = i().rect.height + std::max(margin_top, i().margins->top);
-
-					line_height = std::max(line_height, element_span);
-					line_margin_bottom = std::max(line_margin_bottom, element_span + i().margins->bottom);
-				}*/
 			}
-
+			
+			/* 
+			 * We used up all the height now.
+			 */
 			height = 0;
 		}
 
 		/*
-			* Height is calculated. Adjust margins.
-			
-		line_margin_bottom -= line_height;
-
-		/*
-			* Third pass, extend elements vertically and position all the elements.
-			*/
+		 * Third pass, position all the elements.
+		 */
 
 		Element *next_line = element;
 		element = line_start;
@@ -119,7 +102,7 @@ namespace River
 			top += margins.top;
 
 			element->rect.left = margins.left;
-			element->rect.top = top + margins.top;
+			element->rect.top = top;
 
 			top += element->rect.height;
 

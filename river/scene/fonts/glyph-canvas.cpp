@@ -71,6 +71,30 @@ namespace River
 		glyph_objects.table.get(glyph->offsets[subpixel_offset].cache)->table.get(color)->append(object);
 	}
 	
+	int GlyphCanvas::measure_text(FontSize *font_size, std::string text)
+	{
+		const char *c = text.c_str();
+
+		int width = 0;
+		while(*c)
+		{
+			Glyph *glyph = font_size->get_glyph(*c);
+
+			width += glyph->advance;
+
+			c++;
+		}
+
+		if(text.length())
+		{
+			Glyph *glyph = font_size->get_glyph(*(c - 1));
+
+			width += glyph->offsets[0].width;
+		}
+
+		return width / 3;
+	}
+
 	void GlyphCanvas::render_text(LayerCanvas *layer, int x, int y, const char *text, FontSize *font_size, color_t color)
 	{
 		int left = 0;

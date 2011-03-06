@@ -33,32 +33,7 @@ namespace River
 	void Label::set_caption(std::string value)
 	{
 		caption = value;
-
-		const char *text = caption.c_str();
-
-		int width = 0;
-		Glyph *last;
-		FontSize *font_size = get_font_size();
-
-		while(*text)
-		{
-			Glyph *glyph = font_size->get_glyph(*text);
-
-			width += glyph->advance;
-
-			last = glyph;
-			
-			text++;
-		}
-
-		if(caption.length())
-		{
-			Glyph *glyph = font_size->get_glyph(*(text - 1));
-
-			width += glyph->offsets[0].width;
-		}
-
-		caption_width = width / 3;
+		caption_width = GlyphCanvas::measure_text(get_font_size(), caption);
 	}
 
 	void Label::place(LayerCanvas *layer, int x, int y)

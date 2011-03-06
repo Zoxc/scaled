@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <string>
 #include "../../color.hpp"
 #include "../../counted-simple-list.hpp"
 #include "../object-hash.hpp"
@@ -79,7 +80,8 @@ namespace River
 		
 		void render_glyph(LayerCanvas *layer, int x, int y, Glyph *glyph, uint8_t subpixel_offset, color_t color);
 		void render_text(LayerCanvas *layer, int x, int y, const char *text, FontSize *font_size, color_t color);
-		
+		static int measure_text(FontSize *font_size, std::string text);
+
 		void measure(ContentMeasurer &measurer);
 		void serialize(ContentSerializer &serializer);
 	};
