@@ -21,6 +21,7 @@
 #include "river/scene/fonts/font-size.hpp"
 #include "window-state.hpp"
 #include "launcher/widgets/category.hpp"
+#include "launcher/widgets/icon.hpp"
 
 #ifndef WIN32
 	#include <sys/time.h>
@@ -74,15 +75,10 @@ void frame()
 	}
 }
 
-size_t center(size_t object_height, size_t container_height)
-{
-	return (container_height - object_height) >> 1;
-}
-
 Gradient top_bar;
 Gradient background;
 Label title, clock;
-Flow top_flow;
+Flow top_flow, bottom_flow, bottom_icons;
 Extends title_margins(12, 12, 12, 12);
 Extends cat_margins(8, 8, 8, 8);
 Stack top_element, bottom_stack;
@@ -139,6 +135,19 @@ int main(void)
 			bottom_stack.children.append(widget);
 		}
 		
+		for(size_t i = 1; i <= 27; ++i)
+		{
+			std::stringstream name;
+			name << i;
+			Image *image = new Image(&icon_atlas);
+			image->load_png("icons/apps/app (" + name.str() + ").png");
+
+			IconWidget *widget = new IconWidget();
+			widget->set_title("App " + name.str());
+			widget->margins = &cat_margins;
+			widget->set_icon(image);
+			bottom_icons.children.append(widget);
+		}
 		
 		title.margins = &title_margins;
 		title.set_caption("Launch Application");
@@ -157,7 +166,10 @@ int main(void)
 
 		bottom.width = Element::Flags::Extend;
 		bottom.height = Element::Flags::Extend;
-		bottom.set_content(&bottom_stack);
+		bottom.set_content(&bottom_flow);
+		
+		bottom_flow.children.append(&bottom_stack);
+		bottom_flow.children.append(&bottom_icons);
 
 		top_element.children.append(&top);
 		top_element.children.append(&bottom);
@@ -188,10 +200,14 @@ int main(void)
 		{
 			switch(event.type)
 			{
-			case SWLE_KEYDOWN:
 			case SWLE_QUIT:
 				goto quit;
-
+				
+			case SWLE_KEYDOWN:
+				if(event.key_event.key == SWLK_GO)
+					goto quit;
+				break;
+				
 			case SWLE_RESIZE:
 				/*Scene::size(event.size_event.width, event.size_event.height);
 				win.element.layout(event.size_event.width, event.size_event.height);

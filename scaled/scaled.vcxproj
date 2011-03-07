@@ -72,6 +72,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\launcher\widgets\category.cpp" />
+    <ClCompile Include="..\launcher\widgets\icon.cpp" />
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="..\river\color.cpp" />
     <ClCompile Include="..\river\gles.cpp" />
@@ -84,6 +85,7 @@
     <ClCompile Include="..\river\layout\stack.cpp" />
     <ClCompile Include="..\river\layout\window.cpp" />
     <ClCompile Include="..\river\memory-pool.cpp" />
+    <ClCompile Include="..\river\river.cpp" />
     <ClCompile Include="..\river\scene\buffer.cpp" />
     <ClCompile Include="..\river\scene\colored-image-canvas.cpp" />
     <ClCompile Include="..\river\scene\content-serializer.cpp" />
@@ -106,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\launcher\widgets\category.hpp" />
+    <ClInclude Include="..\launcher\widgets\icon.hpp" />
     <ClInclude Include="..\river\allocator.hpp" />
     <ClInclude Include="..\river\color.hpp" />
     <ClInclude Include="..\river\counted-simple-list.hpp" />

@@ -16,6 +16,11 @@ namespace River
 		 */
 		virtual void content_size(int &width, int &height);
 
+		/*
+		 * Convenience function for layouting.
+		 */
+		void simple_layout(int available_width, int available_height, int content_width, int content_height);
+
 	public:
 		Element() : flags(0), margins(&no_margins), width(Flags::Auto), height(Flags::Auto), weight(1) {}
 		

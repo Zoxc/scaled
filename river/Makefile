@@ -11,6 +11,7 @@ TARGET = $(CFG)/libriver.a
 SOURCES = \
 	gles.cpp \
 	color.cpp \
+	river.cpp \
 	memory-pool.cpp \
 	layout/block.cpp \
 	layout/element.cpp \

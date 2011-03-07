@@ -2,7 +2,7 @@
 #include "../../river/scene/fonts/glyph-canvas.hpp"
 #include "../../river/scene/colored-image-canvas.hpp"
 #include "../../river/scene/scene.hpp"
-#include "../../river/color.hpp"
+#include "../../river/river.hpp"
 
 namespace Launcher
 {	
@@ -28,19 +28,18 @@ namespace Launcher
 		this->icon = icon;
 	}
 	
-	size_t center(size_t object_height, size_t container_height)
-	{
-		return (container_height - object_height) >> 1;
-	}
-
 	void CategoryWidget::place(River::LayerCanvas *layer, int x, int y)
 	{
 		River::ColoredImageCanvas *colored_image_canvas = River::ColoredImageCanvas::acquire(layer);
+		River::ColoredImageCanvas *colored_image_canvas_high = River::ColoredImageCanvas::acquire(layer->raise());
 		River::GlyphCanvas *glyph_canvas = River::GlyphCanvas::acquire(layer);
-
+		River::GlyphCanvas *glyph_canvas_high = River::GlyphCanvas::acquire(layer->raise());
 		River::color_t tint = false ? 0xba9565ff : 0x7f837fff;
-
-		colored_image_canvas->render_image(layer, x, y + center(icon->height, rect.height), icon->width, icon->height, tint, icon);
-		glyph_canvas->render_text(layer, x + 5 + icon->width, y + center(font_size->line_height, rect.height), title.c_str(), font_size, tint);
+		
+		colored_image_canvas->render_image(layer, 1 + x, 1 + y + River::center(icon->height, rect.height), icon->width, icon->height, River::color_black, icon);
+		glyph_canvas->render_text(layer, 1 + x + 5 + icon->width, 1 + y + River::center(font_size->line_height, rect.height), title.c_str(), font_size, River::color_black);
+		
+		colored_image_canvas->render_image(layer, x, y + River::center(icon->height, rect.height), icon->width, icon->height, tint, icon);
+		glyph_canvas_high->render_text(layer, x + 5 + icon->width, y + River::center(font_size->line_height, rect.height), title.c_str(), font_size, tint);
 	}
 };

@@ -13,5 +13,6 @@ namespace River
 	const color_t color_black = 0x000000FF;
 	const color_t color_white = 0xFFFFFFFF;
 
-	color_t color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
+	color_t mix_color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
+	color_t mix_color_alpha(color_t input, uint8_t alpha);
 };

@@ -10,6 +10,7 @@ SOURCES = \
 	main.cpp \
 	window-state.cpp \
 	launcher/widgets/category.cpp \
+	launcher/widgets/icon.cpp \
 	$(NULL)
 
 OBJECTS = $(patsubst %.cpp, $(CFG)/%.o, $(SOURCES) )

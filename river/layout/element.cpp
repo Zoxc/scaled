@@ -4,16 +4,12 @@ namespace River
 {
 	Extends Element::no_margins(0, 0, 0, 0);
 
-	void Element::layout(int available_width, int available_height)
+	void Element::simple_layout(int available_width, int available_height, int content_width, int content_height)
 	{
-		int def_width, def_height;
-
-		content_size(def_width, def_height);
-
 		switch(width)
 		{
 		case Flags::Auto:
-			rect.width = def_width;
+			rect.width = content_width;
 			break;
 
 		case Flags::Extend:
@@ -27,7 +23,7 @@ namespace River
 		switch(height)
 		{
 		case Flags::Auto:
-			rect.height = def_height;
+			rect.height = content_height;
 			break;
 
 		case Flags::Extend:
@@ -37,6 +33,15 @@ namespace River
 		default:
 			rect.height = height;
 		}
+	}
+
+	void Element::layout(int available_width, int available_height)
+	{
+		int content_width, content_height;
+
+		content_size(content_width, content_height);
+		
+		simple_layout(available_width, available_height, content_width, content_height);
 	}
 
 	void Element::content_size(int &width, int &height)

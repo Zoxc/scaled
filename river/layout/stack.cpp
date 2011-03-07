@@ -93,6 +93,7 @@ namespace River
 		Element *next_line = element;
 		element = line_start;
 		margin_top = padding->top;
+		int max_width = 0;
 		int top = 0;
 
 		while(element)
@@ -108,10 +109,11 @@ namespace River
 
 			margin_top = element->margins->bottom;
 
+			max_width = std::max(max_width, margins.left + element->rect.width + margins.right);
+
 			element = element->children_entry.next;
 		}
 
-		rect.width = available_width;
-		rect.height = available_height - height;
+		simple_layout(available_width, available_height, max_width, available_height - height);
 	}
 };
