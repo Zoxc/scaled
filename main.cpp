@@ -77,7 +77,7 @@ void frame()
 
 Gradient top_bar;
 Gradient background;
-Label title, clock;
+Label title, clock_label;
 Flow top_flow, bottom_flow, bottom_icons;
 Extends title_margins(12, 12, 12, 12);
 Extends cat_margins(8, 8, 8, 8);
@@ -105,8 +105,6 @@ int main(void)
 	Scene::size(width, height);
 
 	printf("GL extensions: %s\n", glGetString(GL_EXTENSIONS));
-	
-	FontSize *font = Scene::basic_font.get_size(12);
 
 	Atlas<GL_RGBA> icon_atlas;
 
@@ -154,12 +152,16 @@ int main(void)
 		title.set_color(0xcdcdcdff);
 		title.width = Element::Flags::Extend;
 		
-		clock.margins = &title_margins;
-		clock.set_caption("20:34");
-		clock.set_color(0xcdcdcdff);
+		clock_label.margins = &title_margins;
+		clock_label.set_caption("20:34");
+		clock_label.set_color(0xcdcdcdff);
+
+
+
 
 		top_flow.children.append(&title);
-		top_flow.children.append(&clock);
+		top_flow.children.append(&clock_label);
+
 		
 		top.width = Element::Flags::Extend;
 		top.set_content(&top_flow);

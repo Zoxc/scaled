@@ -1,6 +1,8 @@
 root=.
 default: all
 
+BUILD_DIRS += launcher launcher/widgets
+
 include $(root)/river/Makefile.public
 include $(root)/Makefile.common
 
