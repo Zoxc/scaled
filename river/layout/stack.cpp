@@ -90,7 +90,6 @@ namespace River
 		 * Third pass, position all the elements.
 		 */
 
-		Element *next_line = element;
 		element = line_start;
 		margin_top = padding->top;
 		int top = 0;

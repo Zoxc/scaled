@@ -70,3 +70,17 @@ river/widgets/gradient.cpp
 river/widgets/gradient.hpp
 window-state.cpp
 window-state.hpp
+river/layout/window.hpp
+river/layout/stack.hpp
+river/layout/flow.hpp
+river/layout/extends.hpp
+river/layout/element.hpp
+river/layout/block.hpp
+river/layout/background.hpp
+river/layout/window.cpp
+river/layout/stack.cpp
+river/layout/flow.cpp
+river/layout/extends.cpp
+river/layout/element.cpp
+river/layout/block.cpp
+river/layout/background.cpp
