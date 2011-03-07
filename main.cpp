@@ -93,7 +93,11 @@ const int height = 480;
 
 int main(void)
 {
-	enum swl_result result = swl_init("scaled", width, height, true);
+	#ifdef PANDORA
+		swl_set_fullscreen(true);
+	#endif
+
+	enum swl_result result = swl_init("scaled", width, height);
 
 	if(result != SWLR_OK)
 	{

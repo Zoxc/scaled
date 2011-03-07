@@ -49,7 +49,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>X:\Imagination Technologies\PowerVR SDK\OGLES2_WINDOWS_PCEMULATION_2.07.27.0484\Builds\OGLES2\WindowsPC\Lib;B:\Programmering\Libraries\freetype\lib;B:\Programmering\swl\lib;B:\Programmering\Libraries\libpng;B:\Programmering\Libraries\zlib\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>EGL.lib;GLESv2.lib;freetype.lib;libswl.dll.a;libpng.lib;libz.lib</AdditionalDependencies>
+      <AdditionalDependencies>GLESv2.lib;freetype.lib;libswl.dll.a;libpng.lib;libz.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

@@ -1,8 +1,8 @@
 #include <iostream>
 #include <malloc.h>
+#include "../gles.hpp"
 #include "buffer.hpp"
 #include <GLES2/gl2ext.h>
-#include <EGL/egl.h>
 
 #define RIVER_BUFFER_USE_EXTESION
 
@@ -13,8 +13,8 @@ namespace River
 
 	void buffer_setup()
 	{
-		glMapBufferOES = (PFNGLMAPBUFFEROESPROC)eglGetProcAddress("glMapBufferOES");
-		glUnmapBufferOES = (PFNGLUNMAPBUFFEROESPROC)eglGetProcAddress("glUnmapBufferOES");
+		glMapBufferOES = (PFNGLMAPBUFFEROESPROC)swl_get_function("glMapBufferOES");
+		glUnmapBufferOES = (PFNGLUNMAPBUFFEROESPROC)swl_get_function("glUnmapBufferOES");
 	}
 
 	void *buffer_map(GLenum target)
