@@ -1,5 +1,6 @@
 #pragma once
 #include <algorithm>
+#include "../river.hpp"
 #include "../list.hpp"
 #include "../simple-list.hpp"
 #include "extends.hpp"
@@ -20,6 +21,14 @@ namespace River
 		 * Convenience function for layouting.
 		 */
 		void simple_layout(int available_width, int available_height, int content_width, int content_height);
+
+		template<Orientation orientation> void generic_simple_layout(int available_primary, int available_secondary, int content_primary, int content_secondary)
+		{
+			if(orientation == Horizontal)
+				simple_layout(available_primary, available_secondary, content_primary, content_secondary);
+			else
+				simple_layout(available_secondary, available_primary, content_secondary, content_primary);
+		}
 
 	public:
 		Element() : flags(0), margins(&no_margins), width(Flags::Auto), height(Flags::Auto), weight(1) {}
@@ -46,6 +55,16 @@ namespace River
 			int top;
 			int width;
 			int height;
+
+			struct Accessors
+			{
+				int Rect::*primary_offset;
+				int Rect::*primary_length;
+				int Rect::*secondary_offset;
+				int Rect::*secondary_length;
+			};
+		
+			static const Accessors accessors[2];
 		};
 		
 		size_t flags;
@@ -63,6 +82,24 @@ namespace River
 
 		int min_width;
 		int min_height;
+		
+		struct Accessors
+		{
+			int Element::*primary_length;
+			int Element::*primary_min_length;
+			int Element::*secondary_length;
+			int Element::*secondary_min_length;
+		};
+		
+		static const Accessors accessors[2];
+		
+		template<Orientation orientation> void generic_layout(int available_primary, int available_secondary)
+		{
+			if(orientation == Horizontal)
+				layout(available_primary, available_secondary);
+			else
+				layout(available_secondary, available_primary);
+		}
 
 		/*
 		 * layout() must store width and height in rect.

@@ -26,7 +26,8 @@ namespace River
 
 			while(element)
 			{
-				Extends margins(margin_left, margin_top, padding->right, padding->bottom, element->margins);
+				Extends margins(margin_left, margin_top, padding->right, padding->bottom);
+				margins.union_with(element->margins);
 				
 				int element_width = std::max(width - (margins.left + margins.right), 0);
 				
@@ -141,7 +142,8 @@ namespace River
 
 			while(element)
 			{
-				Extends margins(margin_left, margin_top, padding->right, padding->bottom, element->margins);
+				Extends margins(margin_left, margin_top, padding->right, padding->bottom);
+				margins.union_with(element->margins);
 				
 				/*
 				 * Extend element vertically, if needed.

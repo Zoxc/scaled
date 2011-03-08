@@ -125,6 +125,7 @@
     <ClInclude Include="..\river\list.hpp" />
     <ClInclude Include="..\river\memory-pool.hpp" />
     <ClInclude Include="..\river\ref-object.hpp" />
+    <ClInclude Include="..\river\river.hpp" />
     <ClInclude Include="..\river\scene\buffer.hpp" />
     <ClInclude Include="..\river\scene\colored-image-canvas.hpp" />
     <ClInclude Include="..\river\scene\content-serializer.hpp" />
