@@ -113,9 +113,6 @@ int main(void)
 	Atlas<GL_RGBA> icon_atlas;
 
 	{
-		MemoryPool memory_pool;
-		LayerContext context;
-
 		std::vector<std::string> categories;
 		
 		categories.push_back("Applications");
@@ -160,13 +157,9 @@ int main(void)
 		clock_label.set_caption("20:34");
 		clock_label.set_color(0xcdcdcdff);
 
-
-
-
 		top_flow.children.append(&title);
 		top_flow.children.append(&clock_label);
 
-		
 		top.width = Element::Flags::Extend;
 		top.set_content(&top_flow);
 
@@ -189,10 +182,6 @@ int main(void)
 		bottom.set_background(&background);
 
 		win.element.children.append(&top_element);
-		win.element.layout(width, height);
-		win.element.place(context.add_layer(), 0, 0);
-		
-		win.layers.append(context.render());
 	}
 	
 	Scene::windows.append(&win);
@@ -223,6 +212,22 @@ int main(void)
 			default:
 				break;
 			}
+		}
+		
+		{
+			MemoryPool memory_pool;
+			LayerContext context;
+
+			for(River::Window::LayerList::Iterator i = win.layers.begin(); i != win.layers.end(); ++i)
+				delete *i;
+			
+			win.layers.first = 0;
+			win.layers.last = 0;
+		
+			win.element.layout(width, height);
+			win.element.place(context.add_layer(), 0, 0);
+		
+			win.layers.append(context.render());
 		}
 		
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);

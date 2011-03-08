@@ -11,10 +11,17 @@ namespace River
 	Layer::~Layer()
 	{
 		ContentWalker walker(serialized);
-
-		while(&walker.peek_object<Content>() != serialized_end)
-			walker.peek_object<Content>().deallocate(walker);
-
+		
+		Content *content;
+		
+		while((content = &walker.peek_object<Content>()) != serialized_end)
+		{
+			content->deallocate(walker);
+			
+			// TODO: Add a conditional for debug test
+			assert(walker.read_object<size_t>() == 0xBEEF);
+		}
+		
 		std::free(serialized);
 	}
 
