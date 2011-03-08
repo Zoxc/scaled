@@ -78,10 +78,10 @@ void frame()
 Gradient top_bar;
 Gradient background;
 Label title, clock_label;
-Flow top_flow, bottom_flow, bottom_icons;
+Flow top_flow, bottom_icons;
 Extends title_margins(12, 12, 12, 12);
 Extends cat_margins(8, 8, 8, 8);
-Stack top_element, bottom_stack;
+Stack top_element, bottom_stack, category_stack;
 Background top, bottom;
 River::Window win;
 Extends padding(10, 10, 10, 10);
@@ -131,7 +131,7 @@ int main(void)
 			widget->set_title(categories[i]);
 			widget->margins = &cat_margins;
 			widget->set_icon(image);
-			bottom_stack.children.append(widget);
+			category_stack.children.append(widget);
 		}
 		
 		for(size_t i = 1; i <= 27; ++i)
@@ -165,10 +165,11 @@ int main(void)
 
 		bottom.width = Element::Flags::Extend;
 		bottom.height = Element::Flags::Extend;
-		bottom.set_content(&bottom_flow);
-		
-		bottom_flow.children.append(&bottom_stack);
-		bottom_flow.children.append(&bottom_icons);
+		bottom.set_content(&bottom_stack);
+
+		bottom_stack.set_orientation(Horizontal);
+		bottom_stack.children.append(&category_stack);
+		bottom_stack.children.append(&bottom_icons);
 
 		top_element.children.append(&top);
 		top_element.children.append(&bottom);
