@@ -217,13 +217,17 @@ int main(void)
 		{
 			MemoryPool memory_pool;
 			LayerContext context;
-
-			for(River::Window::LayerList::Iterator i = win.layers.begin(); i != win.layers.end(); ++i)
-				delete *i;
 			
-			win.layers.first = 0;
-			win.layers.last = 0;
-		
+			Window::LayerList::Iterator i = win.layers.begin();
+
+			while(i != win.layers.end())
+			{
+				Layer *layer = *i;
+				++i;
+				win.layers.remove(layer);
+				delete layer;
+			}
+
 			win.element.layout(width, height);
 			win.element.place(context.add_layer(), 0, 0);
 		
