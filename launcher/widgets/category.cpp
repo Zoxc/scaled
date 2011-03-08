@@ -39,7 +39,7 @@ namespace Launcher
 		colored_image_canvas->render_image(layer, 1 + x, 1 + y + River::center(icon->height, rect.height), icon->width, icon->height, River::color_black, icon);
 		glyph_canvas->render_text(layer, 1 + x + 5 + icon->width, 1 + y + River::center(font_size->line_height, rect.height), title.c_str(), font_size, River::color_black);
 		
-		colored_image_canvas->render_image(layer, x, y + River::center(icon->height, rect.height), icon->width, icon->height, tint, icon);
+		colored_image_canvas_high->render_image(layer, x, y + River::center(icon->height, rect.height), icon->width, icon->height, tint, icon);
 		glyph_canvas_high->render_text(layer, x + 5 + icon->width, y + River::center(font_size->line_height, rect.height), title.c_str(), font_size, tint);
 	}
 };
