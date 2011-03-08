@@ -35,7 +35,6 @@ namespace River
 			
 			int element_secondary = std::max(available_secondary - (margins.*extend_fields.secondary_prefix + margins.*extend_fields.secondary_postfix), 0);
 			
-
 			/*
 			 * Delay layout of primary extended elements until we know the actual size of it.
 			 */
@@ -54,7 +53,7 @@ namespace River
 			}
 			else
 			{
-				int element_primary = std::max(available_primary - (margins.*extend_fields.primary_prefix + margins.*extend_fields.primary_postfix), 0);
+				int element_primary = std::max(primary - (margins.*extend_fields.primary_prefix + margins.*extend_fields.primary_postfix), 0);
 
 				element->generic_layout<using_orientation>(element_primary, element_secondary);
 			}
@@ -136,7 +135,7 @@ namespace River
 			element = element->children_entry.next;
 		}
 
-		generic_simple_layout<using_orientation>(available_primary, available_secondary, max_secondary, available_primary - primary);
+		generic_simple_layout<using_orientation>(available_primary, available_secondary, available_primary - primary, max_secondary);
 	}
 
 	void Stack::layout(int available_width, int available_height)
