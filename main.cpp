@@ -218,7 +218,7 @@ int main(void)
 			MemoryPool memory_pool;
 			LayerContext context;
 			
-			Window::LayerList::Iterator i = win.layers.begin();
+			River::Window::LayerList::Iterator i = win.layers.begin();
 
 			while(i != win.layers.end())
 			{
