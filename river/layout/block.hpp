@@ -28,5 +28,7 @@ namespace River
 		ChildrenList children;
 
 		void place(LayerCanvas *layer, int x, int y);
+		bool mouse_outside(int x, int y);
+		void mouse_event(MouseEvent event, int x, int y);
 	};
 };

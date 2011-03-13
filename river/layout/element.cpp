@@ -59,4 +59,46 @@ namespace River
 		width = 10;
 		height = 10;
 	}
+	
+	bool Element::mouse_outside(int x, int y)
+	{
+		if(flags & Flags::MouseOver)
+		{
+			flags &= ~Flags::MouseOver;
+			
+			mouse_event(MouseEventLeave, x, y);
+
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	bool Element::mouse_inside(int x, int y)
+	{
+		if(!(flags & Flags::MouseOver))
+		{
+			flags |= Flags::MouseOver;
+
+			mouse_event(MouseEventEnter, x, y);
+
+			return true;
+		}
+		else
+			return false;
+	}
+
+	bool Element::inside(int x, int y)
+	{
+		// Cast to unsigned for faster testing
+		return (size_t)x <= (size_t)rect.width && (size_t)y <= (size_t)rect.height;
+	}
+
+	void Element::mouse_event(MouseEvent event, int x, int y)
+	{
+		mouse_inside(x, y);
+
+		if(event == MouseEventDown)
+			printf("Down on %x at %d, %d\n", this, x, y);
+	}
 };

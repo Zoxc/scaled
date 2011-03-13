@@ -31,7 +31,17 @@ namespace River
 		}
 
 	public:
-		Element() : flags(0), margins(&no_margins), width(Flags::Auto), height(Flags::Auto), weight(1) {}
+		class Flags
+		{
+		public:
+			static const int Auto = -1;
+			static const int Extend = -2;
+			
+			static const size_t MouseOver = 1;
+			static const size_t Visible = 2;
+		};
+		
+		Element() : flags(Flags::Visible), margins(&no_margins), width(Flags::Auto), height(Flags::Auto), weight(1) {}
 		
 		static Extends no_margins;
 
@@ -39,15 +49,6 @@ namespace River
 		
 		Entry<Element> children_entry;
 		SimpleEntry<Element> extend_entry;
-
-		class Flags
-		{
-		public:
-			static const int Auto = -1;
-			static const int Extend = -2;
-
-			static const size_t OwnsMargins = 1;
-		};
 
 		struct Rect
 		{
@@ -111,6 +112,12 @@ namespace River
 		 * place() expects the elements position to be stored in rect.
 		 */
 		virtual void place(LayerCanvas *layer, int x, int y) = 0;
+
+		
+		bool inside(int x, int y);
+		bool mouse_inside(int x, int y);
+		virtual bool mouse_outside(int x, int y);
+		virtual void mouse_event(MouseEvent event, int x, int y);
 	};
 
 };

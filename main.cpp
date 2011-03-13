@@ -199,6 +199,18 @@ int main(void)
 			case SWLE_QUIT:
 				goto quit;
 				
+			case SWLE_MOUSEUP:
+				win.element.mouse_event(MouseEventUp, event.mouse_event.x, event.mouse_event.y);
+				break;
+				
+			case SWLE_MOUSEDOWN:
+				win.element.mouse_event(MouseEventDown, event.mouse_event.x, event.mouse_event.y);
+				break;
+
+			case SWLE_MOUSEMOVE:
+				win.element.mouse_event(MouseEventMove, event.mouse_event.x, event.mouse_event.y);
+				break;
+
 			case SWLE_KEYDOWN:
 				if(event.key_event.key == SWLK_GO)
 					goto quit;
