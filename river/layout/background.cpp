@@ -17,6 +17,7 @@ namespace River
 	void Background::set_content(Element *content)
 	{
 		this->content = content;
+		children.append(content);
 	}
 
 	void Background::content_size(int &width, int &height)
@@ -28,7 +29,8 @@ namespace River
 	void Background::place(LayerCanvas *layer, int x, int y)
 	{
 		background->place(layer, x, y);
-		content->place(layer->raise(), x + content->rect.left, y + content->rect.top);
+
+		Container::place(layer->raise(), x, y);
 	}
 
 	void Background::layout(int available_width, int available_height)
@@ -49,41 +51,5 @@ namespace River
 		Element::layout(available_width, available_height);
 		
 		background->layout(rect.width, rect.height);
-	}
-	
-	bool Background::mouse_outside(int x, int y)
-	{
-		if(Element::mouse_outside(x, y))
-		{
-			flags &= ~Flags::MouseOver;
-			
-			x -= content->rect.left;
-			y -= content->rect.top;
-
-			content->mouse_outside(x, y);
-
-			return true;
-		}
-		else
-			return false;
-	}
-
-	void Background::mouse_event(MouseEvent event, int x, int y)
-	{
-		int content_x = x - content->rect.left;
-		int content_y = y - content->rect.top;
-
-		if(content->inside(content_x, content_y))
-		{
-			mouse_inside(x, y);
-
-			content->mouse_event(event, content_x, content_y);
-		}
-		else
-		{
-			content->mouse_outside(content_x, content_y);
-
-			Element::mouse_event(event, x, y);
-		}
 	}
 };

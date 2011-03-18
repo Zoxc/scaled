@@ -1,10 +1,10 @@
 #pragma once
-#include "block.hpp"
+#include "container.hpp"
 
 namespace River
 {
 	class Background:
-		public Element
+		public Container
 	{
 	private:
 		int content_width;
@@ -20,7 +20,5 @@ namespace River
 		void set_content(Element *content);
 		void layout(int available_width, int available_height);
 		void place(LayerCanvas *layer, int x, int y);
-		bool mouse_outside(int x, int y);
-		void mouse_event(MouseEvent event, int x, int y);
 	};
 };

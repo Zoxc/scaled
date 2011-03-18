@@ -1,11 +1,11 @@
 #pragma once
-#include "block.hpp"
+#include "container.hpp"
 #include "../river.hpp"
 
 namespace River
 {
 	class Stack:
-		public Block
+		public Container
 	{
 	private:
 		Orientation orientation;

@@ -7,7 +7,7 @@
 #include <swl.h>
 #include "river/color.hpp"
 #include "river/image.hpp"
-#include "river/layout/block.hpp"
+#include "river/layout/container.hpp"
 #include "river/layout/stack.hpp"
 #include "river/layout/background.hpp"
 #include "river/widgets/gradient.hpp"

@@ -1,10 +1,10 @@
 #pragma once
-#include "block.hpp"
+#include "container.hpp"
 
 namespace River
 {
 	class Flow:
-		public Block
+		public Container
 	{
 	public:
 		void layout(int available_width, int available_height);

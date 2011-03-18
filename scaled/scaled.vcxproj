@@ -78,7 +78,7 @@
     <ClCompile Include="..\river\gles.cpp" />
     <ClCompile Include="..\river\image.cpp" />
     <ClCompile Include="..\river\layout\background.cpp" />
-    <ClCompile Include="..\river\layout\block.cpp" />
+    <ClCompile Include="..\river\layout\container.cpp" />
     <ClCompile Include="..\river\layout\element.cpp" />
     <ClCompile Include="..\river\layout\extends.cpp" />
     <ClCompile Include="..\river\layout\flow.cpp" />
@@ -116,7 +116,7 @@
     <ClInclude Include="..\river\gles.hpp" />
     <ClInclude Include="..\river\hash-table.hpp" />
     <ClInclude Include="..\river\layout\background.hpp" />
-    <ClInclude Include="..\river\layout\block.hpp" />
+    <ClInclude Include="..\river\layout\container.hpp" />
     <ClInclude Include="..\river\layout\element.hpp" />
     <ClInclude Include="..\river\layout\extends.hpp" />
     <ClInclude Include="..\river\layout\flow.hpp" />

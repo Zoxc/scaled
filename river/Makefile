@@ -13,7 +13,7 @@ SOURCES = \
 	color.cpp \
 	river.cpp \
 	memory-pool.cpp \
-	layout/block.cpp \
+	layout/container.cpp \
 	layout/element.cpp \
 	layout/extends.cpp \
 	layout/background.cpp \

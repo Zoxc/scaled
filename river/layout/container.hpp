@@ -4,23 +4,23 @@
 
 namespace River
 {
-	class Block:
+	class Container:
 		public Element
 	{
 	public:
-		Block() : block_flags(BlockNoFlags), padding(&no_padding) {}
+		Container() : container_flags(ContainerNoFlags), padding(&no_padding) {}
 		
 		static Extends no_padding;
 
 		typedef SimpleList<Element, Element, &Element::extend_entry> ExtendList;
 
-		enum BlockFlags
+		enum ContainerFlags
 		{
-			BlockNoFlags = 0,
-			BlockOwnsPadding = 1,
+			ContainerNoFlags = 0,
+			ContainerOwnsPadding = 1,
 		};
 
-		BlockFlags block_flags;
+		size_t container_flags;
 		Extends *padding;
 
 		typedef List<Element, Element, &Element::children_entry> ChildrenList;

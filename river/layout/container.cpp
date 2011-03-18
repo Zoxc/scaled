@@ -1,16 +1,16 @@
-#include "block.hpp"
+#include "container.hpp"
 
 namespace River
 {
-	Extends Block::no_padding(0, 0, 0, 0);
+	Extends Container::no_padding(0, 0, 0, 0);
 	
-	void Block::place(LayerCanvas *layer, int x, int y)
+	void Container::place(LayerCanvas *layer, int x, int y)
 	{
 		for(ChildrenList::Iterator i = children.begin(); i != children.end(); i++)
 			i().place(layer, i().rect.left + x, i().rect.top + y);
 	}
 	
-	bool Block::mouse_outside(int x, int y)
+	bool Container::mouse_outside(int x, int y)
 	{
 		if(Element::mouse_outside(x, y))
 		{
@@ -30,7 +30,7 @@ namespace River
 			return false;
 	}
 
-	void Block::mouse_event(MouseEvent event, int x, int y)
+	void Container::mouse_event(MouseEvent event, int x, int y)
 	{
 		mouse_inside(x, y);
 
