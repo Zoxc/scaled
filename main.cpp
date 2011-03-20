@@ -5,6 +5,7 @@
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
 #include <swl.h>
+#include <swl-utils.h>
 #include "river/color.hpp"
 #include "river/image.hpp"
 #include "river/layout/container.hpp"
@@ -94,8 +95,10 @@ const int height = 480;
 int main(void)
 {
 	#ifdef PANDORA
-		swl_set_fullscreen(true);
+		swl_set_config(SWLC_FULLSCREEN, true);
 	#endif
+
+	swl_set_config(SWLC_OPENGL_VERSION, SWLV_OPENGL_ES2);
 
 	enum swl_result result = swl_init("scaled", width, height);
 
@@ -212,7 +215,7 @@ int main(void)
 				break;
 
 			case SWLE_KEYDOWN:
-				if(event.key_event.key == SWLK_GO)
+				if(event.key_event.key == SWLK_RETURN)
 					goto quit;
 				break;
 				
